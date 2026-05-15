@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retail Nexus AI Manager - Complete Retail Management Solution</title>
+    <meta name="description" content="Transform your retail business with our comprehensive AI-powered management platform. 33+ modules covering inventory, sales, customer management, analytics, and more.">
+    <meta name="keywords" content="retail management, AI, inventory management, sales analytics, customer management, retail software">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://retailnexus.com/">
+    <meta property="og:title" content="Retail Nexus AI Manager - Complete Retail Management Solution">
+    <meta property="og:description" content="Transform your retail business with our comprehensive AI-powered management platform.">
+    <meta property="og:image" content="https://retailnexus.com/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://retailnexus.com/">
+    <meta property="twitter:title" content="Retail Nexus AI Manager - Complete Retail Management Solution">
+    <meta property="twitter:description" content="Transform your retail business with our comprehensive AI-powered management platform.">
+    <meta property="twitter:image" content="https://retailnexus.com/og-image.jpg">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Custom Styles -->
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        @media (max-width: 768px) {
+            .module-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Fading effect for partial row */
+        .modules-container {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .modules-fade {
+            position: relative;
+        }
+        
+        .modules-fade::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(249, 250, 251, 1));
+            pointer-events: none;
+        }
+        
+        .partial-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .partial-row .module-card:nth-child(n+3) {
+            opacity: 0.3;
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <h1 class="text-2xl font-bold text-primary-600">Retail Nexus AI</h1>
+                    </div>
+                </div>
+                
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#features" class="text-gray-700 hover:text-primary-600 px-3 py-2 text-sm font-medium">Features</a>
+                    <a href="#modules" class="text-gray-700 hover:text-primary-600 px-3 py-2 text-sm font-medium">Modules</a>
+                    <a href="#benefits" class="text-gray-700 hover:text-primary-600 px-3 py-2 text-sm font-medium">Benefits</a>
+                    <a href="#workflows" class="text-gray-700 hover:text-primary-600 px-3 py-2 text-sm font-medium">Workflows</a>
+                    <a href="#integrations" class="text-gray-700 hover:text-primary-600 px-3 py-2 text-sm font-medium">Integrations</a>
+                    <a href="#pricing" class="text-gray-700 hover:text-primary-600 px-3 py-2 text-sm font-medium">Pricing</a>
+                </nav>
+                
+                <div class="flex items-center space-x-4">
+                    <a href="#contact" class="text-gray-700 hover:text-primary-600 px-3 py-2 text-sm font-medium">Contact</a>
+                    <a href="#demo" class="bg-primary-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-primary-700 transition-colors">
+                        Get Demo
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button type="button" class="text-gray-700 hover:text-primary-600" onclick="toggleMobileMenu()">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile menu -->
+            <div id="mobile-menu" class="hidden md:hidden pb-4">
+                <div class="space-y-1">
+                    <a href="#features" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary-600">Features</a>
+                    <a href="#modules" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary-600">Modules</a>
+                    <a href="#benefits" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary-600">Benefits</a>
+                    <a href="#workflows" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary-600">Workflows</a>
+                    <a href="#integrations" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary-600">Integrations</a>
+                    <a href="#pricing" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary-600">Pricing</a>
+                    <a href="#contact" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary-600">Contact</a>
+                    <a href="#demo" class="block px-3 py-2 text-base font-medium bg-primary-600 text-white rounded-md">Get Demo</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient py-20 text-white relative" id="hero">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between">
+            <div class="md:w-1/2 mb-10 md:mb-0">
+                <h2 class="text-4xl sm:text-5xl font-extrabold mb-6 leading-tight">Transform Your Retail Business with <span class="text-yellow-300">AI-Powered</span> Management</h2>
+                <p class="text-lg mb-8">33+ integrated modules for inventory, sales, customer engagement, analytics, and more. Built for modern retailers, by retail experts.</p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#demo" class="bg-yellow-400 text-gray-900 px-6 py-3 rounded-md font-semibold text-lg shadow hover:bg-yellow-300 transition-colors">Request a Demo</a>
+                    <a href="#features" class="bg-white bg-opacity-20 border border-white px-6 py-3 rounded-md font-semibold text-lg hover:bg-opacity-40 transition-colors">Explore Features</a>
+                </div>
+            </div>
+            <div class="md:w-1/2 flex justify-center">
+                <img src="store_one_app.png" alt="Retail Nexus AI Manager" class="rounded-xl shadow-lg w-full max-w-md border-4 border-white" style="height: 300px;">
+            </div>
+        </div>
+        <div class="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-gray-50 to-transparent"></div>
+    </section>
+
+    <!-- Personas Section -->
+    <section class="py-20 bg-white" id="personas">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Built for Every Retail Professional</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">Our platform adapts to your role, providing the tools and insights you need to excel in your position.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Store Manager -->
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-xl card-hover">
+                    <div class="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Store Manager</h3>
+                    <p class="text-gray-600 mb-4">Oversee daily operations, manage staff, and ensure store performance meets targets.</p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• Staff scheduling & performance</li>
+                        <li>• Daily sales monitoring</li>
+                        <li>• Customer service oversight</li>
+                        <li>• Store compliance management</li>
+                    </ul>
+                </div>
+
+                <!-- Inventory Manager -->
+                <div class="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-xl card-hover">
+                    <div class="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Inventory Manager</h3>
+                    <p class="text-gray-600 mb-4">Optimize stock levels, prevent shortages, and maximize inventory turnover.</p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• Stock level monitoring</li>
+                        <li>• Reorder point management</li>
+                        <li>• Supplier coordination</li>
+                        <li>• Inventory valuation</li>
+                    </ul>
+                </div>
+
+                <!-- Sales Associate -->
+                <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-xl card-hover">
+                    <div class="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Sales Associate</h3>
+                    <p class="text-gray-600 mb-4">Provide excellent customer service and drive sales through personalized interactions.</p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• Customer assistance</li>
+                        <li>• Product recommendations</li>
+                        <li>• Sales transactions</li>
+                        <li>• Customer feedback collection</li>
+                    </ul>
+                </div>
+
+                <!-- Business Owner -->
+                <div class="bg-gradient-to-br from-orange-50 to-orange-100 p-6 rounded-xl card-hover">
+                    <div class="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Business Owner</h3>
+                    <p class="text-gray-600 mb-4">Make strategic decisions and grow your business with comprehensive insights.</p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• Financial performance</li>
+                        <li>• Market analysis</li>
+                        <li>• Strategic planning</li>
+                        <li>• Growth opportunities</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Platform Overview Section -->
+    <section class="py-20 bg-gray-50" id="features">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">One Platform, Complete Retail Management</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">From inventory tracking to customer engagement, our AI-powered platform provides everything you need to run a successful retail business.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6">Why Choose Retail Nexus AI?</h3>
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-semibold text-gray-900">AI-Powered Insights</h4>
+                                <p class="text-gray-600">Advanced analytics and machine learning provide actionable insights for better decision-making.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-semibold text-gray-900">Real-Time Integration</h4>
+                                <p class="text-gray-600">All modules work together seamlessly, providing real-time data across your entire operation.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-semibold text-gray-900">Scalable Solution</h4>
+                                <p class="text-gray-600">Grow your business with confidence - our platform scales with you from startup to enterprise.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-semibold text-gray-900">24/7 Support</h4>
+                                <p class="text-gray-600">Expert support team available around the clock to help you succeed.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relative">
+                    <div class="bg-white rounded-2xl shadow-xl p-8">
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-primary-600 mb-2">33+</div>
+                                <div class="text-sm text-gray-600">Integrated Modules</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-primary-600 mb-2">99.9%</div>
+                                <div class="text-sm text-gray-600">Uptime Guarantee</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-primary-600 mb-2">24/7</div>
+                                <div class="text-sm text-gray-600">Customer Support</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-primary-600 mb-2">50+</div>
+                                <div class="text-sm text-gray-600">Integrations</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 p-4 bg-gray-50 rounded-lg">
+                            <h4 class="font-semibold text-gray-900 mb-2">Key Features</h4>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>• Real-time inventory tracking</li>
+                                <li>• AI-powered demand forecasting</li>
+                                <li>• Customer relationship management</li>
+                                <li>• Advanced analytics & reporting</li>
+                                <li>• Multi-location support</li>
+                                <li>• Mobile-first design</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modules Grid Section -->
+    <section class="py-20 bg-white" id="modules">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">33 Powerful Modules</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">Every aspect of retail management, unified in one platform. Explore our comprehensive suite of modules below.</p>
+            </div>
+            <div class="module-grid">
+                <!-- Important modules (initially visible) -->
+                <div class="bg-gray-50 p-6 rounded-xl shadow card-hover">
+                    <h3 class="text-xl font-semibold text-primary-700 mb-2">Inventory Management</h3>
+                    <p class="text-gray-600 mb-4">Track, manage, and optimize stock levels across all locations in real time.</p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• Real-time stock updates</li>
+                        <li>• Low stock alerts</li>
+                        <li>• Multi-location support</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow card-hover">
+                    <h3 class="text-xl font-semibold text-primary-700 mb-2">Point of Sale (POS)</h3>
+                    <p class="text-gray-600 mb-4">Fast, reliable, and intuitive POS for seamless checkout experiences.</p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• Barcode scanning</li>
+                        <li>• Multiple payment methods</li>
+                        <li>• Offline mode</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow card-hover">
+                    <h3 class="text-xl font-semibold text-primary-700 mb-2">Customer Management</h3>
+                    <p class="text-gray-600 mb-4">Centralized customer profiles, purchase history, and engagement tracking.</p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• CRM integration</li>
+                        <li>• Loyalty programs</li>
+                        <li>• Personalized offers</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow card-hover">
+                    <h3 class="text-xl font-semibold text-primary-700 mb-2">Sales Analytics</h3>
+                    <p class="text-gray-600 mb-4">Actionable insights and reports to drive sales growth and efficiency.</p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• Real-time dashboards</li>
+                        <li>• Customizable reports</li>
+                        <li>• Trend analysis</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow card-hover">
+                    <h3 class="text-xl font-semibold text-primary-700 mb-2">Procurement & Supplier Management</h3>
+                    <p class="text-gray-600 mb-4">Automate purchasing, manage suppliers, and optimize procurement cycles.</p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• Automated purchase orders</li>
+                        <li>• Supplier performance tracking</li>
+                        <li>• Cost optimization</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow card-hover">
+                    <h3 class="text-xl font-semibold text-primary-700 mb-2">Order Management</h3>
+                    <p class="text-gray-600 mb-4">Centralize and streamline order processing from all channels.</p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• Multi-channel order capture</li>
+                        <li>• Order tracking</li>
+                        <li>• Returns & exchanges</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Partial row with fading effect -->
+            <div class="modules-container">
+                <div class="partial-row modules-fade">
+                    <div class="bg-gray-50 p-6 rounded-xl shadow card-hover module-card">
+                        <h3 class="text-xl font-semibold text-primary-700 mb-2">Pricing & Discount Engine</h3>
+                        <p class="text-gray-600 mb-4">Dynamic pricing, promotions, and discount management for all products.</p>
+                        <ul class="text-sm text-gray-600 space-y-1">
+                            <li>• Rule-based pricing</li>
+                            <li>• Automated promotions</li>
+                            <li>• Coupon management</li>
+                        </ul>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-xl shadow card-hover module-card">
+                        <h3 class="text-xl font-semibold text-primary-700 mb-2">Loyalty & Rewards</h3>
+                        <p class="text-gray-600 mb-4">Build customer loyalty with points, rewards, and personalized offers.</p>
+                        <ul class="text-sm text-gray-600 space-y-1">
+                            <li>• Points & tiers</li>
+                            <li>• Birthday & event rewards</li>
+                            <li>• Redemption tracking</li>
+                        </ul>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-xl shadow card-hover module-card">
+                        <h3 class="text-xl font-semibold text-primary-700 mb-2">Promotion & Offer Engine</h3>
+                        <p class="text-gray-600 mb-4">Create, manage, and analyze targeted promotions and offers.</p>
+                        <ul class="text-sm text-gray-600 space-y-1">
+                            <li>• Segmented campaigns</li>
+                            <li>• Real-time offer analytics</li>
+                            <li>• Multi-channel delivery</li>
+                        </ul>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-xl shadow card-hover module-card">
+                        <h3 class="text-xl font-semibold text-primary-700 mb-2">Product Catalog & KYP</h3>
+                        <p class="text-gray-600 mb-4">Centralized product data, Know Your Product (KYP) Q&A, and QR scanning.</p>
+                        <ul class="text-sm text-gray-600 space-y-1">
+                            <li>• Guided Q&A</li>
+                            <li>• QR/barcode scanning</li>
+                            <li>• Product detail management</li>
+                        </ul>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-xl shadow card-hover module-card">
+                        <h3 class="text-xl font-semibold text-primary-700 mb-2">Supplier Portal</h3>
+                        <p class="text-gray-600 mb-4">Enable suppliers to manage their products, orders, and invoices directly.</p>
+                        <ul class="text-sm text-gray-600 space-y-1">
+                            <li>• Supplier self-service</li>
+                            <li>• Invoice upload</li>
+                            <li>• Product updates</li>
+                        </ul>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-xl shadow card-hover module-card">
+                        <h3 class="text-xl font-semibold text-primary-700 mb-2">Returns & Claims</h3>
+                        <p class="text-gray-600 mb-4">Streamline returns, claims, and warranty management for all products.</p>
+                        <ul class="text-sm text-gray-600 space-y-1">
+                            <li>• Automated return workflows</li>
+                            <li>• Warranty tracking</li>
+                            <li>• Customer notifications</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional modules (hidden initially, shown on "View More" click) -->
+            <div class="module-grid hidden" id="additional-modules">
+                <div class="bg-gray-50 p-6 rounded-xl shadow card-hover">
+                    <h3 class="text-xl font-semibold text-primary-700 mb-2">Stock Replenishment</h3>
+                    <p class="text-gray-600 mb-4">Automate stock reordering and optimize replenishment cycles.</p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• Reorder point automation</li>
+                        <li>• Supplier integration</li>
+                        <li>• Demand forecasting</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow card-hover">
+                    <h3 class="text-xl font-semibold text-primary-700 mb-2">Multi-Location Management</h3>
+                    <p class="text-gray-600 mb-4">Manage multiple stores, warehouses, and channels from one dashboard.</p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• Location-specific inventory</li>
+                        <li>• Transfer & allocation</li>
+                        <li>• Centralized reporting</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow card-hover">
+                    <h3 class="text-xl font-semibold text-primary-700 mb-2">eCommerce Integration</h3>
+                    <p class="text-gray-600 mb-4">Sync products, inventory, and orders with leading eCommerce platforms.</p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• Shopify, WooCommerce, Magento</li>
+                        <li>• Real-time sync</li>
+                        <li>• Unified order management</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow card-hover">
+                    <h3 class="text-xl font-semibold text-primary-700 mb-2">Marketplace Integration</h3>
+                    <p class="text-gray-600 mb-4">Connect to Amazon, Flipkart, and other marketplaces for unified sales.</p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• Multi-marketplace sync</li>
+                        <li>• Centralized order management</li>
+                        <li>• Channel analytics</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow card-hover">
+                    <h3 class="text-xl font-semibold text-primary-700 mb-2">Mobile App</h3>
+                    <p class="text-gray-600 mb-4">Manage your business on the go with our intuitive mobile app.</p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• iOS & Android support</li>
+                        <li>• Mobile POS</li>
+                        <li>• Push notifications</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow card-hover">
+                    <h3 class="text-xl font-semibold text-primary-700 mb-2">Task & Staff Management</h3>
+                    <p class="text-gray-600 mb-4">Assign, track, and optimize staff tasks and schedules.</p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• Shift scheduling</li>
+                        <li>• Task assignment</li>
+                        <li>• Performance analytics</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow card-hover">
+                    <h3 class="text-xl font-semibold text-primary-700 mb-2">Expense Management</h3>
+                    <p class="text-gray-600 mb-4">Track, categorize, and control business expenses in real time.</p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• Expense categorization</li>
+                        <li>• Approval workflows</li>
+                        <li>• Spend analytics</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow card-hover">
+                    <h3 class="text-xl font-semibold text-primary-700 mb-2">Financial Accounting</h3>
+                    <p class="text-gray-600 mb-4">Integrated accounting for sales, purchases, and expenses.</p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• Automated journal entries</li>
+                        <li>• GST/VAT compliance</li>
+                        <li>• Financial statements</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow card-hover">
+                    <h3 class="text-xl font-semibold text-primary-700 mb-2">GST & Taxation</h3>
+                    <p class="text-gray-600 mb-4">Automate GST, VAT, and other tax calculations and filings.</p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• Automated tax calculation</li>
+                        <li>• E-invoicing</li>
+                        <li>• Tax reports</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow card-hover">
+                    <h3 class="text-xl font-semibold text-primary-700 mb-2">Audit & Compliance</h3>
+                    <p class="text-gray-600 mb-4">Ensure regulatory compliance and simplify audits with built-in tools.</p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• Compliance checklists</li>
+                        <li>• Audit trails</li>
+                        <li>• Document management</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow card-hover">
+                    <h3 class="text-xl font-semibold text-primary-700 mb-2">Business Intelligence</h3>
+                    <p class="text-gray-600 mb-4">Advanced analytics, dashboards, and AI-driven insights for growth.</p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• Custom dashboards</li>
+                        <li>• Predictive analytics</li>
+                        <li>• KPI tracking</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow card-hover">
+                    <h3 class="text-xl font-semibold text-primary-700 mb-2">Role-Based Access Control</h3>
+                    <p class="text-gray-600 mb-4">Granular permissions and access management for all users.</p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• User roles & permissions</li>
+                        <li>• Audit logs</li>
+                        <li>• Secure authentication</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow card-hover">
+                    <h3 class="text-xl font-semibold text-primary-700 mb-2">Notifications & Alerts</h3>
+                    <p class="text-gray-600 mb-4">Real-time notifications and alerts for key business events.</p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• Email & SMS alerts</li>
+                        <li>• Push notifications</li>
+                        <li>• Custom triggers</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow card-hover">
+                    <h3 class="text-xl font-semibold text-primary-700 mb-2">Document Management</h3>
+                    <p class="text-gray-600 mb-4">Store, organize, and retrieve business documents securely.</p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• Digital document storage</li>
+                        <li>• Access controls</li>
+                        <li>• Version history</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow card-hover">
+                    <h3 class="text-xl font-semibold text-primary-700 mb-2">API & Integrations</h3>
+                    <p class="text-gray-600 mb-4">Connect with 3rd party apps, ERPs, and custom integrations.</p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• RESTful API</li>
+                        <li>• Webhooks</li>
+                        <li>• 50+ integrations</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow card-hover">
+                    <h3 class="text-xl font-semibold text-primary-700 mb-2">Helpdesk & Support</h3>
+                    <p class="text-gray-600 mb-4">Integrated helpdesk for customer and staff support tickets.</p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• Ticket management</li>
+                        <li>• Knowledge base</li>
+                        <li>• SLA tracking</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow card-hover">
+                    <h3 class="text-xl font-semibold text-primary-700 mb-2">Omnichannel Engagement</h3>
+                    <p class="text-gray-600 mb-4">Engage customers across in-store, online, and mobile channels.</p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• Unified messaging</li>
+                        <li>• Channel analytics</li>
+                        <li>• Campaign automation</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow card-hover">
+                    <h3 class="text-xl font-semibold text-primary-700 mb-2">AI & Automation</h3>
+                    <p class="text-gray-600 mb-4">Leverage AI for demand forecasting, recommendations, and automation.</p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• AI-powered insights</li>
+                        <li>• Automated workflows</li>
+                        <li>• Smart recommendations</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center mt-12">
+                <button id="view-more-btn" class="bg-primary-600 text-white px-8 py-3 rounded-md text-lg font-semibold shadow hover:bg-primary-700 transition-colors mr-4">View All Modules</button>
+                <a href="#contact" class="bg-gray-600 text-white px-8 py-3 rounded-md text-lg font-semibold shadow hover:bg-gray-700 transition-colors">Request Demo</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="py-20 bg-gray-50" id="benefits">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Why Retailers Love Us</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">Our platform delivers measurable results and tangible benefits for every retail business.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow card-hover text-center">
+                    <div class="w-12 h-12 mx-auto mb-4 bg-primary-100 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Increased Sales</h3>
+                    <p class="text-gray-600">Boost revenue with AI-driven recommendations and targeted promotions.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow card-hover text-center">
+                    <div class="w-12 h-12 mx-auto mb-4 bg-primary-100 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Reduced Costs</h3>
+                    <p class="text-gray-600">Optimize inventory and operations to minimize waste and reduce expenses.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow card-hover text-center">
+                    <div class="w-12 h-12 mx-auto mb-4 bg-primary-100 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2a4 4 0 018 0v2m-4-4a4 4 0 100-8 4 4 0 000 8z"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Happier Customers</h3>
+                    <p class="text-gray-600">Deliver personalized experiences and build lasting customer loyalty.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow card-hover text-center">
+                    <div class="w-12 h-12 mx-auto mb-4 bg-primary-100 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h4l3 8 4-16 3 8h4"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Faster Operations</h3>
+                    <p class="text-gray-600">Automate routine tasks and speed up every aspect of your business.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Workflows Section -->
+    <section class="py-20 bg-white" id="workflows">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Streamlined Workflows</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">Automate and optimize every retail process, from procurement to customer engagement.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-6 rounded-xl shadow card-hover">
+                    <h3 class="text-xl font-semibold text-primary-700 mb-2">Procurement & Receiving</h3>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• Automated purchase orders</li>
+                        <li>• Supplier management</li>
+                        <li>• Goods receiving & reconciliation</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow card-hover">
+                    <h3 class="text-xl font-semibold text-primary-700 mb-2">Inventory & Stock</h3>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• Real-time stock tracking</li>
+                        <li>• Stock transfers & adjustments</li>
+                        <li>• Shrinkage & expiry management</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow card-hover">
+                    <h3 class="text-xl font-semibold text-primary-700 mb-2">Sales & Checkout</h3>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• Fast POS transactions</li>
+                        <li>• Promotions & discounts</li>
+                        <li>• Loyalty & rewards</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow card-hover">
+                    <h3 class="text-xl font-semibold text-primary-700 mb-2">Customer Engagement</h3>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• CRM & segmentation</li>
+                        <li>• Personalized offers</li>
+                        <li>• Feedback & support</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow card-hover">
+                    <h3 class="text-xl font-semibold text-primary-700 mb-2">Analytics & Reporting</h3>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• Real-time dashboards</li>
+                        <li>• Custom KPIs & alerts</li>
+                        <li>• Exportable reports</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow card-hover">
+                    <h3 class="text-xl font-semibold text-primary-700 mb-2">Omnichannel Integration</h3>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• eCommerce sync</li>
+                        <li>• Marketplace integration</li>
+                        <li>• Unified inventory</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Integrations Section -->
+    <section class="py-20 bg-gray-50" id="integrations">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Seamless Integrations</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">Connect with your favorite tools and platforms for a unified retail experience.</p>
+            </div>
+            <div class="flex flex-wrap justify-center gap-8">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft" class="h-10">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Amazon" class="h-10">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Google.png" alt="Google" class="h-10">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Shopify_logo_2018.svg/580px-Shopify_logo_2018.svg.png" alt="Shopify" class="h-10">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Stripe_Logo%2C_revised_2016.svg/500px-Stripe_Logo%2C_revised_2016.svg.png" alt="Stripe" class="h-10">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/PayPal_2024.svg/500px-PayPal_2024.svg.png" alt="PayPal" class="h-10">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Intuit_QuickBooks_logo.svg/500px-Intuit_QuickBooks_logo.svg.png" alt="QuickBooks" class="h-10">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Salesforce.com_logo.svg/500px-Salesforce.com_logo.svg.png" alt="Salesforce" class="h-10">
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-20 bg-white" id="testimonials">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">What Our Customers Say</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">Trusted by leading retailers worldwide.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-6 rounded-xl shadow card-hover">
+                    <p class="text-gray-700 mb-4">“Retail Nexus AI has transformed our operations. Inventory is always accurate, and our sales have grown 20% in 6 months.”</p>
+                    <div class="flex items-center">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Customer" class="w-10 h-10 rounded-full mr-3">
+                        <div>
+                            <div class="font-semibold text-gray-900">Amit S.</div>
+                            <div class="text-sm text-gray-500">Supermarket Owner</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow card-hover">
+                    <p class="text-gray-700 mb-4">“The analytics and reporting are a game changer. I can make decisions faster and with more confidence.”</p>
+                    <div class="flex items-center">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Customer" class="w-10 h-10 rounded-full mr-3">
+                        <div>
+                            <div class="font-semibold text-gray-900">Priya M.</div>
+                            <div class="text-sm text-gray-500">Retail Chain Manager</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow card-hover">
+                    <p class="text-gray-700 mb-4">“Setup was easy, and the support team is always available. Highly recommended for any retailer.”</p>
+                    <div class="flex items-center">
+                        <img src="https://randomuser.me/api/portraits/men/65.jpg" alt="Customer" class="w-10 h-10 rounded-full mr-3">
+                        <div>
+                            <div class="font-semibold text-gray-900">Rahul D.</div>
+                            <div class="text-sm text-gray-500">Electronics Store Owner</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-20 bg-gray-50" id="faq">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">Have questions? We have answers.</p>
+            </div>
+            <div class="max-w-3xl mx-auto space-y-8">
+                <div class="bg-white p-6 rounded-xl shadow">
+                    <h3 class="font-semibold text-gray-900 mb-2">Is Retail Nexus AI suitable for small businesses?</h3>
+                    <p class="text-gray-600">Absolutely! Our platform scales from single-store operations to large retail chains.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow">
+                    <h3 class="font-semibold text-gray-900 mb-2">How long does implementation take?</h3>
+                    <p class="text-gray-600">Most customers are up and running within a week, with full support from our onboarding team.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow">
+                    <h3 class="font-semibold text-gray-900 mb-2">Can I integrate with my existing systems?</h3>
+                    <p class="text-gray-600">Yes, we offer 50+ integrations with popular POS, ERP, eCommerce, and accounting platforms.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow">
+                    <h3 class="font-semibold text-gray-900 mb-2">Is my data secure?</h3>
+                    <p class="text-gray-600">We use enterprise-grade security and encryption to keep your data safe at all times.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & CTA Section -->
+    <section class="py-20 bg-primary-600 text-white" id="contact">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold mb-4">Ready to Transform Your Retail Business?</h2>
+            <p class="text-lg mb-8">Contact us for a personalized demo or to discuss your requirements with our retail experts.</p>
+            <form class="bg-white bg-opacity-10 p-8 rounded-xl max-w-xl mx-auto">
+                <div class="mb-4">
+                    <input type="text" name="name" placeholder="Your Name" class="w-full px-4 py-3 rounded-md bg-white bg-opacity-80 text-gray-900 focus:outline-none mb-3">
+                    <input type="email" name="email" placeholder="Your Email" class="w-full px-4 py-3 rounded-md bg-white bg-opacity-80 text-gray-900 focus:outline-none mb-3">
+                    <input type="text" name="company" placeholder="Company Name" class="w-full px-4 py-3 rounded-md bg-white bg-opacity-80 text-gray-900 focus:outline-none mb-3">
+                </div>
+                <textarea name="message" placeholder="How can we help you?" class="w-full px-4 py-3 rounded-md bg-white bg-opacity-80 text-gray-900 focus:outline-none mb-4"></textarea>
+                <button type="submit" class="bg-yellow-400 text-primary-900 px-8 py-3 rounded-md font-semibold text-lg shadow hover:bg-yellow-300 transition-colors w-full">Request Demo</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                <span class="font-bold text-white">Retail Nexus AI</span> &copy; 2024. All rights reserved.
+            </div>
+            <div class="flex space-x-6">
+                <a href="#features" class="hover:text-white">Features</a>
+                <a href="#modules" class="hover:text-white">Modules</a>
+                <a href="#benefits" class="hover:text-white">Benefits</a>
+                <a href="#workflows" class="hover:text-white">Workflows</a>
+                <a href="#integrations" class="hover:text-white">Integrations</a>
+                <a href="#contact" class="hover:text-white">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            var menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // View More functionality for modules
+        document.addEventListener('DOMContentLoaded', function() {
+            const viewMoreBtn = document.getElementById('view-more-btn');
+            const additionalModules = document.querySelectorAll('#additional-modules');
+            let modulesVisible = false;
+
+            if (viewMoreBtn) {
+                viewMoreBtn.addEventListener('click', function() {
+                    if (modulesVisible) {
+                        // Hide additional modules
+                        additionalModules.forEach(module => {
+                            module.classList.add('hidden');
+                        });
+                        viewMoreBtn.textContent = 'View All Modules';
+                        modulesVisible = false;
+                    } else {
+                        // Show additional modules
+                        additionalModules.forEach(module => {
+                            module.classList.remove('hidden');
+                        });
+                        viewMoreBtn.textContent = 'Show Less';
+                        modulesVisible = true;
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html> 
