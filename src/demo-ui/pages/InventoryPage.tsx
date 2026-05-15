@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { DashboardTab } from './inventory/DashboardTab';
 import { InsightsTab } from './inventory/InsightsTab';
 import { PurchasePredictionTab } from './inventory/PurchasePredictionTab';
+import { AllProductsDrawer } from './inventory/AllProductsDrawer';
 import { tokens } from '../theme/tokens';
 
 type TabId = 'dashboard' | 'insights' | 'prediction';
@@ -28,6 +29,7 @@ const tabVariants = {
 export function InventoryPage() {
   const navigate = useNavigate();
   const [tab, setTab] = useState<TabId>('dashboard');
+  const [productsOpen, setProductsOpen] = useState(false);
 
   return (
     <Box sx={{ pb: 12 }}>
@@ -61,19 +63,26 @@ export function InventoryPage() {
             Inventory Management
           </Typography>
         </Box>
-        <Typography
-          onClick={() => { /* All Products navigation hook */ }}
+        <Stack
+          direction="row"
+          onClick={() => setProductsOpen(true)}
           sx={{
-            fontSize: 12,
-            fontWeight: 700,
-            color: '#7C5CFF',
+            alignItems: 'center',
+            gap: 0.25,
+            px: 1.25,
+            py: 0.5,
+            borderRadius: 999,
             cursor: 'pointer',
+            background: 'rgba(124,92,255,0.08)',
+            border: '1px solid rgba(124,139,255,0.25)',
+            color: '#7C5CFF',
+            '&:hover': { background: 'rgba(124,92,255,0.14)' },
             flexShrink: 0,
-            '&:hover': { textDecoration: 'underline' },
           }}
         >
-          All Products ›
-        </Typography>
+          <Typography sx={{ fontSize: 12, fontWeight: 700 }}>All Products</Typography>
+          <Typography sx={{ fontSize: 14, fontWeight: 700, lineHeight: 1 }}>›</Typography>
+        </Stack>
       </Stack>
 
       {/* Tabs */}
@@ -137,6 +146,7 @@ export function InventoryPage() {
         </motion.div>
       </AnimatePresence>
 
+      <AllProductsDrawer open={productsOpen} onClose={() => setProductsOpen(false)} />
     </Box>
   );
 }

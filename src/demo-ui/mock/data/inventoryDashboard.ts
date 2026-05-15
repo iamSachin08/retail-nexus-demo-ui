@@ -146,3 +146,67 @@ export const aiSuggestedPrompts: string[] = [
   'How should I arrange the inventory by category?',
   'Which SKUs hurt my margin most?',
 ];
+
+/* ─── All Products ────────────────────────────────────── */
+
+export type ProductCategory = 'Apparel' | 'Footwear' | 'Accessories' | 'Bags';
+export type ProductStockStatus = 'in-stock' | 'low-stock' | 'out-of-stock';
+
+export interface Product {
+  sku: string;
+  name: string;
+  category: ProductCategory;
+  brand: string;
+  price: number;
+  costPrice: number;
+  stock: number;
+  reorderAt: number;
+  soldLast30: number;
+}
+
+export const categoryColor: Record<ProductCategory, string> = {
+  Apparel: '#3B82F6',
+  Footwear: '#7C5CFF',
+  Accessories: '#F59E0B',
+  Bags: '#EC4899',
+};
+
+export function stockStatus(p: Product): ProductStockStatus {
+  if (p.stock <= 0) return 'out-of-stock';
+  if (p.stock <= p.reorderAt) return 'low-stock';
+  return 'in-stock';
+}
+
+export const stockStatusColor: Record<ProductStockStatus, string> = {
+  'in-stock': '#22C55E',
+  'low-stock': '#F59E0B',
+  'out-of-stock': '#EF4444',
+};
+
+export const stockStatusLabel: Record<ProductStockStatus, string> = {
+  'in-stock': 'In stock',
+  'low-stock': 'Low stock',
+  'out-of-stock': 'Out of stock',
+};
+
+export const products: Product[] = [
+  { sku: 'SKU-1001', name: 'Slim-fit Denim 32',     category: 'Apparel',     brand: 'Levi’s',  price: 2400, costPrice: 1480, stock: 0,  reorderAt: 8,  soldLast30: 142 },
+  { sku: 'SKU-1002', name: 'Slim-fit Denim 34',     category: 'Apparel',     brand: 'Levi’s',  price: 2400, costPrice: 1480, stock: 6,  reorderAt: 8,  soldLast30: 96  },
+  { sku: 'SKU-1003', name: 'Slim-fit Denim 36',     category: 'Apparel',     brand: 'Levi’s',  price: 2400, costPrice: 1480, stock: 22, reorderAt: 8,  soldLast30: 64  },
+  { sku: 'SKU-2001', name: 'White Sneaker 9',       category: 'Footwear',    brand: 'Nike',    price: 4200, costPrice: 2620, stock: 4,  reorderAt: 6,  soldLast30: 98  },
+  { sku: 'SKU-2002', name: 'White Sneaker 10',      category: 'Footwear',    brand: 'Nike',    price: 4200, costPrice: 2620, stock: 18, reorderAt: 6,  soldLast30: 72  },
+  { sku: 'SKU-2003', name: 'Running Shoes 11',      category: 'Footwear',    brand: 'Puma',    price: 3600, costPrice: 2240, stock: 14, reorderAt: 6,  soldLast30: 48  },
+  { sku: 'SKU-2004', name: 'Crocs Slide 8',         category: 'Footwear',    brand: 'Crocs',   price: 1800, costPrice: 1080, stock: 26, reorderAt: 6,  soldLast30: 54  },
+  { sku: 'SKU-3001', name: 'Linen Shirt L',         category: 'Apparel',     brand: 'Marks',   price: 1800, costPrice: 1080, stock: 7,  reorderAt: 8,  soldLast30: 76  },
+  { sku: 'SKU-3002', name: 'Linen Shirt XL',        category: 'Apparel',     brand: 'Marks',   price: 1800, costPrice: 1080, stock: 12, reorderAt: 8,  soldLast30: 58  },
+  { sku: 'SKU-3003', name: 'Cotton Tee — Pastel',   category: 'Apparel',     brand: 'Local',   price: 1200, costPrice: 640,  stock: 38, reorderAt: 12, soldLast30: 124 },
+  { sku: 'SKU-3004', name: 'Cargo Shorts XL',       category: 'Apparel',     brand: 'Local',   price: 1600, costPrice: 980,  stock: 18, reorderAt: 10, soldLast30: 32  },
+  { sku: 'SKU-4001', name: 'Bandhani Kurta M',      category: 'Apparel',     brand: 'Local',   price: 2200, costPrice: 1280, stock: 24, reorderAt: 12, soldLast30: 92  },
+  { sku: 'SKU-4002', name: 'Festive Saree — Blue',  category: 'Apparel',     brand: 'Local',   price: 4800, costPrice: 2800, stock: 6,  reorderAt: 8,  soldLast30: 54  },
+  { sku: 'SKU-5001', name: 'Black Belt M',          category: 'Accessories', brand: 'Tommy',   price: 1400, costPrice: 760,  stock: 5,  reorderAt: 8,  soldLast30: 86  },
+  { sku: 'SKU-5002', name: 'Leather Wallet',        category: 'Accessories', brand: 'Local',   price: 1800, costPrice: 940,  stock: 22, reorderAt: 10, soldLast30: 18  },
+  { sku: 'SKU-5003', name: 'Sports Socks (3-pack)', category: 'Accessories', brand: 'Nike',    price: 600,  costPrice: 280,  stock: 12, reorderAt: 20, soldLast30: 102 },
+  { sku: 'SKU-6001', name: 'Travel Bag 60L',        category: 'Bags',        brand: 'Wildcraft', price: 3800, costPrice: 2280, stock: 11, reorderAt: 6,  soldLast30: 14  },
+  { sku: 'SKU-6002', name: 'Backpack 32L',          category: 'Bags',        brand: 'Wildcraft', price: 2400, costPrice: 1440, stock: 9,  reorderAt: 6,  soldLast30: 28  },
+  { sku: 'SKU-6003', name: 'Winter Jacket M',       category: 'Apparel',     brand: 'Local',   price: 3200, costPrice: 1860, stock: 16, reorderAt: 8,  soldLast30: 8   },
+];
