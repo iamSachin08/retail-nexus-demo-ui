@@ -80,7 +80,6 @@ const Cta = ({ cta }: { cta: CTAButton }) => {
         color: '#fff',
         fontSize: 12,
         fontWeight: 700,
-        boxShadow: '0 6px 14px rgba(239,68,68,0.32)',
       }}
     >
       {cta.text}

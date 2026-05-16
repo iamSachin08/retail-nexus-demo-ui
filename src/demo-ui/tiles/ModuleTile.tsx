@@ -51,7 +51,6 @@ function CtaButton({ cta, full = false }: { cta: CTAButton; full?: boolean }) {
         fontWeight: 700,
         textAlign: 'center',
         lineHeight: 1.2,
-        boxShadow: '0 6px 12px rgba(0,0,0,0.25)',
         width: full ? '100%' : 'auto',
       }}
     >
@@ -96,11 +95,10 @@ function LauncherBody({ config, data, size, editing, onClick, setTileSize }: Bod
         p: size === 'small' ? 1.25 : 1.75,
         gap: 1,
         cursor: editing ? 'inherit' : 'pointer',
-        boxShadow: '0 8px 22px rgba(0,0,0,0.22)',
-        transition: 'transform .2s ease, box-shadow .2s ease',
+        transition: 'transform .2s ease',
         '&:hover': editing
           ? undefined
-          : { transform: 'translateY(-2px)', boxShadow: '0 14px 32px rgba(0,0,0,0.28)' },
+          : { transform: 'translateY(-2px)' },
       }}
     >
       {editing && (
@@ -146,10 +144,6 @@ function KpiBody({ config, data, size, editing, onClick, setTileSize }: BodyProp
             theme.palette.mode === 'dark'
               ? '1px solid rgba(255,255,255,0.08)'
               : '1px solid rgba(11,15,26,0.08)',
-          boxShadow:
-            theme.palette.mode === 'dark'
-              ? '0 10px 28px rgba(0,0,0,0.30)'
-              : '0 6px 18px rgba(11,15,26,0.06)',
           color: theme.palette.text.primary,
           display: 'flex',
           flexDirection: 'column',
@@ -201,24 +195,16 @@ function KpiBody({ config, data, size, editing, onClick, setTileSize }: BodyProp
           theme.palette.mode === 'dark'
             ? '1px solid rgba(255,255,255,0.08)'
             : '1px solid rgba(11,15,26,0.08)',
-        boxShadow:
-          theme.palette.mode === 'dark'
-            ? '0 10px 28px rgba(0,0,0,0.30)'
-            : '0 6px 18px rgba(11,15,26,0.06)',
         color: theme.palette.text.primary,
         display: 'flex',
         flexDirection: 'column',
         p: isLarge ? 2 : 1.75,
         cursor: editing ? 'inherit' : 'pointer',
-        transition: 'transform .2s ease, box-shadow .2s ease',
+        transition: 'transform .2s ease',
         '&:hover': editing
           ? undefined
           : {
               transform: 'translateY(-2px)',
-              boxShadow:
-                theme.palette.mode === 'dark'
-                  ? '0 14px 30px rgba(0,0,0,0.40)'
-                  : '0 12px 26px rgba(11,15,26,0.10)',
             },
       })}
     >
