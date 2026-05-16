@@ -28,7 +28,6 @@ function CountBadge({ value }: { value: string | number }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        boxShadow: '0 4px 12px rgba(255,59,48,0.40)',
         pointerEvents: 'none',
       }}
     >

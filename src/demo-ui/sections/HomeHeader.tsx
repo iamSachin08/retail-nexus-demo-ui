@@ -29,25 +29,18 @@ function Wave() {
 
 function BrandMark() {
   return (
-    <Box
-      sx={theme => ({
-        display: 'inline-flex',
-        alignItems: 'center',
-        backgroundColor: theme.palette.mode === 'dark' ? '#fff' : '#000',
-        borderRadius: 0.625,
-        px: 1.25,
-        py: 0.75,
-      })}
-    >
+    <Box sx={{ display: 'inline-flex', alignItems: 'center' }}>
       <Box
         component="img"
         src="/Logo Black.svg"
         alt="Storeone"
         sx={theme => ({
-          height: 24,
+          height: 66,
           width: 'auto',
+          ml:"-15px",
+          mt:-1.3,
           display: 'block',
-          filter: theme.palette.mode === 'dark' ? 'invert(1)' : 'none',
+          filter: theme.palette.mode === 'dark' ? 'none' : 'invert(1)',
         })}
       />
     </Box>
