@@ -23,6 +23,7 @@ export type Tone = 'positive' | 'warning' | 'critical' | 'neutral' | 'info';
 export interface MetricStat {
   label: string;
   value: string;
+  total?: string;
   tone?: Tone;
 }
 

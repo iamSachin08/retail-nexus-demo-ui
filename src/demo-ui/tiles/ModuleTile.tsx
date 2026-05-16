@@ -172,7 +172,7 @@ function KpiBody({ config, data, size, editing, onClick, setTileSize }: BodyProp
           sx={{
             width: 28,
             height: 28,
-            borderRadius: 1.5,
+            borderRadius: 0.75,
             background: config.solidBg,
             display: 'flex',
             alignItems: 'center',
@@ -254,13 +254,12 @@ function KpiBody({ config, data, size, editing, onClick, setTileSize }: BodyProp
           sx={{
             width: 30,
             height: 30,
-            borderRadius: 1.5,
+            borderRadius: 0.75,
             background: config.solidBg,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             color: '#fff',
-            boxShadow: '0 4px 10px rgba(0,0,0,0.25)',
             '& svg': { fontSize: 16 },
             flexShrink: 0,
           }}

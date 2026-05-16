@@ -23,7 +23,6 @@ import StickyNote2RoundedIcon from '@mui/icons-material/StickyNote2Rounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GlassCard } from '../components/GlassCard';
-import { tokens } from '../theme/tokens';
 import { getCustomerById, type Customer } from './mock';
 
 function formatInr(n: number) {
@@ -379,79 +378,37 @@ export function CustomerProfilePage() {
         </Box>
 
         {customer.nextBest.length > 0 && (
-          <Box
-            sx={{
-              position: 'relative',
-              overflow: 'hidden',
-              borderRadius: 2,
-              p: 2.5,
-              background: tokens.gradient.aiAurora,
-              color: '#fff',
-              boxShadow: '0 14px 32px rgba(124,92,255,0.32)',
-            }}
+          <SectionCard
+            icon={<AutoAwesomeIcon sx={{ fontSize: 18 }} />}
+            iconBg="rgba(124,92,255,0.16)"
+            iconColor="#7C5CFF"
+            title={`Next best for ${customer.name.split(' ')[0]}`}
           >
-            <Box
-              aria-hidden
-              sx={{
-                position: 'absolute',
-                top: -30,
-                right: -30,
-                width: 100,
-                height: 100,
-                borderRadius: '50%',
-                bgcolor: 'rgba(255,255,255,0.12)',
-              }}
-            />
-            <Stack
-              direction="row"
-              spacing={1.25}
-              sx={{ alignItems: 'center', position: 'relative', mb: 2 }}
-            >
-              <Box
-                sx={{
-                  width: 32,
-                  height: 32,
-                  borderRadius: 1.25,
-                  bgcolor: 'rgba(255,255,255,0.18)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <AutoAwesomeIcon sx={{ fontSize: 18 }} />
-              </Box>
-              <Typography sx={{ fontSize: 16, fontWeight: 800 }}>
-                Next best for {customer.name.split(' ')[0]}
-              </Typography>
-            </Stack>
-            <Stack spacing={1.25} sx={{ position: 'relative' }}>
+            <Stack spacing={1}>
               {customer.nextBest.map(nb => (
-                <Box
-                  key={nb.id}
-                  sx={{
-                    p: 1.5,
-                    borderRadius: 1.75,
-                    bgcolor: 'rgba(255,255,255,0.16)',
-                    border: '1px solid rgba(255,255,255,0.22)',
-                  }}
-                >
-                  <Stack direction="row" sx={{ alignItems: 'center', mb: 0.5 }}>
-                    <Typography sx={{ fontSize: 14, fontWeight: 800, flex: 1, minWidth: 0 }} noWrap>
-                      {nb.title}
-                    </Typography>
-                    {nb.priceInr > 0 && (
-                      <Typography sx={{ fontSize: 13, fontWeight: 800 }}>
-                        {formatInr(nb.priceInr)}
+                <Stack key={nb.id} direction="row" sx={{ alignItems: 'flex-start', gap: 1 }}>
+                  <Typography sx={{ fontSize: 13, color: 'text.secondary', lineHeight: 1.6 }}>·</Typography>
+                  <Box sx={{ flex: 1, minWidth: 0 }}>
+                    <Stack direction="row" sx={{ alignItems: 'baseline', gap: 1 }}>
+                      <Typography
+                        sx={{ fontSize: 13.5, fontWeight: 700, color: 'text.primary', flex: 1, minWidth: 0 }}
+                      >
+                        {nb.title}
                       </Typography>
-                    )}
-                  </Stack>
-                  <Typography sx={{ fontSize: 12, opacity: 0.92, lineHeight: 1.5 }}>
-                    {nb.reason}
-                  </Typography>
-                </Box>
+                      {nb.priceInr > 0 && (
+                        <Typography sx={{ fontSize: 13, fontWeight: 700, color: 'text.primary' }}>
+                          {formatInr(nb.priceInr)}
+                        </Typography>
+                      )}
+                    </Stack>
+                    <Typography sx={{ fontSize: 11.5, color: 'text.secondary', lineHeight: 1.45 }}>
+                      {nb.reason}
+                    </Typography>
+                  </Box>
+                </Stack>
               ))}
             </Stack>
-          </Box>
+          </SectionCard>
         )}
 
         <SectionCard

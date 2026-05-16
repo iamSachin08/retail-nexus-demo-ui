@@ -108,6 +108,46 @@ const TrendInline = ({ delta, suffix = 'vs. yesterday' }: { delta: number; suffi
 /* ─────────────  Sales and Orders  ───────────── */
 export const renderSales = ({ data, size }: { data: ModuleSummary; size: TileSize }) => {
   const isLarge = size === 'large';
+
+  if (isLarge) {
+    return (
+      <Stack spacing={0.5}>
+        <Stack direction="row" spacing={1} sx={{ alignItems: 'flex-end', justifyContent: 'space-between' }}>
+          <Box sx={{ minWidth: 0 }}>
+            <PrimaryBlock value={data.primary ?? '—'} label={data.primaryLabel} size={size} />
+            {data.target && (
+              <Typography sx={{ fontSize: 11, color: 'text.secondary', letterSpacing: 0.4, mt: 0.5 }}>
+                VS. TARGET:{' '}
+                <Box component="strong" sx={{ fontFamily: MONO_FONT, color: 'text.primary' }}>
+                  {data.target}
+                </Box>
+              </Typography>
+            )}
+          </Box>
+          {typeof data.vsYesterdayDelta === 'number' && (
+            <Box sx={{ flexShrink: 0 }}>
+              <TrendInline delta={data.vsYesterdayDelta} />
+            </Box>
+          )}
+        </Stack>
+        {data.health && (
+          <>
+            <Divider />
+            <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+              <Typography sx={{ fontFamily: MONO_FONT, fontSize: 20, fontWeight: 700 }}>
+                {data.health.score}
+              </Typography>
+              <Label>Sales Health</Label>
+              <Typography sx={{ fontSize: 11, fontWeight: 700, color: toneColor(data.health.tone) }}>
+                {data.health.label}
+              </Typography>
+            </Stack>
+          </>
+        )}
+      </Stack>
+    );
+  }
+
   return (
     <Stack spacing={0.5}>
       <PrimaryBlock value={data.primary ?? '—'} label={data.primaryLabel} size={size} />
@@ -124,20 +164,6 @@ export const renderSales = ({ data, size }: { data: ModuleSummary; size: TileSiz
           <TrendInline delta={data.vsYesterdayDelta} />
         </Box>
       )}
-      {isLarge && data.health && (
-        <>
-          <Divider />
-          <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-            <Typography sx={{ fontFamily: MONO_FONT, fontSize: 20, fontWeight: 700 }}>
-              {data.health.score}
-            </Typography>
-            <Label>Sales Health</Label>
-            <Typography sx={{ fontSize: 11, fontWeight: 700, color: toneColor(data.health.tone) }}>
-              {data.health.label}
-            </Typography>
-          </Stack>
-        </>
-      )}
     </Stack>
   );
 };
@@ -145,6 +171,57 @@ export const renderSales = ({ data, size }: { data: ModuleSummary; size: TileSiz
 /* ─────────────  Lead  ───────────── */
 export const renderLead = ({ data, size }: { data: ModuleSummary; size: TileSize }) => {
   const isLarge = size === 'large';
+
+  if (isLarge) {
+    return (
+      <Stack spacing={0.5}>
+        {data.conversion && (
+          <Stack direction="row" spacing={1} sx={{ alignItems: 'flex-end', justifyContent: 'space-between' }}>
+            <Stack spacing={0.25} sx={{ minWidth: 0 }}>
+              <Typography
+                sx={{
+                  fontFamily: MONO_FONT,
+                  fontSize: primaryFontFor(size),
+                  fontWeight: 700,
+                  lineHeight: 1.05,
+                  letterSpacing: -0.4,
+                }}
+              >
+                {data.conversion.converted}
+              </Typography>
+              <Stack direction="row" spacing={1} sx={{ alignItems: 'baseline' }}>
+                <Label>CONVERTED</Label>
+                <Typography sx={{ fontSize: 11, color: 'text.secondary' }}>
+                  / <Box component="span" sx={{ fontFamily: MONO_FONT }}>{data.conversion.total}</Box> TOTAL
+                </Typography>
+              </Stack>
+            </Stack>
+            <Typography sx={{ fontSize: 12, fontWeight: 700, color: '#F97316', flexShrink: 0 }}>
+              Conversion: <Box component="span" sx={{ fontFamily: MONO_FONT }}>{data.conversion.pct}%</Box>
+            </Typography>
+          </Stack>
+        )}
+        {data.topSource && (
+          <Box sx={{ mt: 1.5 }}>
+            <Label>{data.topSource.label}</Label>
+            <Typography sx={{ fontSize: 13, fontWeight: 600 }}>{data.topSource.meta}</Typography>
+          </Box>
+        )}
+        {data.maxLeads && (
+          <Box sx={{ mt: 1 }}>
+            <Label>{data.maxLeads.label}</Label>
+            <Typography sx={{ fontSize: 13, fontWeight: 600 }}>{data.maxLeads.meta}</Typography>
+          </Box>
+        )}
+        {data.cta && (
+          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 0.5 }}>
+            <Cta cta={data.cta} />
+          </Box>
+        )}
+      </Stack>
+    );
+  }
+
   return (
     <Stack spacing={0.5}>
       {data.conversion && (
@@ -172,18 +249,6 @@ export const renderLead = ({ data, size }: { data: ModuleSummary; size: TileSize
             Conversion: <Box component="span" sx={{ fontFamily: MONO_FONT }}>{data.conversion.pct}%</Box>
           </Typography>
         </>
-      )}
-      {isLarge && data.topSource && (
-        <Box sx={{ mt: 0.5 }}>
-          <Label>{data.topSource.label}</Label>
-          <Typography sx={{ fontSize: 13, fontWeight: 600 }}>{data.topSource.meta}</Typography>
-        </Box>
-      )}
-      {isLarge && data.maxLeads && (
-        <Box>
-          <Label>{data.maxLeads.label}</Label>
-          <Typography sx={{ fontSize: 13, fontWeight: 600 }}>{data.maxLeads.meta}</Typography>
-        </Box>
       )}
       {data.cta && (
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 0.5 }}>
@@ -224,10 +289,10 @@ export const renderInventory = ({ data, size }: { data: ModuleSummary; size: Til
           <Box
             sx={theme => ({
               position: 'relative',
-              mt: 0.5,
+              mt: 1,
               px: 1.25,
               py: 1,
-              borderRadius: 1.5,
+              borderRadius: 0.5,
               background:
                 theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.04)' : 'rgba(11,15,26,0.035)',
               border:
@@ -327,9 +392,13 @@ const InlineMetric = ({ value, label }: { value: string; label: string }) => (
 );
 
 /* ─────────────  Campaigns  ───────────── */
-export const renderCampaigns = ({ data }: { data: ModuleSummary; size: TileSize }) => (
-  <Stack spacing={1.25}>
-    <InlineMetric value={String(data.liveCount ?? '—')} label={data.primaryLabel ?? 'LIVE'} />
+export const renderCampaigns = ({ data, size }: { data: ModuleSummary; size: TileSize }) => (
+  <Stack spacing={1}>
+    <PrimaryBlock
+      value={String(data.liveCount ?? '—')}
+      label={data.primaryLabel ?? 'LIVE'}
+      size={size}
+    />
     {data.performance && (
       <Box>
         <Label>PERFORMANCE</Label>
@@ -347,11 +416,15 @@ export const renderCampaigns = ({ data }: { data: ModuleSummary; size: TileSize 
 );
 
 /* ─────────────  Task Management  ───────────── */
-export const renderTasks = ({ data }: { data: ModuleSummary; size: TileSize }) => (
-  <Stack spacing={1.25}>
-    <InlineMetric value={String(data.pending ?? '—')} label={data.primaryLabel ?? 'PENDING'} />
+export const renderTasks = ({ data, size }: { data: ModuleSummary; size: TileSize }) => (
+  <Stack spacing={1}>
+    <PrimaryBlock
+      value={String(data.pending ?? '—')}
+      label={data.primaryLabel ?? 'PENDING'}
+      size={size}
+    />
     {data.pendingBreakdown && (
-      <Stack spacing={0.75}>
+      <Stack spacing={0.5}>
         {data.pendingBreakdown.map(b => (
           <Stack
             key={b.label}
@@ -360,16 +433,16 @@ export const renderTasks = ({ data }: { data: ModuleSummary; size: TileSize }) =
             sx={{ alignItems: 'baseline', justifyContent: 'space-between' }}
           >
             <Label>{b.label}</Label>
-            <Typography
-              sx={{
-                fontFamily: MONO_FONT,
-                fontSize: 14,
-                fontWeight: 800,
-                lineHeight: 1,
-                letterSpacing: -0.3,
-              }}
-            >
-              {b.value}
+            <Typography sx={{ fontSize: 11, color: 'text.secondary' }}>
+              <Box component="span" sx={{ fontFamily: MONO_FONT, color: 'text.primary', fontWeight: 700 }}>
+                {b.value}
+              </Box>
+              {b.total !== undefined && (
+                <>
+                  {' / '}
+                  <Box component="span" sx={{ fontFamily: MONO_FONT }}>{b.total}</Box>
+                </>
+              )}
             </Typography>
           </Stack>
         ))}

@@ -134,10 +134,10 @@ export function AddLeadDrawer({ open, onClose }: Props) {
       slotProps={{
         paper: {
           sx: {
-            borderTopLeftRadius: 20,
-            borderTopRightRadius: 20,
+            borderRadius: 0,
             backgroundColor: 'background.default',
-            maxHeight: '92vh',
+            maxHeight: '100vh',
+            height: '100vh',
           },
         },
       }}

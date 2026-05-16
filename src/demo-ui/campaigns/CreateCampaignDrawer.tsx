@@ -228,10 +228,10 @@ export function CreateCampaignDrawer({ open, onClose, initialTemplate }: Props) 
       slotProps={{
         paper: {
           sx: {
-            borderTopLeftRadius: 22,
-            borderTopRightRadius: 22,
+            borderRadius: 0,
             backgroundColor: 'background.default',
-            maxHeight: '94vh',
+            maxHeight: '100vh',
+            height: '100vh',
           },
         },
       }}

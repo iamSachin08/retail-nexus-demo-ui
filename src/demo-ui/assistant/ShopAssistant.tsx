@@ -500,10 +500,10 @@ export function ShopAssistant() {
         slotProps={{
           paper: {
             sx: {
-              borderTopLeftRadius: 20,
-              borderTopRightRadius: 20,
+              borderRadius: 0,
               backgroundColor: 'background.default',
-              height: '88vh',
+              height: '100vh',
+              maxHeight: '100vh',
               display: 'flex',
               flexDirection: 'column',
             },

@@ -30,16 +30,27 @@ function Wave() {
 function BrandMark() {
   return (
     <Box
-      component="img"
-      src="/Logo Black.svg"
-      alt="Storeone"
       sx={theme => ({
-        height: 28,
-        width: 'auto',
-        display: 'block',
-        filter: theme.palette.mode === 'dark' ? 'none' : 'invert(1)',
+        display: 'inline-flex',
+        alignItems: 'center',
+        backgroundColor: theme.palette.mode === 'dark' ? '#fff' : '#000',
+        borderRadius: 0.625,
+        px: 1.25,
+        py: 0.75,
       })}
-    />
+    >
+      <Box
+        component="img"
+        src="/Logo Black.svg"
+        alt="Storeone"
+        sx={theme => ({
+          height: 24,
+          width: 'auto',
+          display: 'block',
+          filter: theme.palette.mode === 'dark' ? 'invert(1)' : 'none',
+        })}
+      />
+    </Box>
   );
 }
 
@@ -62,6 +73,7 @@ function HeaderIconButton({
         sx={theme => ({
           width: 36,
           height: 36,
+          borderRadius: 1,
           background: active ? tokens.gradient.aiAurora : 'rgba(255,255,255,0.05)',
           border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.06)' : 'rgba(11,15,26,0.06)'}`,
           color: active ? '#fff' : theme.palette.text.primary,

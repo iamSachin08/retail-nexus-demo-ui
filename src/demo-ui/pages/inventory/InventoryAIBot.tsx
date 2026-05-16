@@ -55,10 +55,10 @@ export function InventoryAIBot() {
         slotProps={{
           paper: {
             sx: {
-              borderTopLeftRadius: 20,
-              borderTopRightRadius: 20,
+              borderRadius: 0,
               backgroundColor: 'background.default',
-              maxHeight: '85vh',
+              maxHeight: '100vh',
+              height: '100vh',
             },
           },
         }}

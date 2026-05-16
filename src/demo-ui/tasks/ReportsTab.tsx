@@ -3,7 +3,7 @@ import MarkChatUnreadRoundedIcon from '@mui/icons-material/MarkChatUnreadRounded
 import PhotoLibraryRoundedIcon from '@mui/icons-material/PhotoLibraryRounded';
 import { useState } from 'react';
 import { GlassCard } from '../components/GlassCard';
-import { tokens } from '../theme/tokens';
+import { moduleSubTabsSx } from '../theme/tabStyles';
 import {
   taskCategoryColor,
   taskReports,
@@ -192,38 +192,12 @@ export function ReportsTab({ onOpenReport }: { onOpenReport: (id: string) => voi
 
   return (
     <Stack spacing={1.5}>
-      <Box
-        sx={{
-          p: 0.375,
-          borderRadius: 999,
-          background: 'rgba(11,15,26,0.05)',
-          border: '1px solid rgba(11,15,26,0.06)',
-          display: 'inline-flex',
-          width: '100%',
-        }}
-      >
+      <Box sx={{ display: 'inline-flex', width: '100%' }}>
         <Tabs
           value={filter}
           onChange={(_, v) => setFilter(v as FilterId)}
           variant="fullWidth"
-          sx={{
-            width: '100%',
-            minHeight: 30,
-            '& .MuiTabs-indicator': { display: 'none' },
-            '& .MuiTab-root': {
-              minHeight: 30,
-              py: 0.25,
-              borderRadius: 999,
-              fontSize: 12,
-              fontWeight: 700,
-              textTransform: 'none',
-              color: 'text.secondary',
-              '&.Mui-selected': {
-                background: tokens.gradient.tasks,
-                color: '#fff',
-              },
-            },
-          }}
+          sx={moduleSubTabsSx}
         >
           {filterConfig.map(f => (
             <Tab key={f.id} value={f.id} label={f.label} />

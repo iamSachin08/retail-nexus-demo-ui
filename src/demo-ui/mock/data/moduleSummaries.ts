@@ -23,7 +23,6 @@ export const moduleSummaries: Record<string, ModuleSummary> = {
     needsAttention: false,
   },
   inventory: {
-    badge: 12,
     demand: '450',
     statusBreakdown: [
       { label: 'Low Stock', value: '12', tone: 'warning' },
@@ -35,7 +34,7 @@ export const moduleSummaries: Record<string, ModuleSummary> = {
     },
     health: { score: 78, label: 'HEALTH SCORE', tone: 'positive' },
     deltaPct: -3.1,
-    needsAttention: true,
+    needsAttention: false,
   },
   'know-product': {
     primary: 'Slim Denim',
@@ -67,12 +66,12 @@ export const moduleSummaries: Record<string, ModuleSummary> = {
   },
   'task-management': {
     pending: 14,
-    primaryLabel: 'PENDING',
+    primaryLabel: 'PENDING / 28 TODAY',
     pendingBreakdown: [
-      { label: 'SALES', value: '4' },
-      { label: 'LEADS', value: '3' },
-      { label: 'INVENTORY', value: '5' },
-      { label: 'CUSTOMERS', value: '2' },
+      { label: 'SALES', value: '4', total: '8' },
+      { label: 'LEADS', value: '3', total: '7' },
+      { label: 'INVENTORY', value: '5', total: '9' },
+      { label: 'CUSTOMERS', value: '2', total: '4' },
     ],
     cta: { text: '2 tasks need attention', tone: 'red' },
     needsAttention: true,

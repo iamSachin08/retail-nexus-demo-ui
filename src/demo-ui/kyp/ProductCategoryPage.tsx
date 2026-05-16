@@ -82,7 +82,7 @@ function CategoryRow({ category, onClick }: { category: Category; onClick: () =>
       }}
     >
       <CategoryAvatar avatar={category.avatar} />
-      <Typography sx={{ flex: 1, fontSize: 16, color: '#0B0F1A' }}>{category.label}</Typography>
+      <Typography sx={{ flex: 1, fontSize: 14, fontWeight: 600, color: '#0B0F1A' }}>{category.label}</Typography>
       <ArrowForwardRoundedIcon sx={{ color: '#0B0F1A', fontSize: 22 }} />
     </Stack>
   );
@@ -125,8 +125,11 @@ export function ProductCategoryPage() {
           p: 2.5,
         }}
       >
-        <Typography sx={{ fontSize: 20, fontWeight: 700, color: '#0B0F1A', mb: 2 }}>
+        <Typography sx={{ fontSize: 18, fontWeight: 800, color: '#0B0F1A', mb: 0.25 }}>
           Select Product Category
+        </Typography>
+        <Typography sx={{ fontSize: 12, color: '#6B7280', mb: 2 }}>
+          Pick the category you want to browse
         </Typography>
         <Stack spacing={1.25}>
           {CATEGORIES.map(category => (

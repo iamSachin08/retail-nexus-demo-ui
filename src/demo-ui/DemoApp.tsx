@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { DemoThemeProvider } from './context/DemoThemeContext';
 import { EditModeProvider } from './context/EditModeContext';
@@ -6,7 +7,6 @@ import { ShopAssistantProvider } from './assistant/ShopAssistantContext';
 import { ShopAssistant } from './assistant/ShopAssistant';
 import { DemoLayout } from './layouts/DemoLayout';
 import { HomePage } from './pages/HomePage';
-import { KypPage } from './kyp/KypPage';
 import { ScanProductPage } from './kyp/ScanProductPage';
 import { ProductDetailPage } from './kyp/ProductDetailPage';
 import { ProductCategoryPage } from './kyp/ProductCategoryPage';
@@ -27,12 +27,21 @@ function ShopAssistantGate() {
   return <ShopAssistant />;
 }
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }, [pathname]);
+  return null;
+}
+
 export default function DemoApp() {
   return (
     <DemoThemeProvider>
       <EditModeProvider>
         <LeadsProvider>
           <ShopAssistantProvider>
+            <ScrollToTop />
             <Routes>
               <Route
                 path="/"
@@ -63,14 +72,6 @@ export default function DemoApp() {
                 element={
                   <DemoLayout>
                     <SalesPage />
-                  </DemoLayout>
-                }
-              />
-              <Route
-                path="/kyp"
-                element={
-                  <DemoLayout>
-                    <KypPage />
                   </DemoLayout>
                 }
               />

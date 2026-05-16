@@ -62,9 +62,11 @@ function OptionRow({
       <Radio
         checked={selected}
         size="small"
-        sx={{ p: 0.5, color: '#9CA3AF', '&.Mui-checked': { color: '#2563EB' } }}
+        sx={{ p: 0.5, color: '#9CA3AF', '&.Mui-checked': { color: '#4C4DDC' } }}
       />
-      <Typography sx={{ fontSize: 16, color: '#2563EB' }}>{label}</Typography>
+      <Typography sx={{ fontSize: 14, color: selected ? '#0B0F1A' : '#1F2C49', fontWeight: selected ? 600 : 400 }}>
+        {label}
+      </Typography>
     </Stack>
   );
 }
@@ -123,7 +125,7 @@ export function OpinionPage() {
               p: 2.5,
             }}
           >
-            <Typography sx={{ fontSize: 18, fontWeight: 700, color: '#0B0F1A', mb: 1.75 }}>
+            <Typography sx={{ fontSize: 18, fontWeight: 800, color: '#0B0F1A', mb: 1.75 }}>
               {idx + 1}. {q.prompt}
             </Typography>
             <Stack spacing={1.25}>

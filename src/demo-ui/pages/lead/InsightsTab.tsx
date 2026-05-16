@@ -23,11 +23,7 @@ function PromptStrip({ prompt }: { prompt: string }) {
       sx={{
         alignItems: 'center',
         gap: 0.75,
-        px: 1.25,
         py: 0.875,
-        borderRadius: 1.5,
-        background: tokens.gradient.aiAuroraSoft,
-        border: '1px solid rgba(124,139,255,0.25)',
         mb: 1,
       }}
     >

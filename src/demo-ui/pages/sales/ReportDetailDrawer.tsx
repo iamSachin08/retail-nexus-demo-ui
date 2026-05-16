@@ -105,19 +105,22 @@ export function ReportDetailDrawer({ report, onClose }: Props) {
       onClose={onClose}
       maxWidth="sm"
       fullWidth
+      fullScreen
       slotProps={{
         paper: {
           sx: {
-            borderRadius: 3,
+            borderRadius: 0,
             backgroundColor: 'background.default',
             backgroundImage: 'none',
             overflow: 'hidden',
+            height: '100vh',
+            maxHeight: '100vh',
           },
         },
       }}
     >
       {report && (
-        <Box sx={{ p: { xs: 3, sm: 4 }, overflowY: 'auto', maxHeight: '90vh' }}>
+        <Box sx={{ p: { xs: 3, sm: 4 }, overflowY: 'auto', height: '100vh', maxHeight: '100vh' }}>
           {/* Header */}
           <Stack direction="row" sx={{ alignItems: 'flex-start', mb: 3 }}>
             <Box sx={{ flex: 1 }}>

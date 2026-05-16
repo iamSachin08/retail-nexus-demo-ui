@@ -56,7 +56,7 @@ export const moduleRegistry: Record<string, ModuleConfig> = {
     icon: <LocalMallOutlinedIcon />,
     gradient: 'linear-gradient(135deg, #B47CFF 0%, #7C5CFF 100%)',
     solidBg: '#A78BFA',
-    route: '/demo/kyp',
+    route: '/demo/kyp/scan',
     supportedSizes: ['small', 'medium', 'large'],
     defaultSize: 'medium',
     style: 'launcher',

@@ -1,8 +1,5 @@
 import { Box, IconButton, Stack, Tab, Tabs, Typography } from '@mui/material';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
-import GridViewRoundedIcon from '@mui/icons-material/GridViewRounded';
-import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
-import AutoGraphRoundedIcon from '@mui/icons-material/AutoGraphRounded';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -10,14 +7,14 @@ import { DashboardTab } from './inventory/DashboardTab';
 import { InsightsTab } from './inventory/InsightsTab';
 import { PurchasePredictionTab } from './inventory/PurchasePredictionTab';
 import { AllProductsDrawer } from './inventory/AllProductsDrawer';
-import { tokens } from '../theme/tokens';
+import { moduleTabsSx } from '../theme/tabStyles';
 
 type TabId = 'dashboard' | 'insights' | 'prediction';
 
-const tabConfig: { id: TabId; label: string; icon: React.ReactElement }[] = [
-  { id: 'insights', label: 'Insights', icon: <LightbulbOutlinedIcon sx={{ fontSize: 18 }} /> },
-  { id: 'dashboard', label: 'Dashboard', icon: <GridViewRoundedIcon sx={{ fontSize: 18 }} /> },
-  { id: 'prediction', label: 'Purchase', icon: <AutoGraphRoundedIcon sx={{ fontSize: 18 }} /> },
+const tabConfig: { id: TabId; label: string }[] = [
+  { id: 'insights', label: 'Insights' },
+  { id: 'dashboard', label: 'Dashboard' },
+  { id: 'prediction', label: 'Purchase Prediction' },
 ];
 
 const tabVariants = {
@@ -48,6 +45,7 @@ export function InventoryPage() {
           sx={{
             width: 36,
             height: 36,
+            borderRadius: 1,
             background: 'rgba(11,15,26,0.04)',
             border: '1px solid rgba(11,15,26,0.06)',
             '&:hover': { background: 'rgba(11,15,26,0.08)' },
@@ -86,46 +84,17 @@ export function InventoryPage() {
       </Stack>
 
       {/* Tabs */}
-      <Box
-        sx={{
-          mb: 2,
-          p: 0.5,
-          borderRadius: 999,
-          background: 'rgba(11,15,26,0.05)',
-          border: '1px solid rgba(11,15,26,0.06)',
-          display: 'inline-flex',
-          width: '100%',
-        }}
-      >
+      <Box sx={{ mb: 2, width: '100%', overflow: 'hidden' }}>
         <Tabs
           value={tab}
           onChange={(_, v) => setTab(v as TabId)}
-          variant="fullWidth"
-          sx={{
-            width: '100%',
-            minHeight: 36,
-            '& .MuiTabs-indicator': { display: 'none' },
-            '& .MuiTab-root': {
-              minHeight: 36,
-              py: 0.5,
-              borderRadius: 999,
-              fontSize: 12.5,
-              fontWeight: 700,
-              textTransform: 'none',
-              color: 'text.secondary',
-              transition: 'background .2s ease, color .2s ease',
-              gap: 0.5,
-              flexDirection: 'row',
-              '&.Mui-selected': {
-                background: tokens.gradient.aiAurora,
-                color: '#fff',
-                boxShadow: '0 6px 14px rgba(124,92,255,0.32)',
-              },
-            },
-          }}
+          variant="scrollable"
+          scrollButtons={false}
+          allowScrollButtonsMobile={false}
+          sx={moduleTabsSx}
         >
           {tabConfig.map(t => (
-            <Tab key={t.id} value={t.id} icon={t.icon} iconPosition="start" label={t.label} />
+            <Tab key={t.id} value={t.id} label={t.label} />
           ))}
         </Tabs>
       </Box>
