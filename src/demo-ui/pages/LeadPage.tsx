@@ -74,6 +74,26 @@ export function LeadPage() {
             Lead Management
           </Typography>
         </Box>
+        <Stack
+          direction="row"
+          onClick={() => setAddOpen(true)}
+          sx={{
+            alignItems: 'center',
+            gap: 0.25,
+            px: 1,
+            py: 0.35,
+            borderRadius: 999,
+            cursor: 'pointer',
+            background: 'rgba(124,92,255,0.08)',
+            border: '1px solid rgba(124,139,255,0.25)',
+            color: '#7C5CFF',
+            '&:hover': { background: 'rgba(124,92,255,0.14)' },
+            flexShrink: 0,
+          }}
+        >
+          <Typography sx={{ fontSize: 13, fontWeight: 700, lineHeight: 1, mt: '-1px' }}>+</Typography>
+          <Typography sx={{ fontSize: 11, fontWeight: 700 }}>Add Lead</Typography>
+        </Stack>
       </Stack>
 
       <Box
@@ -131,9 +151,7 @@ export function LeadPage() {
         >
           {tab === 'insights' && <InsightsTab onOpenLead={setOpenLeadId} />}
           {tab === 'dashboard' && <DashboardTab />}
-          {tab === 'all' && (
-            <AllLeadsTab onOpenLead={setOpenLeadId} onAddLead={() => setAddOpen(true)} />
-          )}
+          {tab === 'all' && <AllLeadsTab onOpenLead={setOpenLeadId} />}
         </motion.div>
       </AnimatePresence>
 

@@ -6,10 +6,11 @@ import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import ChecklistRtlOutlinedIcon from '@mui/icons-material/ChecklistRtlOutlined';
+import CampaignOutlinedIcon from '@mui/icons-material/CampaignOutlined';
 import { tokens } from '../theme/tokens';
 import { useModuleSummary } from '../hooks/useModuleSummary';
 import type { ModuleConfig, TileLayoutItem } from '../types/module';
-import { renderSales, renderLead, renderInventory, renderTasks } from './renderers';
+import { renderSales, renderLead, renderInventory, renderTasks, renderCampaigns } from './renderers';
 
 export const moduleRegistry: Record<string, ModuleConfig> = {
   'sales-orders': {
@@ -55,7 +56,7 @@ export const moduleRegistry: Record<string, ModuleConfig> = {
     icon: <LocalMallOutlinedIcon />,
     gradient: 'linear-gradient(135deg, #B47CFF 0%, #7C5CFF 100%)',
     solidBg: '#A78BFA',
-    route: '/product-selector',
+    route: '/demo/kyp',
     supportedSizes: ['small', 'medium', 'large'],
     defaultSize: 'medium',
     style: 'launcher',
@@ -68,7 +69,7 @@ export const moduleRegistry: Record<string, ModuleConfig> = {
     icon: <PeopleAltOutlinedIcon />,
     gradient: 'linear-gradient(135deg, #FF8AB1 0%, #E5345C 100%)',
     solidBg: '#F472B6',
-    route: '/customer',
+    route: '/demo/kyc',
     supportedSizes: ['small', 'medium', 'large'],
     defaultSize: 'medium',
     style: 'launcher',
@@ -98,13 +99,26 @@ export const moduleRegistry: Record<string, ModuleConfig> = {
     style: 'launcher',
     useSummary: () => useModuleSummary('procurement'),
   },
+  campaigns: {
+    id: 'campaigns',
+    title: 'Your Campaigns',
+    titleSmall: 'Your\nCampaigns',
+    icon: <CampaignOutlinedIcon />,
+    gradient: 'linear-gradient(135deg, #FF6FA8 0%, #E54E8A 100%)',
+    solidBg: '#E54E8A',
+    route: '/demo/campaigns',
+    supportedSizes: ['small', 'medium', 'large'],
+    defaultSize: 'medium',
+    useSummary: () => useModuleSummary('campaigns'),
+    renderContent: renderCampaigns,
+  },
   'task-management': {
     id: 'task-management',
     title: 'Task Management',
     icon: <ChecklistRtlOutlinedIcon />,
     gradient: tokens.gradient.tasks,
     solidBg: '#2DD4BF',
-    route: '/daily-tracker',
+    route: '/demo/tasks',
     supportedSizes: ['small', 'medium', 'large'],
     defaultSize: 'medium',
     useSummary: () => useModuleSummary('task-management'),
@@ -123,7 +137,8 @@ export const defaultHomeLayout: TileLayoutItem[] = [
   { moduleId: 'sales-orders', size: 'medium' },
   { moduleId: 'lead', size: 'medium' },
   { moduleId: 'inventory', size: 'large' },
-  { moduleId: 'task-management', size: 'large' },
+  { moduleId: 'task-management', size: 'medium' },
+  { moduleId: 'campaigns', size: 'medium' },
   { moduleId: 'know-product', size: 'medium' },
   { moduleId: 'know-customer', size: 'medium' },
   { moduleId: 'ask-owner', size: 'medium' },

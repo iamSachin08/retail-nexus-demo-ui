@@ -294,8 +294,9 @@ export function ModuleTile({ config, size }: ModuleTileProps) {
   const { editing, setTileSize } = useEditMode();
   const { data } = config.useSummary();
 
-  const hasBadge = data?.badge !== undefined && data?.badge !== null;
-  const showAttention = !!data?.needsAttention && !editing && !hasBadge;
+  const hasCta = !!data?.cta;
+  const hasBadge = data?.badge !== undefined && data?.badge !== null && !hasCta;
+  const showAttention = !!data?.needsAttention && !editing && !hasBadge && !hasCta;
   const isLauncher = config.style === 'launcher';
 
   const handleClick = () => {

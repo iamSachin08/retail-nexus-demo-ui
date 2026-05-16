@@ -100,6 +100,12 @@ export const leadDashboard: LeadDashboardData = {
     pipelineRate: 34,
   },
   monthly: [
+    { month: 'Jul', leads: 22, conversions: 7 },
+    { month: 'Aug', leads: 26, conversions: 9 },
+    { month: 'Sep', leads: 24, conversions: 8 },
+    { month: 'Oct', leads: 30, conversions: 12 },
+    { month: 'Nov', leads: 35, conversions: 13 },
+    { month: 'Dec', leads: 42, conversions: 18 },
     { month: 'Jan', leads: 32, conversions: 11 },
     { month: 'Feb', leads: 38, conversions: 14 },
     { month: 'Mar', leads: 41, conversions: 16 },
@@ -317,7 +323,7 @@ export const initialLeads: Lead[] = [
 
 /* Insights derived from the canonical lead list */
 export const insightsHotWarm = (leads: Lead[]) =>
-  leads.filter(l => (l.intent === 'hot' || l.intent === 'warm') && l.leadStatus !== 'Lost' && l.leadStatus !== 'Converted').slice(0, 4);
+  leads.filter(l => (l.intent === 'hot' || l.intent === 'warm') && l.leadStatus !== 'Lost' && l.leadStatus !== 'Converted').slice(0, 3);
 
 export const insightsFollowUp = (leads: Lead[]) =>
   leads.filter(l => !!l.followUpDate && l.leadStatus !== 'Converted' && l.leadStatus !== 'Lost').slice(0, 4);

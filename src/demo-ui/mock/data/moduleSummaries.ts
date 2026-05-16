@@ -57,8 +57,15 @@ export const moduleSummaries: Record<string, ModuleSummary> = {
     cta: { text: '4 task need attention', tone: 'red' },
     needsAttention: false,
   },
-  'task-management': {
+  campaigns: {
     badge: 3,
+    liveCount: 3,
+    primaryLabel: 'LIVE',
+    performance: { value: '124', label: 'LEADS' },
+    reachDelta: 15,
+    needsAttention: false,
+  },
+  'task-management': {
     pending: 14,
     primaryLabel: 'PENDING',
     pendingBreakdown: [

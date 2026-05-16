@@ -209,6 +209,18 @@ export const reportsHistory: ReportSummary[] = [
     comments: [],
   },
   {
+    id: 'r-week-20-pending',
+    title: 'Weekly Sales Summary',
+    period: '12–18 May 2026',
+    status: 'pending-review',
+    generatedAt: 'Yesterday, 6:00 PM',
+    kpis: [
+      { label: 'Revenue', value: '₹24.6L', delta: 6.4 },
+      { label: 'Orders', value: '802', delta: 3.1 },
+    ],
+    comments: [],
+  },
+  {
     id: 'r-may-monthly',
     title: 'Monthly Sales — May',
     period: '1–31 May 2026',

@@ -1,5 +1,4 @@
 import { Box, Stack, Typography } from '@mui/material';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import TrendingUpRoundedIcon from '@mui/icons-material/TrendingUpRounded';
 import KeyboardReturnRoundedIcon from '@mui/icons-material/KeyboardReturnRounded';
@@ -49,7 +48,6 @@ function PromptStrip({ prompt }: { prompt: string }) {
       <Typography sx={{ fontSize: 11.5, color: 'text.secondary', flex: 1, lineHeight: 1.3 }}>
         {prompt}
       </Typography>
-      <EditOutlinedIcon sx={{ fontSize: 14, color: 'text.disabled', cursor: 'pointer' }} />
     </Stack>
   );
 }

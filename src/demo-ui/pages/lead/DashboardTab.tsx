@@ -1,5 +1,7 @@
 import { Box, LinearProgress, Stack, Typography } from '@mui/material';
 import TrendingUpRoundedIcon from '@mui/icons-material/TrendingUpRounded';
+import type { EChartsOption } from 'echarts';
+import { EChart } from '../../components/EChart';
 import { GlassCard } from '../../components/GlassCard';
 import { tokens } from '../../theme/tokens';
 import { leadDashboard, sourceColor, statusColor } from '../../mock/data/leadManagement';
@@ -81,46 +83,131 @@ function LostCard() {
   );
 }
 
-/** Monthly leads vs conversions — simple grouped bar chart. */
+/** Monthly leads vs conversions — animated stacked bar chart via ECharts. */
 function MonthlyChart() {
   const { monthly } = leadDashboard;
-  const max = Math.max(...monthly.map(m => m.leads));
+  const totalLeads = monthly.reduce((s, m) => s + m.leads, 0);
+  const totalConv = monthly.reduce((s, m) => s + m.conversions, 0);
+  const avgConvPct = Math.round((totalConv / totalLeads) * 100);
+  const months = monthly.map(m => m.month);
+  const leads = monthly.map(m => m.leads);
+  const conversions = monthly.map(m => m.conversions);
+  const remaining = monthly.map(m => m.leads - m.conversions);
+
+  const chartOption: EChartsOption = {
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: { type: 'shadow' },
+      formatter: (params) => {
+        const arr = params as Array<{ axisValue: string; dataIndex: number }>;
+        const i = arr[0].dataIndex;
+        const pct = Math.round((conversions[i] / leads[i]) * 100);
+        return (
+          `<div style="font-weight:700;margin-bottom:4px">${months[i]}</div>` +
+          `<div>Leads <b>${leads[i]}</b></div>` +
+          `<div style="color:#22C55E">Conversions <b>${conversions[i]}</b> (${pct}%)</div>`
+        );
+      },
+    },
+    grid: { left: 4, right: 8, top: 18, bottom: 24, containLabel: true },
+    xAxis: {
+      type: 'category',
+      data: months,
+      axisLabel: { fontSize: 10.5, fontWeight: 600 },
+    },
+    yAxis: {
+      type: 'value',
+      splitNumber: 3,
+      axisLabel: { fontSize: 10 },
+    },
+    series: [
+      {
+        name: 'Conversions',
+        type: 'bar',
+        stack: 'total',
+        data: conversions,
+        barWidth: '55%',
+        itemStyle: {
+          color: {
+            type: 'linear',
+            x: 0, y: 0, x2: 0, y2: 1,
+            colorStops: [
+              { offset: 0, color: '#34D399' },
+              { offset: 1, color: '#22C55E' },
+            ],
+          },
+          borderRadius: [0, 0, 4, 4],
+        },
+        animationDelay: (idx: number) => idx * 60,
+      },
+      {
+        name: 'Remaining',
+        type: 'bar',
+        stack: 'total',
+        data: remaining,
+        barWidth: '55%',
+        itemStyle: {
+          color: {
+            type: 'linear',
+            x: 0, y: 0, x2: 0, y2: 1,
+            colorStops: [
+              { offset: 0, color: '#93C5FD' },
+              { offset: 1, color: '#60A5FA' },
+            ],
+          },
+          borderRadius: [4, 4, 0, 0],
+        },
+        label: {
+          show: true,
+          position: 'top',
+          fontSize: 10,
+          fontWeight: 700,
+          formatter: (p) => String(leads[(p as { dataIndex: number }).dataIndex]),
+        },
+        animationDelay: (idx: number) => idx * 60 + 200,
+      },
+    ],
+    animationDuration: 900,
+    animationEasing: 'cubicOut',
+  };
   return (
     <GlassCard sx={{ p: 2 }}>
-      <SectionLabel>Monthly Lead Distribution</SectionLabel>
-      <Stack direction="row" sx={{ gap: 1, alignItems: 'flex-end', mt: 1.5, height: 120 }}>
-        {monthly.map(m => {
-          const leadH = (m.leads / max) * 100;
-          const convH = (m.conversions / max) * 100;
-          return (
-            <Stack key={m.month} sx={{ flex: 1, alignItems: 'center', gap: 0.5 }}>
-              <Stack
-                direction="row"
-                sx={{ alignItems: 'flex-end', gap: 0.5, height: '100%', width: '100%', justifyContent: 'center' }}
-              >
-                <Box
-                  sx={{
-                    width: '40%',
-                    height: `${leadH}%`,
-                    borderRadius: '4px 4px 0 0',
-                    background: tokens.gradient.inventory,
-                  }}
-                />
-                <Box
-                  sx={{
-                    width: '40%',
-                    height: `${convH}%`,
-                    borderRadius: '4px 4px 0 0',
-                    background: tokens.gradient.sales,
-                  }}
-                />
-              </Stack>
-              <Typography sx={{ fontSize: 10, color: 'text.secondary' }}>{m.month}</Typography>
-            </Stack>
-          );
-        })}
+      <Stack direction="row" sx={{ alignItems: 'flex-start', justifyContent: 'space-between' }}>
+        <SectionLabel>Monthly Lead Distribution</SectionLabel>
+        <Typography sx={{ fontSize: 11, color: 'text.secondary' }}>
+          Last 12 months
+        </Typography>
       </Stack>
-      <Stack direction="row" sx={{ gap: 1.5, mt: 1, justifyContent: 'center' }}>
+      <Stack direction="row" sx={{ gap: 2, mt: 0.75 }}>
+        <Box>
+          <Typography sx={{ fontSize: 18, fontWeight: 800, letterSpacing: -0.3 }}>
+            {totalLeads}
+          </Typography>
+          <Typography sx={{ fontSize: 10, color: 'text.secondary', letterSpacing: 0.4 }}>
+            TOTAL LEADS
+          </Typography>
+        </Box>
+        <Box>
+          <Typography sx={{ fontSize: 18, fontWeight: 800, color: '#22C55E', letterSpacing: -0.3 }}>
+            {totalConv}
+          </Typography>
+          <Typography sx={{ fontSize: 10, color: 'text.secondary', letterSpacing: 0.4 }}>
+            CONVERSIONS
+          </Typography>
+        </Box>
+        <Box>
+          <Typography sx={{ fontSize: 18, fontWeight: 800, color: '#7C5CFF', letterSpacing: -0.3 }}>
+            {avgConvPct}%
+          </Typography>
+          <Typography sx={{ fontSize: 10, color: 'text.secondary', letterSpacing: 0.4 }}>
+            AVG. RATE
+          </Typography>
+        </Box>
+      </Stack>
+      <Box sx={{ mt: 1.5, mx: -1 }}>
+        <EChart option={chartOption} height={200} />
+      </Box>
+      <Stack direction="row" sx={{ gap: 1.5, mt: 1.25, justifyContent: 'center' }}>
         <Stack direction="row" sx={{ alignItems: 'center', gap: 0.5 }}>
           <Box sx={{ width: 8, height: 8, borderRadius: '50%', background: '#60A5FA' }} />
           <Typography sx={{ fontSize: 11, color: 'text.secondary' }}>Leads</Typography>

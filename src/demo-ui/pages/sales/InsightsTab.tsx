@@ -3,7 +3,6 @@ import TrackChangesRoundedIcon from '@mui/icons-material/TrackChangesRounded';
 import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import StarBorderRoundedIcon from '@mui/icons-material/StarBorderRounded';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import SentimentVeryDissatisfiedRoundedIcon from '@mui/icons-material/SentimentVeryDissatisfiedRounded';
 import SentimentSatisfiedAltRoundedIcon from '@mui/icons-material/SentimentSatisfiedAltRounded';
@@ -48,7 +47,6 @@ function PromptStrip({ prompt }: { prompt: string }) {
       <Typography sx={{ fontSize: 11.5, color: 'text.secondary', flex: 1, lineHeight: 1.3 }}>
         {prompt}
       </Typography>
-      <EditOutlinedIcon sx={{ fontSize: 14, color: 'text.disabled', cursor: 'pointer' }} />
     </Stack>
   );
 }

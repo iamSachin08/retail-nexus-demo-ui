@@ -1,7 +1,6 @@
 import { Box, Fade, Stack, Typography } from '@mui/material';
 import RestartAltRoundedIcon from '@mui/icons-material/RestartAltRounded';
 import { HomeHeader } from '../sections/HomeHeader';
-import { AICommandBar } from '../components/AICommandBar';
 import { TileGrid } from '../tiles/TileGrid';
 import { useEditMode } from '../context/EditModeContext';
 
@@ -11,10 +10,6 @@ export function HomePage() {
   return (
     <Box>
       <HomeHeader />
-
-      <Box sx={{ mb: 2.5 }}>
-        <AICommandBar />
-      </Box>
 
       <Fade in={editing} unmountOnExit>
         <Stack

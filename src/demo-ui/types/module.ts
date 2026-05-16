@@ -59,6 +59,11 @@ export interface ModuleSummary {
   pending?: number;
   pendingBreakdown?: MetricStat[];
   cta?: CTAButton;
+
+  /** Campaigns module fields */
+  liveCount?: number;
+  performance?: { value: string; label: string };
+  reachDelta?: number;
 }
 
 export type ModuleStyle = 'kpi' | 'launcher';

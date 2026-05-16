@@ -3,6 +3,10 @@ export interface InventoryDashboard {
   total: number;
   lowStock: number;
   outOfStock: number;
+  /** Inventory value tied up in low-stock SKUs (₹). */
+  lowStockExposure: number;
+  /** Estimated orders lost to out-of-stock SKUs over the period. */
+  ordersLost: number;
   last30Days: { day: string; lowStock: number; oos: number; orders: number; leads: number }[];
   categories: { name: string; value: number; max: number }[];
   brands: { name: string; value: number; max: number }[];
@@ -26,15 +30,17 @@ export interface PurchaseSuggestion {
 }
 
 export const inventoryDashboard: InventoryDashboard = {
-  instock: 287,
-  total: 312,
-  lowStock: 12,
+  instock: 1064,
+  total: 1284,
+  lowStock: 212,
   outOfStock: 8,
+  lowStockExposure: 480000,
+  ordersLost: 14,
   last30Days: [
-    { day: 'W1', lowStock: 8, oos: 3, orders: 124, leads: 62 },
-    { day: 'W2', lowStock: 10, oos: 4, orders: 138, leads: 71 },
-    { day: 'W3', lowStock: 14, oos: 6, orders: 156, leads: 84 },
-    { day: 'W4', lowStock: 12, oos: 8, orders: 162, leads: 89 },
+    { day: 'W1', lowStock: 168, oos: 3, orders: 124, leads: 62 },
+    { day: 'W2', lowStock: 184, oos: 5, orders: 138, leads: 71 },
+    { day: 'W3', lowStock: 196, oos: 7, orders: 156, leads: 84 },
+    { day: 'W4', lowStock: 212, oos: 8, orders: 162, leads: 89 },
   ],
   categories: [
     { name: 'Apparel', value: 142, max: 180 },

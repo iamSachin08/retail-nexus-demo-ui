@@ -4,7 +4,6 @@ import EventAvailableRoundedIcon from '@mui/icons-material/EventAvailableRounded
 import PriorityHighRoundedIcon from '@mui/icons-material/PriorityHighRounded';
 import RestoreFromTrashRoundedIcon from '@mui/icons-material/RestoreFromTrashRounded';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { GlassCard } from '../../components/GlassCard';
 import { tokens } from '../../theme/tokens';
 import { LeadRow } from './LeadRow';
@@ -36,7 +35,6 @@ function PromptStrip({ prompt }: { prompt: string }) {
       <Typography sx={{ fontSize: 11.5, color: 'text.secondary', flex: 1, lineHeight: 1.3 }}>
         {prompt}
       </Typography>
-      <EditOutlinedIcon sx={{ fontSize: 14, color: 'text.disabled', cursor: 'pointer' }} />
     </Stack>
   );
 }

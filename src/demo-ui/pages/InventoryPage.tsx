@@ -15,8 +15,8 @@ import { tokens } from '../theme/tokens';
 type TabId = 'dashboard' | 'insights' | 'prediction';
 
 const tabConfig: { id: TabId; label: string; icon: React.ReactElement }[] = [
-  { id: 'dashboard', label: 'Dashboard', icon: <GridViewRoundedIcon sx={{ fontSize: 18 }} /> },
   { id: 'insights', label: 'Insights', icon: <LightbulbOutlinedIcon sx={{ fontSize: 18 }} /> },
+  { id: 'dashboard', label: 'Dashboard', icon: <GridViewRoundedIcon sx={{ fontSize: 18 }} /> },
   { id: 'prediction', label: 'Purchase', icon: <AutoGraphRoundedIcon sx={{ fontSize: 18 }} /> },
 ];
 
@@ -28,7 +28,7 @@ const tabVariants = {
 
 export function InventoryPage() {
   const navigate = useNavigate();
-  const [tab, setTab] = useState<TabId>('dashboard');
+  const [tab, setTab] = useState<TabId>('insights');
   const [productsOpen, setProductsOpen] = useState(false);
 
   return (

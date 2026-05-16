@@ -1,16 +1,15 @@
 import {
   Badge,
   Box,
-  Button,
   Chip,
   IconButton,
   InputBase,
   Stack,
   Typography,
+  keyframes,
 } from '@mui/material';
-import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import TuneRoundedIcon from '@mui/icons-material/TuneRounded';
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { useMemo, useState } from 'react';
 import { GlassCard } from '../../components/GlassCard';
@@ -20,6 +19,12 @@ import { tokens } from '../../theme/tokens';
 import { useLeads } from '../../context/LeadsContext';
 import type { LeadSource, LeadStatus } from '../../mock/data/leadManagement';
 import { sourceColor, statusColor } from '../../mock/data/leadManagement';
+
+const shimmer = keyframes`
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+`;
 
 type IntentFilter = 'all' | 'hot' | 'warm' | 'cold' | 'today';
 
@@ -33,10 +38,9 @@ const INTENT_FILTERS: { id: IntentFilter; label: string }[] = [
 
 interface Props {
   onOpenLead: (leadId: string) => void;
-  onAddLead: () => void;
 }
 
-export function AllLeadsTab({ onOpenLead, onAddLead }: Props) {
+export function AllLeadsTab({ onOpenLead }: Props) {
   const { leads } = useLeads();
   const [query, setQuery] = useState('');
   const [intentFilter, setIntentFilter] = useState<IntentFilter>('all');
@@ -70,27 +74,69 @@ export function AllLeadsTab({ onOpenLead, onAddLead }: Props) {
   return (
     <Stack spacing={1.5}>
       {/* Search + Filter + Add */}
-      <Stack direction="row" sx={{ gap: 1 }}>
-        <Stack
-          direction="row"
-          sx={{
+      <Stack direction="row" sx={{ gap: 1, alignItems: 'center' }}>
+        <Box
+          sx={theme => ({
             flex: 1,
-            alignItems: 'center',
-            px: 1.25,
-            py: 0.5,
-            borderRadius: 999,
-            background: 'rgba(11,15,26,0.04)',
-            border: '1px solid rgba(11,15,26,0.06)',
-          }}
+            minWidth: 0,
+            position: 'relative',
+            borderRadius: `${tokens.radius.xl}px`,
+            padding: '2px',
+            background:
+              theme.palette.mode === 'dark'
+                ? 'linear-gradient(120deg, rgba(124,92,255,0.55), rgba(54,209,220,0.55), rgba(124,92,255,0.55))'
+                : 'linear-gradient(120deg, rgba(124,92,255,0.35), rgba(54,209,220,0.35), rgba(124,92,255,0.35))',
+            backgroundSize: '200% 200%',
+            animation: `${shimmer} 8s ease infinite`,
+            boxShadow: '0 12px 24px rgba(124,92,255,0.18)',
+          })}
         >
-          <SearchRoundedIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
-          <InputBase
-            value={query}
-            onChange={e => setQuery(e.target.value)}
-            placeholder="Search name, phone, product…"
-            sx={{ ml: 1, fontSize: 13, flex: 1 }}
-          />
-        </Stack>
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={theme => ({
+              alignItems: 'center',
+              width: '100%',
+              px: 1,
+              py: 0.5,
+              borderRadius: `${tokens.radius.xl - 2}px`,
+              background:
+                theme.palette.mode === 'dark'
+                  ? 'rgba(11,15,26,0.78)'
+                  : 'rgba(255,255,255,0.92)',
+              backdropFilter: 'blur(20px)',
+            })}
+          >
+            <Box
+              sx={{
+                width: 24,
+                height: 24,
+                borderRadius: '50%',
+                background: tokens.gradient.aiAurora,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#fff',
+                flexShrink: 0,
+                boxShadow: '0 6px 14px rgba(124,92,255,0.35)',
+              }}
+            >
+              <AutoAwesomeIcon sx={{ fontSize: 14 }} />
+            </Box>
+            <InputBase
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+              placeholder="Search name, phone, product…"
+              sx={{
+                fontSize: 13,
+                fontWeight: 500,
+                flex: 1,
+                minWidth: 0,
+                '& input::placeholder': { opacity: 0.5 },
+              }}
+            />
+          </Stack>
+        </Box>
         <Badge
           badgeContent={totalApplied || undefined}
           color="primary"
@@ -110,21 +156,6 @@ export function AllLeadsTab({ onOpenLead, onAddLead }: Props) {
             <TuneRoundedIcon sx={{ fontSize: 18 }} />
           </IconButton>
         </Badge>
-        <Button
-          startIcon={<AddRoundedIcon />}
-          onClick={onAddLead}
-          sx={{
-            height: 36,
-            px: 1.5,
-            background: tokens.gradient.aiAurora,
-            color: '#fff',
-            fontSize: 12.5,
-            fontWeight: 700,
-            '&:hover': { background: tokens.gradient.aiAurora, filter: 'brightness(1.08)' },
-          }}
-        >
-          Add lead
-        </Button>
       </Stack>
 
       {/* Intent chips */}

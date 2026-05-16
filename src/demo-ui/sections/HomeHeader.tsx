@@ -3,15 +3,11 @@ import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import TuneRoundedIcon from '@mui/icons-material/TuneRounded';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import { motion } from 'framer-motion';
 import { useDemoTheme } from '../context/DemoThemeContext';
 import { useEditMode } from '../context/EditModeContext';
 import { greetingFor } from '../utils/format';
 import { tokens } from '../theme/tokens';
-
-const BRAND_NAME = 'StoreOS';
-const BRAND_TAGLINE = 'Retail Operations Platform';
 
 function Wave() {
   return (
@@ -33,66 +29,17 @@ function Wave() {
 
 function BrandMark() {
   return (
-    <Stack direction="row" spacing={1.25} sx={{ alignItems: 'center', minWidth: 0 }}>
-      <Box
-        sx={{
-          width: 28,
-          height: 28,
-          borderRadius: `${tokens.radius.sm}px`,
-          background: tokens.gradient.aiAurora,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: '#fff',
-          boxShadow: '0 6px 16px rgba(124,92,255,0.32)',
-          flexShrink: 0,
-        }}
-      >
-        <AutoAwesomeIcon sx={{ fontSize: 15 }} />
-      </Box>
-      <Box sx={{ minWidth: 0 }}>
-        <Stack direction="row" spacing={0.75} sx={{ alignItems: 'center' }}>
-          <Typography
-            sx={{
-              fontSize: 16,
-              fontWeight: 800,
-              letterSpacing: -0.3,
-              lineHeight: 1,
-              background: tokens.gradient.aiAurora,
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}
-          >
-            {BRAND_NAME}
-          </Typography>
-          <Box
-            sx={{
-              fontSize: 8,
-              fontWeight: 700,
-              letterSpacing: 0.8,
-              textTransform: 'uppercase',
-              px: 0.75,
-              py: 0.125,
-              borderRadius: 999,
-              border: '1px solid rgba(124,139,255,0.4)',
-              color: '#A48BFF',
-              background: 'rgba(124,92,255,0.10)',
-            }}
-          >
-            AI
-          </Box>
-        </Stack>
-        <Typography
-          variant="caption"
-          color="text.secondary"
-          sx={{ fontSize: 10.5, letterSpacing: 0.3, display: 'block', lineHeight: 1.2, mt: 0.25 }}
-          noWrap
-        >
-          {BRAND_TAGLINE}
-        </Typography>
-      </Box>
-    </Stack>
+    <Box
+      component="img"
+      src="/Logo Black.svg"
+      alt="Storeone"
+      sx={theme => ({
+        height: 28,
+        width: 'auto',
+        display: 'block',
+        filter: theme.palette.mode === 'dark' ? 'none' : 'invert(1)',
+      })}
+    />
   );
 }
 
