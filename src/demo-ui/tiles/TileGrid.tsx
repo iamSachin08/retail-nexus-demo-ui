@@ -25,8 +25,9 @@ const GAP_PX = 10;
 const tileWidth = (span: number): string =>
   `calc(${(span / 12) * 100}% - ${GAP_PX * (1 - span / 12)}px)`;
 
+// Small ≈ iPhone home-screen app icon — square at the rendered width.
 const tileMinHeight = (size: TileSize): number =>
-  size === 'small' ? 110 : size === 'large' ? 220 : 180;
+  size === 'small' ? 96 : size === 'large' ? 220 : 180;
 
 const GridRoot = styled('div')({
   display: 'flex',

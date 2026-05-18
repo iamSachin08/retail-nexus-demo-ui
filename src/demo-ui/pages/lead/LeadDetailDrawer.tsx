@@ -92,14 +92,25 @@ export function LeadDetailDrawer({ leadId, onClose }: Props) {
           sx: {
             borderRadius: 0,
             backgroundColor: 'background.default',
-            maxHeight: '100vh',
-            height: '100vh',
+            maxHeight: '100dvh',
+            height: '100dvh',
+            display: 'flex',
+            flexDirection: 'column',
           },
         },
       }}
     >
       {lead && (
-        <Box sx={{ p: 2, overflowY: 'auto' }}>
+        <Box
+          sx={{
+            p: 2,
+            flex: 1,
+            minHeight: 0,
+            overflowY: 'auto',
+            WebkitOverflowScrolling: 'touch',
+            overscrollBehavior: 'contain',
+          }}
+        >
           {/* Top bar */}
           <Stack direction="row" sx={{ alignItems: 'center', gap: 1, mb: 1.5 }}>
             <Box sx={{ position: 'relative', flexShrink: 0 }}>

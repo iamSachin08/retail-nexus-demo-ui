@@ -9,7 +9,6 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import MicRoundedIcon from '@mui/icons-material/MicRounded';
@@ -299,7 +298,7 @@ function ResultCard({ result, onAddLead, onOpenLead, onGoLeads, onGoSales }: Ren
 
 /* ─── Main component ──────────────────────────────────── */
 export function ShopAssistant() {
-  const { open, openAssistant, closeAssistant, consumePrompt } = useShopAssistant();
+  const { open, closeAssistant, consumePrompt } = useShopAssistant();
   const { leads, addLead } = useLeads();
   const navigate = useNavigate();
 
@@ -458,40 +457,9 @@ export function ShopAssistant() {
 
   return (
     <>
-      {/* Floating launcher button */}
-      <Box
-        component={motion.div}
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ delay: 0.3, type: 'spring', stiffness: 220, damping: 18 }}
-        sx={{
-          position: 'fixed',
-          right: { xs: 16, md: 28 },
-          bottom: { xs: 24, md: 28 },
-          zIndex: 60,
-        }}
-      >
-        <IconButton
-          onClick={() => openAssistant()}
-          aria-label="Open Shop Assistant"
-          sx={{
-            width: 56,
-            height: 56,
-            borderRadius: '50%',
-            color: '#fff',
-            background: tokens.gradient.aiAurora,
-            boxShadow: '0 16px 36px rgba(124,92,255,0.45)',
-            '&:hover': { background: tokens.gradient.aiAurora, filter: 'brightness(1.08)' },
-            animation: 'aiPulse 2.6s ease-in-out infinite',
-            '@keyframes aiPulse': {
-              '0%, 100%': { boxShadow: '0 16px 36px rgba(124,92,255,0.45)' },
-              '50%': { boxShadow: '0 16px 48px rgba(54,209,220,0.55)' },
-            },
-          }}
-        >
-          <AutoAwesomeIcon />
-        </IconButton>
-      </Box>
+      {/* Floating launcher removed — AI now lives as the permanent left
+       * icon in the bottom AppDock. The assistant drawer below still
+       * opens via `openAssistant()` from the dock. */}
 
       <Drawer
         anchor="bottom"
@@ -502,8 +470,8 @@ export function ShopAssistant() {
             sx: {
               borderRadius: 0,
               backgroundColor: 'background.default',
-              height: '100vh',
-              maxHeight: '100vh',
+              height: '100dvh',
+              maxHeight: '100dvh',
               display: 'flex',
               flexDirection: 'column',
             },

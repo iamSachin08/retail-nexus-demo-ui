@@ -1,9 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
-import { Box, Button, IconButton, Stack, TextField, Typography, useTheme } from '@mui/material';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Box, ButtonBase, Button, IconButton, Stack, TextField, Typography, useTheme } from '@mui/material';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import QrCodeScannerRoundedIcon from '@mui/icons-material/QrCodeScannerRounded';
+import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import { useNavigate } from 'react-router-dom';
+import {
+  kypProducts,
+  looksLikeArticleId,
+  searchProductsByName,
+  type KypProduct,
+} from './kypProducts';
 
 const DEMO_ARTICLE_ID = '491296926';
 
@@ -145,16 +153,111 @@ function OrDivider() {
   );
 }
 
+function SearchResultRow({
+  product,
+  onSelect,
+}: {
+  product: KypProduct;
+  onSelect: (p: KypProduct) => void;
+}) {
+  return (
+    <ButtonBase
+      onClick={() => onSelect(product)}
+      sx={theme => ({
+        width: '100%',
+        textAlign: 'left',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 1.25,
+        p: 1.5,
+        borderRadius: 1.5,
+        bgcolor:
+          theme.palette.mode === 'dark'
+            ? 'rgba(255,255,255,0.04)'
+            : 'rgba(11,15,26,0.03)',
+        border:
+          theme.palette.mode === 'dark'
+            ? '1px solid rgba(255,255,255,0.08)'
+            : '1px solid rgba(11,15,26,0.06)',
+        '&:hover': {
+          bgcolor:
+            theme.palette.mode === 'dark'
+              ? 'rgba(255,255,255,0.07)'
+              : 'rgba(11,15,26,0.05)',
+        },
+      })}
+    >
+      <Box sx={{ flex: 1, minWidth: 0 }}>
+        <Typography
+          sx={{
+            fontSize: 13.5,
+            fontWeight: 700,
+            color: 'text.primary',
+            lineHeight: 1.3,
+            display: '-webkit-box',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
+          }}
+        >
+          {product.name}
+        </Typography>
+        <Stack
+          direction="row"
+          sx={{ alignItems: 'center', gap: 0.75, mt: 0.5, flexWrap: 'wrap' }}
+        >
+          <Typography
+            sx={{
+              fontFamily: 'monospace',
+              fontSize: 11,
+              color: 'text.disabled',
+            }}
+          >
+            #{product.articleId}
+          </Typography>
+          <Typography
+            sx={{
+              fontSize: 11,
+              color: 'text.secondary',
+              fontWeight: 600,
+            }}
+          >
+            · {product.brand} · {product.category}
+          </Typography>
+        </Stack>
+      </Box>
+      <Box sx={{ textAlign: 'right', flexShrink: 0 }}>
+        <Typography sx={{ fontSize: 13.5, fontWeight: 800 }}>
+          ₹{product.priceInr.toLocaleString('en-IN')}
+        </Typography>
+      </Box>
+      <ChevronRightRoundedIcon sx={{ fontSize: 16, color: 'text.secondary', flexShrink: 0 }} />
+    </ButtonBase>
+  );
+}
+
 function ManualEntryCard({
   value,
   onChange,
   onSubmit,
+  onSelectProduct,
 }: {
   value: string;
   onChange: (v: string) => void;
   onSubmit: () => void;
+  onSelectProduct: (p: KypProduct) => void;
 }) {
-  const disabled = value.trim().length === 0;
+  const trimmed = value.trim();
+  const disabled = trimmed.length === 0;
+  const isIdLike = looksLikeArticleId(trimmed);
+
+  /* Surface name-search results as soon as the user types something that
+   * isn't an article-ID. Empty query → no results panel. */
+  const results = useMemo(
+    () => (trimmed && !isIdLike ? searchProductsByName(trimmed).slice(0, 6) : []),
+    [trimmed, isIdLike],
+  );
+
   return (
     <Box
       sx={theme => ({
@@ -175,18 +278,26 @@ function ManualEntryCard({
       })}
     >
       <Typography sx={{ fontSize: 18, fontWeight: 800, color: 'text.primary', mb: 0.5 }}>
-        Manual Article ID
+        Search by Article ID or Name
       </Typography>
       <Typography sx={{ fontSize: 12.5, color: 'text.secondary', mb: 2, lineHeight: 1.5 }}>
-        Type the article ID printed on the product tag
+        Type the article ID printed on the product tag, or search by product name —
+        results appear below.
       </Typography>
       <TextField
         fullWidth
         value={value}
         onChange={e => onChange(e.target.value)}
-        placeholder="e.g., 491296926"
+        placeholder="e.g., 491296926 or 'water purifier'"
         variant="outlined"
         size="medium"
+        InputProps={{
+          startAdornment: (
+            <SearchRoundedIcon
+              sx={{ fontSize: 18, color: 'text.disabled', mr: 1, flexShrink: 0 }}
+            />
+          ),
+        }}
         sx={theme => ({
           mb: 2,
           '& .MuiOutlinedInput-root': {
@@ -211,36 +322,68 @@ function ManualEntryCard({
           '& .MuiOutlinedInput-input': { py: 1.5, fontSize: 14 },
         })}
       />
-      <Button
-        fullWidth
-        variant="contained"
-        disabled={disabled}
-        onClick={onSubmit}
-        sx={theme => ({
-          bgcolor: '#4C4DDC',
-          color: '#fff',
-          fontWeight: 700,
-          fontSize: 15,
-          letterSpacing: 0.5,
-          py: 1.5,
-          borderRadius: 1.5,
-          textTransform: 'none',
-          boxShadow: '0 6px 14px rgba(76,77,220,0.35)',
-          '&:hover': { bgcolor: '#3F40C2' },
-          '&.Mui-disabled': {
-            bgcolor:
-              theme.palette.mode === 'dark'
-                ? 'rgba(124,92,255,0.18)'
-                : '#CDCEEC',
-            color:
-              theme.palette.mode === 'dark'
-                ? 'rgba(255,255,255,0.45)'
-                : '#fff',
-          },
-        })}
-      >
-        Submit
-      </Button>
+
+      {results.length > 0 ? (
+        <Stack spacing={1}>
+          <Typography
+            sx={{
+              fontSize: 10.5,
+              fontWeight: 800,
+              letterSpacing: 0.6,
+              textTransform: 'uppercase',
+              color: 'text.secondary',
+              px: 0.25,
+            }}
+          >
+            {results.length} match{results.length === 1 ? '' : 'es'}
+          </Typography>
+          {results.map(p => (
+            <SearchResultRow key={p.articleId} product={p} onSelect={onSelectProduct} />
+          ))}
+        </Stack>
+      ) : trimmed && !isIdLike ? (
+        <Typography
+          sx={{
+            fontSize: 12.5,
+            color: 'text.secondary',
+            textAlign: 'center',
+            py: 2,
+          }}
+        >
+          No products match “{trimmed}”. Try a different name or use the article ID.
+        </Typography>
+      ) : (
+        <Button
+          fullWidth
+          variant="contained"
+          disabled={disabled}
+          onClick={onSubmit}
+          sx={theme => ({
+            bgcolor: '#4C4DDC',
+            color: '#fff',
+            fontWeight: 700,
+            fontSize: 15,
+            letterSpacing: 0.5,
+            py: 1.5,
+            borderRadius: 1.5,
+            textTransform: 'none',
+            boxShadow: '0 6px 14px rgba(76,77,220,0.35)',
+            '&:hover': { bgcolor: '#3F40C2' },
+            '&.Mui-disabled': {
+              bgcolor:
+                theme.palette.mode === 'dark'
+                  ? 'rgba(124,92,255,0.18)'
+                  : '#CDCEEC',
+              color:
+                theme.palette.mode === 'dark'
+                  ? 'rgba(255,255,255,0.45)'
+                  : '#fff',
+            },
+          })}
+        >
+          Submit
+        </Button>
+      )}
     </Box>
   );
 }
@@ -555,7 +698,12 @@ export function ScanProductPage() {
         <Stack spacing={2.5}>
           <ScanCard onScan={() => setScannerOpen(true)} />
           <OrDivider />
-          <ManualEntryCard value={articleId} onChange={setArticleId} onSubmit={handleSubmit} />
+          <ManualEntryCard
+            value={articleId}
+            onChange={setArticleId}
+            onSubmit={handleSubmit}
+            onSelectProduct={p => goToProduct(p.articleId)}
+          />
         </Stack>
       </Box>
 

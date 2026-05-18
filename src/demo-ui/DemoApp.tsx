@@ -3,6 +3,9 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import { DemoThemeProvider } from './context/DemoThemeContext';
 import { EditModeProvider } from './context/EditModeContext';
 import { LeadsProvider } from './context/LeadsContext';
+import { AuthProvider } from './context/AuthContext';
+import { AuthGate } from './auth/AuthGate';
+import { DockProvider } from './context/DockContext';
 import { ShopAssistantProvider } from './assistant/ShopAssistantContext';
 import { ShopAssistant } from './assistant/ShopAssistant';
 import { DemoLayout } from './layouts/DemoLayout';
@@ -38,10 +41,13 @@ function ScrollToTop() {
 export default function DemoApp() {
   return (
     <DemoThemeProvider>
-      <EditModeProvider>
-        <LeadsProvider>
-          <ShopAssistantProvider>
-            <ScrollToTop />
+      <AuthProvider>
+        <AuthGate>
+          <DockProvider>
+            <EditModeProvider>
+              <LeadsProvider>
+                <ShopAssistantProvider>
+                  <ScrollToTop />
             <Routes>
               <Route
                 path="/"
@@ -155,11 +161,14 @@ export default function DemoApp() {
                   </DemoLayout>
                 }
               />
-            </Routes>
-            <ShopAssistantGate />
-          </ShopAssistantProvider>
-        </LeadsProvider>
-      </EditModeProvider>
+                  </Routes>
+                  <ShopAssistantGate />
+                </ShopAssistantProvider>
+              </LeadsProvider>
+            </EditModeProvider>
+          </DockProvider>
+        </AuthGate>
+      </AuthProvider>
     </DemoThemeProvider>
   );
 }

@@ -411,10 +411,12 @@ function HotMoments() {
 export function InsightsTab({ onLaunch }: { onLaunch: () => void }) {
   return (
     <Stack spacing={1.5}>
-      <AiSuggestions onLaunch={onLaunch} />
+      {/* Live campaign signal first — performance, channel mix, hot moments */}
       <PerformanceTrend />
-      <ChannelMixCard />
       <HotMoments />
+      <ChannelMixCard />
+      {/* Suggested campaigns push to the bottom */}
+      <AiSuggestions onLaunch={onLaunch} />
     </Stack>
   );
 }

@@ -64,18 +64,22 @@ function SuggestionItem({ item }: { item: PurchaseSuggestion }) {
           )}
         </Stack>
       </Box>
+      {/* Design-system secondary button: white bg, black border + text. */}
       <Button
         size="small"
         sx={{
           alignSelf: 'center',
-          background: tokens.gradient.aiAurora,
-          color: '#fff',
+          background: '#FFFFFF',
+          color: '#0B0F1A',
+          border: '1px solid #0B0F1A',
           fontSize: 12,
           fontWeight: 700,
+          textTransform: 'none',
           px: 1.5,
           minWidth: 84,
           height: 32,
-          '&:hover': { background: tokens.gradient.aiAurora, filter: 'brightness(1.08)' },
+          boxShadow: 'none',
+          '&:hover': { background: '#FFFFFF', filter: 'brightness(0.96)', boxShadow: 'none' },
         }}
       >
         Procure
@@ -158,13 +162,17 @@ export function PurchasePredictionTab() {
         <Button
           startIcon={<ShoppingCartCheckoutRoundedIcon />}
           sx={{
-            background: 'rgba(124,92,255,0.10)',
-            color: '#7C5CFF',
-            border: '1px solid rgba(124,139,255,0.25)',
+            background: '#FFFFFF',
+            color: '#0B0F1A',
+            border: '1px solid #0B0F1A',
             fontWeight: 700,
+            fontSize: 13,
+            textTransform: 'none',
             px: 2,
             py: 0.75,
-            '&:hover': { background: 'rgba(124,92,255,0.16)' },
+            borderRadius: 999,
+            boxShadow: 'none',
+            '&:hover': { background: '#FFFFFF', filter: 'brightness(0.96)', boxShadow: 'none' },
           }}
         >
           Start procurement for all

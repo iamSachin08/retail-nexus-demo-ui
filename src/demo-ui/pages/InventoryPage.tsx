@@ -6,15 +6,16 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { DashboardTab } from './inventory/DashboardTab';
 import { InsightsTab } from './inventory/InsightsTab';
 import { PurchasePredictionTab } from './inventory/PurchasePredictionTab';
-import { AllProductsDrawer } from './inventory/AllProductsDrawer';
+import { AllProductsTab } from './inventory/AllProductsTab';
 import { moduleTabsSx } from '../theme/tabStyles';
 
-type TabId = 'dashboard' | 'insights' | 'prediction';
+type TabId = 'dashboard' | 'insights' | 'prediction' | 'all-products';
 
 const tabConfig: { id: TabId; label: string }[] = [
   { id: 'insights', label: 'Insights' },
   { id: 'dashboard', label: 'Dashboard' },
   { id: 'prediction', label: 'Purchase Prediction' },
+  { id: 'all-products', label: 'All Products' },
 ];
 
 const tabVariants = {
@@ -26,7 +27,6 @@ const tabVariants = {
 export function InventoryPage() {
   const navigate = useNavigate();
   const [tab, setTab] = useState<TabId>('insights');
-  const [productsOpen, setProductsOpen] = useState(false);
 
   return (
     <Box sx={{ pb: 12 }}>
@@ -61,26 +61,6 @@ export function InventoryPage() {
             Inventory Management
           </Typography>
         </Box>
-        <Stack
-          direction="row"
-          onClick={() => setProductsOpen(true)}
-          sx={{
-            alignItems: 'center',
-            gap: 0.25,
-            px: 1.25,
-            py: 0.5,
-            borderRadius: 999,
-            cursor: 'pointer',
-            background: 'rgba(124,92,255,0.08)',
-            border: '1px solid rgba(124,139,255,0.25)',
-            color: '#7C5CFF',
-            '&:hover': { background: 'rgba(124,92,255,0.14)' },
-            flexShrink: 0,
-          }}
-        >
-          <Typography sx={{ fontSize: 12, fontWeight: 700 }}>All Products</Typography>
-          <Typography sx={{ fontSize: 14, fontWeight: 700, lineHeight: 1 }}>›</Typography>
-        </Stack>
       </Stack>
 
       {/* Tabs */}
@@ -112,10 +92,9 @@ export function InventoryPage() {
           {tab === 'dashboard' && <DashboardTab />}
           {tab === 'insights' && <InsightsTab />}
           {tab === 'prediction' && <PurchasePredictionTab />}
+          {tab === 'all-products' && <AllProductsTab />}
         </motion.div>
       </AnimatePresence>
-
-      <AllProductsDrawer open={productsOpen} onClose={() => setProductsOpen(false)} />
     </Box>
   );
 }

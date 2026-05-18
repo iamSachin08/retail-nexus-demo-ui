@@ -72,25 +72,28 @@ export function LeadPage() {
             Lead Management
           </Typography>
         </Box>
+        {/* Design-system secondary button: white bg, black border, black text. */}
         <Stack
           direction="row"
           onClick={() => setAddOpen(true)}
-          sx={{
+          sx={theme => ({
             alignItems: 'center',
-            gap: 0.25,
-            px: 1,
-            py: 0.35,
+            gap: 0.5,
+            px: 1.25,
+            py: 0.5,
             borderRadius: 999,
             cursor: 'pointer',
-            background: 'rgba(124,92,255,0.08)',
-            border: '1px solid rgba(124,139,255,0.25)',
-            color: '#7C5CFF',
-            '&:hover': { background: 'rgba(124,92,255,0.14)' },
+            background: theme.palette.mode === 'dark' ? '#FFFFFF' : '#FFFFFF',
+            border: `1px solid ${theme.palette.mode === 'dark' ? '#FFFFFF' : '#0B0F1A'}`,
+            color: '#0B0F1A',
+            fontWeight: 600,
+            transition: 'filter .15s ease',
+            '&:hover': { filter: 'brightness(0.96)' },
             flexShrink: 0,
-          }}
+          })}
         >
-          <Typography sx={{ fontSize: 13, fontWeight: 700, lineHeight: 1, mt: '-1px' }}>+</Typography>
-          <Typography sx={{ fontSize: 11, fontWeight: 700 }}>Add Lead</Typography>
+          <Typography sx={{ fontSize: 13, fontWeight: 700, lineHeight: 1, mt: '-1px', color: 'inherit' }}>+</Typography>
+          <Typography sx={{ fontSize: 11, fontWeight: 700, color: 'inherit' }}>Add Lead</Typography>
         </Stack>
       </Stack>
 

@@ -1,11 +1,14 @@
-import { Box, IconButton, Stack, Tooltip, Typography } from '@mui/material';
+import { Box, ButtonBase, Drawer, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import TuneRoundedIcon from '@mui/icons-material/TuneRounded';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
+import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { motion } from 'framer-motion';
+import { useState } from 'react';
 import { useDemoTheme } from '../context/DemoThemeContext';
 import { useEditMode } from '../context/EditModeContext';
+import { useAuth } from '../context/AuthContext';
 import { greetingFor } from '../utils/format';
 import { tokens } from '../theme/tokens';
 
@@ -84,9 +87,129 @@ function HeaderIconButton({
   );
 }
 
-export function HomeHeader({ ownerName = 'Sachin' }: { ownerName?: string }) {
+function ProfilePill() {
+  const { user, signOut } = useAuth();
+  const [open, setOpen] = useState(false);
+  if (!user) return null;
+
+  return (
+    <>
+      <Tooltip title="Profile">
+        <ButtonBase
+          onClick={() => setOpen(true)}
+          aria-label="Profile"
+          sx={theme => ({
+            width: 36,
+            height: 36,
+            borderRadius: 1,
+            background: tokens.gradient.aiAurora,
+            color: '#fff',
+            fontSize: 13,
+            fontWeight: 800,
+            border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.06)' : 'rgba(11,15,26,0.06)'}`,
+            '&:hover': { filter: 'brightness(1.08)' },
+          })}
+        >
+          {user.initial}
+        </ButtonBase>
+      </Tooltip>
+      <Drawer
+        anchor="bottom"
+        open={open}
+        onClose={() => setOpen(false)}
+        slotProps={{
+          backdrop: { sx: { backgroundColor: 'rgba(0,0,0,0.55)' } },
+          paper: {
+            sx: theme => ({
+              borderTopLeftRadius: 24,
+              borderTopRightRadius: 24,
+              maxHeight: '60dvh',
+              p: 2,
+              /* Solid surface — kill the default translucent paper bleed. */
+              backgroundColor: theme.palette.mode === 'dark' ? '#161618' : '#FFFFFF',
+              backgroundImage: 'none',
+              color: theme.palette.text.primary,
+              border:
+                theme.palette.mode === 'dark'
+                  ? '1px solid rgba(255,255,255,0.06)'
+                  : '1px solid rgba(11,15,26,0.06)',
+              borderBottom: 'none',
+              boxShadow:
+                theme.palette.mode === 'dark'
+                  ? '0 -20px 60px rgba(0,0,0,0.55)'
+                  : '0 -20px 60px rgba(11,15,26,0.18)',
+            }),
+          },
+        }}
+      >
+        <Stack direction="row" sx={{ alignItems: 'center', gap: 1.5, mb: 2 }}>
+          <Box
+            sx={{
+              width: 48,
+              height: 48,
+              borderRadius: 2,
+              background: tokens.gradient.aiAurora,
+              color: '#fff',
+              fontSize: 18,
+              fontWeight: 800,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0,
+            }}
+          >
+            {user.initial}
+          </Box>
+          <Box sx={{ flex: 1, minWidth: 0 }}>
+            <Typography sx={{ fontSize: 16, fontWeight: 800, letterSpacing: -0.2 }} noWrap>
+              {user.name}
+            </Typography>
+            <Typography sx={{ fontSize: 12, color: 'text.secondary' }} noWrap>
+              {user.role} · {user.storeName}
+            </Typography>
+            <Typography
+              sx={{ fontSize: 11, color: 'text.disabled', fontFamily: 'monospace', mt: 0.25 }}
+              noWrap
+            >
+              {user.email}
+            </Typography>
+          </Box>
+        </Stack>
+
+        <ButtonBase
+          onClick={() => {
+            setOpen(false);
+            signOut();
+          }}
+          sx={theme => ({
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1,
+            px: 1.75,
+            py: 1.5,
+            borderRadius: 1.5,
+            border:
+              theme.palette.mode === 'dark'
+                ? '1px solid rgba(239,68,68,0.32)'
+                : '1px solid rgba(239,68,68,0.22)',
+            color: '#EF4444',
+            '&:hover': { bgcolor: 'rgba(239,68,68,0.08)' },
+          })}
+        >
+          <LogoutRoundedIcon sx={{ fontSize: 18 }} />
+          <Typography sx={{ fontSize: 13.5, fontWeight: 700 }}>Sign out</Typography>
+        </ButtonBase>
+      </Drawer>
+    </>
+  );
+}
+
+export function HomeHeader({ ownerName }: { ownerName?: string } = {}) {
   const { mode, toggle } = useDemoTheme();
   const { editing, toggleEditing } = useEditMode();
+  const { user } = useAuth();
+  const displayName = ownerName ?? user?.name.split(' ')[0] ?? 'Sachin';
 
   return (
     <Stack
@@ -107,6 +230,7 @@ export function HomeHeader({ ownerName = 'Sachin' }: { ownerName?: string }) {
           <HeaderIconButton onClick={toggle} label="Toggle theme">
             {mode === 'dark' ? <LightModeOutlinedIcon fontSize="small" /> : <DarkModeOutlinedIcon fontSize="small" />}
           </HeaderIconButton>
+          <ProfilePill />
         </Stack>
       </Stack>
 
@@ -127,7 +251,7 @@ export function HomeHeader({ ownerName = 'Sachin' }: { ownerName?: string }) {
             lineHeight: 1.05,
           }}
         >
-          {ownerName}
+          {displayName}
           <Wave />
         </Typography>
       </Box>

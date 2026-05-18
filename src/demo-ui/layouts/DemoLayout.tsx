@@ -1,7 +1,9 @@
 import { Box, Container } from '@mui/material';
 import type { ReactNode } from 'react';
 import { surfaceBackground } from '../theme/glass';
+import { AppDock } from './AppDock';
 
+/** Demo shell — adds the bottom app-tray dock and the safe padding it needs. */
 export function DemoLayout({ children }: { children: ReactNode }) {
   return (
     <Box
@@ -10,7 +12,8 @@ export function DemoLayout({ children }: { children: ReactNode }) {
         position: 'relative',
         color: theme.palette.text.primary,
         background: surfaceBackground(theme),
-        pb: { xs: 6, md: 6 },
+        // Extra bottom padding so the fixed dock doesn't cover the last row.
+        pb: 'calc(96px + env(safe-area-inset-bottom, 0px))',
         overflowX: 'hidden',
       })}
     >
@@ -23,6 +26,7 @@ export function DemoLayout({ children }: { children: ReactNode }) {
       >
         {children}
       </Container>
+      <AppDock />
     </Box>
   );
 }

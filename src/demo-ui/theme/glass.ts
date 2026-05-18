@@ -1,5 +1,5 @@
 import type { Theme } from '@mui/material';
-import { tokens } from './tokens';
+import { tokens, shopPalette } from './tokens';
 
 export const glass = (theme: Theme, intensity: 'low' | 'mid' | 'high' = 'mid') => {
   const isDark = theme.palette.mode === 'dark';
@@ -21,10 +21,4 @@ export const glass = (theme: Theme, intensity: 'low' | 'mid' | 'high' = 'mid') =
 };
 
 export const surfaceBackground = (theme: Theme) =>
-  theme.palette.mode === 'dark'
-    ? `radial-gradient(1200px 600px at 80% -10%, rgba(124,92,255,0.18), transparent 60%),
-       radial-gradient(900px 500px at -10% 10%, rgba(54,209,220,0.12), transparent 60%),
-       linear-gradient(180deg, #070A12 0%, #060912 100%)`
-    : `radial-gradient(1200px 600px at 80% -10%, rgba(124,92,255,0.16), transparent 60%),
-       radial-gradient(900px 500px at -10% 10%, rgba(54,209,220,0.14), transparent 60%),
-       linear-gradient(180deg, #F4F6FC 0%, #EEF1F8 100%)`;
+  shopPalette(theme.palette.mode === 'dark' ? 'dark' : 'light').bg;

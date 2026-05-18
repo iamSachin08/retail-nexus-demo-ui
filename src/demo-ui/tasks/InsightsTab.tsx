@@ -1,499 +1,974 @@
-import { Box, Chip, LinearProgress, Stack, Typography } from '@mui/material';
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
-import TrendingUpRoundedIcon from '@mui/icons-material/TrendingUpRounded';
-import HourglassBottomRoundedIcon from '@mui/icons-material/HourglassBottomRounded';
-import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
-import MarkChatUnreadRoundedIcon from '@mui/icons-material/MarkChatUnreadRounded';
-import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
-import { GlassCard } from '../components/GlassCard';
-import { tokens } from '../theme/tokens';
+import { Box, ButtonBase, Stack, Typography } from '@mui/material';
+import AutoAwesomeRoundedIcon from '@mui/icons-material/AutoAwesomeRounded';
+import LocalFireDepartmentRoundedIcon from '@mui/icons-material/LocalFireDepartmentRounded';
+import EmojiEventsRoundedIcon from '@mui/icons-material/EmojiEventsRounded';
+import BoltRoundedIcon from '@mui/icons-material/BoltRounded';
+import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
+import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded';
+import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
+import { useMemo } from 'react';
+import { useShopPalette } from '../hooks/useShopPalette';
+import type { ShopPalette } from '../theme/tokens';
 import {
-  aiTaskNudges,
-  completionTrend7Days,
+  allTasks,
+  completedHistory,
   taskCategoryColor,
-  taskReports,
+  taskCategoryText,
+  tasksTotalStats,
+  type TaskDefinition,
 } from './mock';
 
-const TASKS_GRADIENT = tokens.gradient.tasks;
-
-function PromptStrip({ prompt }: { prompt: string }) {
-  return (
-    <Stack
-      direction="row"
-      sx={{
-        alignItems: 'center',
-        gap: 0.75,
-        py: 0.875,
-        mb: 1.25,
-      }}
-    >
-      <AutoAwesomeIcon sx={{ fontSize: 14, color: '#7C5CFF' }} />
-      <Typography sx={{ fontSize: 11.5, color: 'text.secondary', flex: 1, lineHeight: 1.3 }}>
-        {prompt}
-      </Typography>
-    </Stack>
-  );
+interface InsightsTabProps {
+  onOpenTask?: (task: TaskDefinition) => void;
 }
 
-function CardHeader({
-  title,
-  icon,
-  accent,
-  count,
+/* ──────────────  Today's pulse  ────────────── */
+function TodayPulseCard({
+  stats,
+  palette,
 }: {
-  title: string;
-  icon: React.ReactNode;
-  accent: string;
-  count?: number;
+  stats: ReturnType<typeof tasksTotalStats>;
+  palette: ShopPalette;
 }) {
-  return (
-    <Stack direction="row" sx={{ alignItems: 'center', gap: 1, mb: 1 }}>
-      <Box
-        sx={{
-          width: 28,
-          height: 28,
-          borderRadius: 1.5,
-          background: accent,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: '#fff',
-          '& svg': { fontSize: 16 },
-          flexShrink: 0,
-        }}
-      >
-        {icon}
-      </Box>
-      <Typography sx={{ fontSize: 15, fontWeight: 700, flex: 1 }}>{title}</Typography>
-      {typeof count === 'number' && (
-        <Box
-          sx={{
-            minWidth: 22,
-            height: 22,
-            px: 0.75,
-            borderRadius: 999,
-            background: accent,
-            color: '#fff',
-            fontSize: 11,
-            fontWeight: 800,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          {count}
-        </Box>
-      )}
-    </Stack>
-  );
-}
-
-function ConfidencePill({ level }: { level: 'high' | 'medium' | 'low' }) {
-  const map: Record<typeof level, { bg: string; color: string; label: string }> = {
-    high: { bg: 'rgba(34,197,94,0.14)', color: '#16A34A', label: 'High confidence' },
-    medium: { bg: 'rgba(245,158,11,0.16)', color: '#D97706', label: 'Medium' },
-    low: { bg: 'rgba(100,116,139,0.18)', color: '#475569', label: 'Low' },
-  };
-  const c = map[level];
+  const pct = stats.total > 0 ? Math.round((stats.complete / stats.total) * 100) : 0;
+  const r = 38;
+  const c = 2 * Math.PI * r;
+  const len = (pct / 100) * c;
   return (
     <Box
       sx={{
-        fontSize: 9.5,
-        fontWeight: 800,
-        letterSpacing: 0.4,
-        textTransform: 'uppercase',
-        px: 0.875,
-        py: 0.25,
-        borderRadius: 999,
-        bgcolor: c.bg,
-        color: c.color,
+        background: `linear-gradient(160deg, rgba(58,87,227,0.20), rgba(167,123,235,0.10) 50%, ${palette.card} 100%)`,
+        borderRadius: '28px',
+        p: 2.5,
+        border: `1px solid ${palette.hairline}`,
       }}
     >
-      {c.label}
+      <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center', gap: 1.75 }}>
+        <Box sx={{ flex: 1, minWidth: 0 }}>
+          <Stack direction="row" sx={{ alignItems: 'center', gap: 1 }}>
+            <AutoAwesomeRoundedIcon sx={{ fontSize: 14, color: palette.fg }} />
+            <Typography
+              sx={{
+                fontFamily: palette.mono,
+                fontSize: 10.5,
+                color: palette.fg,
+                letterSpacing: '0.06em',
+                textTransform: 'uppercase',
+              }}
+            >
+              TODAY · AI PULSE
+            </Typography>
+          </Stack>
+          <Typography
+            sx={{
+              mt: 1.25,
+              fontSize: 19,
+              fontWeight: 600,
+              letterSpacing: '-0.01em',
+              lineHeight: 1.3,
+              color: palette.fg,
+            }}
+          >
+            You’re tracking{' '}
+            <Box component="span" sx={{ color: palette.green }}>
+              on pace
+            </Box>{' '}
+            — keep going.
+          </Typography>
+          <Typography sx={{ mt: 1, fontSize: 12.5, color: palette.fgMuted, lineHeight: 1.5 }}>
+            {stats.complete} of {stats.total} tasks done.{' '}
+            {stats.overdue > 0 ? (
+              <Box component="span">
+                <Box component="span" sx={{ color: palette.redSoft }}>
+                  {stats.overdue} overdue
+                </Box>{' '}
+                — clear those first.
+              </Box>
+            ) : (
+              <Box component="span">No overdue items.</Box>
+            )}
+          </Typography>
+        </Box>
+
+        <Box sx={{ position: 'relative', width: 88, height: 88, flexShrink: 0 }}>
+          <svg viewBox="0 0 96 96" width="88" height="88" style={{ transform: 'rotate(-90deg)' }}>
+            <circle cx="48" cy="48" r={r} fill="none" stroke={palette.tileSoft} strokeWidth="10" />
+            <circle
+              cx="48"
+              cy="48"
+              r={r}
+              fill="none"
+              stroke={palette.green}
+              strokeWidth="10"
+              strokeLinecap="round"
+              strokeDasharray={`${len} ${c - len}`}
+            />
+          </svg>
+          <Box
+            sx={{
+              position: 'absolute',
+              inset: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Typography sx={{ fontSize: 22, fontWeight: 600, letterSpacing: '-0.02em', color: palette.fg }}>
+              {pct}%
+            </Typography>
+            <Typography
+              sx={{
+                fontFamily: palette.mono,
+                fontSize: 9,
+                color: palette.fgMuted,
+                letterSpacing: '0.06em',
+              }}
+            >
+              DONE
+            </Typography>
+          </Box>
+        </Box>
+      </Stack>
+
+      <Box
+        sx={{
+          mt: 1.75,
+          pt: 1.5,
+          borderTop: `1px solid ${palette.hairline}`,
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr 1fr',
+          gap: 1,
+        }}
+      >
+        {[
+          ['DONE', stats.complete, palette.green],
+          ['PENDING', stats.pending, palette.fg],
+          ['OVERDUE', stats.overdue, palette.redSoft],
+        ].map(([k, v, color]) => (
+          <Box key={k as string}>
+            <Typography
+              sx={{
+                fontFamily: palette.mono,
+                fontSize: 9.5,
+                color: palette.fgMuted,
+                letterSpacing: '0.06em',
+                textTransform: 'uppercase',
+              }}
+            >
+              {k as string}
+            </Typography>
+            <Typography
+              sx={{
+                fontFamily: palette.mono,
+                fontSize: 18,
+                fontWeight: 600,
+                color: color as string,
+                mt: 0.5,
+              }}
+            >
+              {v as number}
+            </Typography>
+          </Box>
+        ))}
+      </Box>
     </Box>
   );
 }
 
-function AiNudges({ onOpenReport }: { onOpenReport: (id: string) => void }) {
+/* ──────────────  AI · Impact if you complete  ────────────── */
+function AIImpactCard({ palette }: { palette: ShopPalette }) {
   return (
-    <GlassCard sx={{ p: 2 }}>
-      <CardHeader
-        title="AI nudges from your tasks"
-        icon={<AutoAwesomeIcon />}
-        accent={tokens.gradient.aiAurora}
-        count={aiTaskNudges.length}
-      />
-      <PromptStrip prompt="Patterns picked up from the last 14 days of completion data. Act on these to keep the team unblocked." />
-      <Stack spacing={1.25}>
-        {aiTaskNudges.map(n => (
-          <Box
-            key={n.id}
-            onClick={() => n.reportId && onOpenReport(n.reportId)}
-            sx={theme => ({
-              p: 1.5,
-              borderRadius: 1.75,
-              cursor: n.reportId ? 'pointer' : 'default',
-              bgcolor:
-                theme.palette.mode === 'dark'
-                  ? 'rgba(255,255,255,0.04)'
-                  : 'rgba(11,15,26,0.03)',
-              border:
-                theme.palette.mode === 'dark'
-                  ? '1px solid rgba(255,255,255,0.06)'
-                  : '1px solid rgba(11,15,26,0.05)',
-              transition: 'background .2s ease',
-              '&:hover': n.reportId
-                ? {
-                    bgcolor:
-                      theme.palette.mode === 'dark'
-                        ? 'rgba(255,255,255,0.07)'
-                        : 'rgba(11,15,26,0.05)',
-                  }
-                : undefined,
-            })}
-          >
-            <Stack
-              direction="row"
-              sx={{ alignItems: 'center', justifyContent: 'space-between', mb: 0.5 }}
-            >
-              <Typography sx={{ fontSize: 13.5, fontWeight: 700, flex: 1, mr: 1 }}>
-                {n.title}
-              </Typography>
-              <ConfidencePill level={n.confidence} />
-            </Stack>
-            <Typography sx={{ fontSize: 11.5, color: 'text.secondary', lineHeight: 1.5, mb: 1 }}>
-              {n.body}
-            </Typography>
-            <Stack direction="row" sx={{ alignItems: 'center' }}>
-              <Box sx={{ flex: 1 }} />
-              <Stack
-                direction="row"
-                sx={{
-                  alignItems: 'center',
-                  gap: 0.5,
-                  px: 1.25,
-                  py: 0.5,
-                  borderRadius: 999,
-                  background: TASKS_GRADIENT,
-                  color: '#fff',
-                  fontSize: 11.5,
-                  fontWeight: 800,
-                  boxShadow: '0 4px 10px rgba(124,92,255,0.32)',
-                }}
-              >
-                {n.action}
-                <ArrowForwardRoundedIcon sx={{ fontSize: 13 }} />
-              </Stack>
-            </Stack>
-          </Box>
-        ))}
-      </Stack>
-    </GlassCard>
-  );
-}
-
-function CompletionTrend() {
-  const w = 100;
-  const h = 40;
-  const pts = completionTrend7Days
-    .map((p, i) => `${(i * w) / (completionTrend7Days.length - 1)},${h - (p.pct / 100) * h}`)
-    .join(' ');
-  const avg = Math.round(
-    completionTrend7Days.reduce((a, b) => a + b.pct, 0) / completionTrend7Days.length,
-  );
-  const bestDay = completionTrend7Days.reduce((a, b) => (b.pct > a.pct ? b : a));
-  const worstDay = completionTrend7Days.reduce((a, b) => (b.pct < a.pct ? b : a));
-
-  return (
-    <GlassCard sx={{ p: 2 }}>
-      <CardHeader
-        title="7-day completion trend"
-        icon={<TrendingUpRoundedIcon />}
-        accent={TASKS_GRADIENT}
-      />
-      <PromptStrip prompt="Average daily completion across all assigned tasks for the last 7 days." />
-
-      <Stack direction="row" sx={{ gap: 1.5, mb: 1.5 }}>
-        <Box sx={{ flex: 1 }}>
-          <Typography
-            sx={{ fontSize: 10, fontWeight: 800, letterSpacing: 0.5, color: 'text.disabled' }}
-          >
-            AVG. COMPLETION
-          </Typography>
-          <Typography sx={{ fontSize: 17, fontWeight: 800 }}>{avg}%</Typography>
-        </Box>
-        <Box sx={{ flex: 1 }}>
-          <Typography
-            sx={{ fontSize: 10, fontWeight: 800, letterSpacing: 0.5, color: 'text.disabled' }}
-          >
-            BEST DAY
-          </Typography>
-          <Typography sx={{ fontSize: 17, fontWeight: 800, color: '#22C55E' }}>
-            {bestDay.day} · {bestDay.pct}%
-          </Typography>
-        </Box>
-        <Box sx={{ flex: 1 }}>
-          <Typography
-            sx={{ fontSize: 10, fontWeight: 800, letterSpacing: 0.5, color: 'text.disabled' }}
-          >
-            WEAKEST
-          </Typography>
-          <Typography sx={{ fontSize: 17, fontWeight: 800, color: '#EF4444' }}>
-            {worstDay.day} · {worstDay.pct}%
-          </Typography>
-        </Box>
+    <Box
+      sx={{
+        background: `linear-gradient(160deg, rgba(167,123,235,0.18), rgba(106,120,230,0.08) 60%, ${palette.card} 100%)`,
+        border: `1px solid ${palette.hairline}`,
+        borderRadius: '28px',
+        p: 2.25,
+      }}
+    >
+      <Stack direction="row" sx={{ alignItems: 'center', gap: 1 }}>
+        <AutoAwesomeRoundedIcon sx={{ fontSize: 14, color: palette.fg }} />
+        <Typography
+          sx={{
+            fontFamily: palette.mono,
+            fontSize: 10.5,
+            color: palette.fg,
+            letterSpacing: '0.06em',
+            textTransform: 'uppercase',
+          }}
+        >
+          AI · IMPACT IF YOU COMPLETE
+        </Typography>
       </Stack>
 
-      <Box>
-        <svg viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" width="100%" height={90}>
-          <polyline points={pts} fill="none" stroke="#7C5CFF" strokeWidth="1.5" />
-          <line
-            x1="0"
-            x2={w}
-            y1={h - (avg / 100) * h}
-            y2={h - (avg / 100) * h}
-            stroke="#22C55E"
-            strokeWidth="0.6"
-            strokeDasharray="1.5 1.5"
-          />
-        </svg>
+      <Box sx={{ mt: 1.75, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1.75 }}>
+        <Box>
+          <Typography
+            sx={{
+              fontFamily: palette.mono,
+              fontSize: 10.5,
+              color: palette.fgMuted,
+              letterSpacing: '0.06em',
+              textTransform: 'uppercase',
+            }}
+          >
+            REVENUE PROTECTED
+          </Typography>
+          <Typography
+            sx={{
+              fontFamily: palette.mono,
+              fontSize: 24,
+              fontWeight: 600,
+              color: palette.green,
+              mt: 0.5,
+              letterSpacing: '-0.01em',
+            }}
+          >
+            ₹1.42L
+          </Typography>
+        </Box>
+        <Box>
+          <Typography
+            sx={{
+              fontFamily: palette.mono,
+              fontSize: 10.5,
+              color: palette.fgMuted,
+              letterSpacing: '0.06em',
+              textTransform: 'uppercase',
+            }}
+          >
+            LIFT IN STORE HEALTH
+          </Typography>
+          <Typography
+            sx={{
+              fontFamily: palette.mono,
+              fontSize: 22,
+              fontWeight: 600,
+              color: palette.fg,
+              mt: 0.5,
+              letterSpacing: '-0.01em',
+            }}
+          >
+            +12 pts
+          </Typography>
+        </Box>
       </Box>
-      <Stack direction="row" sx={{ gap: 1.5, mt: 1 }}>
-        <Stack direction="row" sx={{ alignItems: 'center', gap: 0.5 }}>
-          <Box sx={{ width: 10, height: 2, bgcolor: '#7C5CFF', borderRadius: 1 }} />
-          <Typography sx={{ fontSize: 10.5, color: 'text.secondary', fontWeight: 700 }}>
-            Daily completion
-          </Typography>
-        </Stack>
-        <Stack direction="row" sx={{ alignItems: 'center', gap: 0.5 }}>
-          <Box sx={{ width: 10, height: 2, borderTop: '2px dashed #22C55E', borderRadius: 1 }} />
-          <Typography sx={{ fontSize: 10.5, color: 'text.secondary', fontWeight: 700 }}>
-            7-day avg
-          </Typography>
-        </Stack>
-      </Stack>
-    </GlassCard>
+
+      <Typography sx={{ mt: 1.75, fontSize: 12.5, color: palette.fgMuted, lineHeight: 1.5 }}>
+        Hot-lead callbacks &amp; EOD reconciliation are the highest-leverage tasks pending today.
+      </Typography>
+    </Box>
   );
 }
 
-function statusChipStyle(status: 'overdue' | 'awaiting') {
-  if (status === 'overdue')
-    return {
-      bg: 'rgba(239,68,68,0.16)',
-      color: '#DC2626',
-      label: 'OVERDUE',
-    };
-  return {
-    bg: 'rgba(245,158,11,0.16)',
-    color: '#D97706',
-    label: 'AWAITING',
-  };
-}
+/* ──────────────  Do these next — top 3 ranked  ────────────── */
+function DoTheseNextCard({
+  tasks,
+  onOpenTask,
+  palette,
+}: {
+  tasks: TaskDefinition[];
+  onOpenTask?: (t: TaskDefinition) => void;
+  palette: ShopPalette;
+}) {
+  const ranked = useMemo(() => {
+    const score = (t: TaskDefinition) =>
+      (t.overdue ? 100 : 0) +
+      (t.priority === 'high' ? 50 : t.priority === 'medium' ? 20 : 5) +
+      (t.status === 'PARTIAL' ? 10 : 0);
+    return [...tasks]
+      .filter(t => t.status !== 'COMPLETE')
+      .sort((a, b) => score(b) - score(a))
+      .slice(0, 3);
+  }, [tasks]);
 
-function NeedsAttentionCard({ onOpenReport }: { onOpenReport: (id: string) => void }) {
-  const items = taskReports.filter(r => r.status === 'overdue' || r.status === 'awaiting');
   return (
-    <GlassCard sx={{ p: 2 }}>
-      <CardHeader
-        title="Reports that need attention"
-        icon={<WarningAmberRoundedIcon />}
-        accent={tokens.gradient.risk}
-        count={items.length}
-      />
-      <PromptStrip prompt="Tasks that haven’t been reported on time. Ping Rohit, or open the task to comment." />
-      <Stack divider={<Box sx={{ height: 1, background: 'divider' }} />}>
-        {items.map(r => {
-          const chip = statusChipStyle(r.status === 'overdue' ? 'overdue' : 'awaiting');
+    <Box
+      sx={{
+        background: palette.card,
+        border: `1px solid ${palette.hairline}`,
+        borderRadius: '28px',
+        p: 2.25,
+      }}
+    >
+      <Stack direction="row" sx={{ alignItems: 'center', gap: 1 }}>
+        <BoltRoundedIcon sx={{ fontSize: 14, color: palette.amber }} />
+        <Typography
+          sx={{
+            fontFamily: palette.mono,
+            fontSize: 10.5,
+            color: palette.fg,
+            letterSpacing: '0.06em',
+            textTransform: 'uppercase',
+          }}
+        >
+          AI · DO THESE NEXT
+        </Typography>
+      </Stack>
+      <Typography sx={{ mt: 0.75, fontSize: 12.5, color: palette.fgMuted, lineHeight: 1.45 }}>
+        Highest leverage 3 — together protect ~₹1.2L today.
+      </Typography>
+
+      <Stack spacing={1} sx={{ mt: 1.75 }}>
+        {ranked.map((t, i) => {
+          const color = taskCategoryColor[t.category];
+          const text = taskCategoryText[t.category];
           return (
-            <Stack
-              key={r.id}
-              direction="row"
-              onClick={() => onOpenReport(r.id)}
+            <ButtonBase
+              key={t.id}
+              onClick={() => onOpenTask?.(t)}
               sx={{
+                width: '100%',
+                textAlign: 'left',
+                background: palette.card2,
+                borderRadius: '12px',
+                px: 1.75,
+                py: 1.5,
+                display: 'flex',
                 alignItems: 'center',
-                gap: 1,
-                py: 1.25,
-                cursor: 'pointer',
-                '&:hover': { opacity: 0.85 },
+                gap: 1.5,
               }}
             >
               <Box
                 sx={{
-                  width: 6,
-                  borderRadius: 999,
-                  alignSelf: 'stretch',
-                  bgcolor: taskCategoryColor[r.category],
+                  width: 26,
+                  height: 26,
+                  borderRadius: '8px',
+                  background: palette.tileSoft,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontFamily: palette.mono,
+                  fontSize: 11,
+                  fontWeight: 700,
+                  color: palette.fg,
+                  flexShrink: 0,
                 }}
-              />
-              <Box sx={{ flex: 1, minWidth: 0 }}>
-                <Stack direction="row" sx={{ alignItems: 'center', gap: 0.75, mb: 0.25 }}>
-                  <Typography sx={{ fontSize: 13, fontWeight: 700 }}>{r.taskTitle}</Typography>
-                  <Typography sx={{ fontSize: 10.5, color: 'text.disabled' }}>
-                    · {r.frequency}
-                  </Typography>
-                </Stack>
-                <Typography sx={{ fontSize: 11.5, color: 'text.secondary' }}>
-                  {r.periodLabel} · {r.summary}
-                </Typography>
+              >
+                {i + 1}
               </Box>
-              <Chip
-                size="small"
-                label={chip.label}
-                sx={{
-                  height: 18,
-                  fontSize: 9,
-                  fontWeight: 800,
-                  letterSpacing: 0.5,
-                  bgcolor: chip.bg,
-                  color: chip.color,
-                  '& .MuiChip-label': { px: 0.75 },
-                }}
-              />
-            </Stack>
+              <Box sx={{ flex: 1, minWidth: 0 }}>
+                <Typography
+                  sx={{
+                    fontSize: 13.5,
+                    fontWeight: 500,
+                    color: palette.fg,
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                  }}
+                >
+                  {t.title}
+                </Typography>
+                <Stack
+                  direction="row"
+                  sx={{
+                    mt: 0.5,
+                    alignItems: 'center',
+                    gap: 1,
+                    fontFamily: palette.mono,
+                    fontSize: 10.5,
+                    color: palette.fgMuted,
+                    letterSpacing: '0.04em',
+                  }}
+                >
+                  <Stack
+                    component="span"
+                    direction="row"
+                    sx={{ alignItems: 'center', gap: 0.5, color: text }}
+                  >
+                    <Box sx={{ width: 5, height: 5, borderRadius: 999, background: color }} />
+                    {t.category.toUpperCase()}
+                  </Stack>
+                  <Typography component="span" sx={{ fontFamily: palette.mono, fontSize: 10.5 }}>
+                    ·
+                  </Typography>
+                  <Typography component="span" sx={{ fontFamily: palette.mono, fontSize: 10.5 }}>
+                    {t.duration ?? `${t.expectedMins} min`}
+                  </Typography>
+                  {t.overdue && (
+                    <>
+                      <Typography component="span" sx={{ fontFamily: palette.mono, fontSize: 10.5 }}>
+                        ·
+                      </Typography>
+                      <Typography
+                        component="span"
+                        sx={{
+                          fontFamily: palette.mono,
+                          fontSize: 10.5,
+                          color: palette.redSoft,
+                          fontWeight: 700,
+                        }}
+                      >
+                        OVERDUE
+                      </Typography>
+                    </>
+                  )}
+                </Stack>
+              </Box>
+              <ChevronRightRoundedIcon sx={{ fontSize: 18, color: palette.fg }} />
+            </ButtonBase>
           );
         })}
       </Stack>
-    </GlassCard>
+    </Box>
   );
 }
 
-function RecentSubmissionsCard({ onOpenReport }: { onOpenReport: (id: string) => void }) {
-  const items = taskReports
-    .filter(r => r.status === 'submitted')
-    .slice(0, 4);
+/* ──────────────  Streak card  ────────────── */
+function StreakCard({ palette }: { palette: ShopPalette }) {
+  const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+  const counts = [9, 11, 8, 12, 10, 14, 6];
+  const target = 12;
+  const max = Math.max(...counts, target) + 2;
+  const W = 280;
+  const H = 84;
+  const padX = 6;
+  const barW = ((W - padX * 2) / counts.length) * 0.62;
+  const stepX = (W - padX * 2) / counts.length;
+
   return (
-    <GlassCard sx={{ p: 2 }}>
-      <CardHeader
-        title="Recent submissions"
-        icon={<HourglassBottomRoundedIcon />}
-        accent={tokens.gradient.sales}
-        count={items.length}
-      />
-      <PromptStrip prompt="Latest completion reports from Rohit. Tap to read, comment, or follow up." />
-      <Stack spacing={1.25}>
-        {items.map(r => (
-          <Box
-            key={r.id}
-            onClick={() => onOpenReport(r.id)}
-            sx={theme => ({
-              p: 1.5,
-              borderRadius: 1.75,
-              cursor: 'pointer',
-              bgcolor:
-                theme.palette.mode === 'dark'
-                  ? 'rgba(255,255,255,0.04)'
-                  : 'rgba(11,15,26,0.03)',
-              border:
-                theme.palette.mode === 'dark'
-                  ? '1px solid rgba(255,255,255,0.06)'
-                  : '1px solid rgba(11,15,26,0.05)',
-              '&:hover': {
-                bgcolor:
-                  theme.palette.mode === 'dark'
-                    ? 'rgba(255,255,255,0.07)'
-                    : 'rgba(11,15,26,0.05)',
-              },
-            })}
-          >
-            <Stack
-              direction="row"
-              sx={{ alignItems: 'center', mb: 0.5, gap: 1, justifyContent: 'space-between' }}
-            >
-              <Stack direction="row" sx={{ alignItems: 'center', gap: 0.75, flex: 1, minWidth: 0 }}>
-                <Box
-                  sx={{
-                    width: 6,
-                    height: 6,
-                    borderRadius: '50%',
-                    bgcolor: taskCategoryColor[r.category],
-                  }}
-                />
-                <Typography sx={{ fontSize: 13.5, fontWeight: 700 }}>{r.taskTitle}</Typography>
-                {!r.ownerSeen && (
-                  <Box
-                    sx={{
-                      px: 0.75,
-                      py: 0.125,
-                      borderRadius: 999,
-                      bgcolor: 'rgba(124,92,255,0.16)',
-                      color: '#7C5CFF',
-                      fontSize: 9,
-                      fontWeight: 800,
-                      letterSpacing: 0.5,
-                    }}
-                  >
-                    NEW
-                  </Box>
-                )}
-              </Stack>
-              <Typography sx={{ fontSize: 10.5, color: 'text.disabled' }}>
-                {r.submittedAt}
-              </Typography>
-            </Stack>
+    <Box
+      sx={{
+        background: palette.card,
+        border: `1px solid ${palette.hairline}`,
+        borderRadius: '28px',
+        p: 2.25,
+      }}
+    >
+      <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'flex-start' }}>
+        <Box>
+          <Stack direction="row" sx={{ alignItems: 'center', gap: 1 }}>
+            <LocalFireDepartmentRoundedIcon sx={{ fontSize: 14, color: palette.amber }} />
             <Typography
               sx={{
-                fontSize: 12,
-                color: 'text.secondary',
-                lineHeight: 1.45,
-                mb: 1,
-                display: '-webkit-box',
-                WebkitLineClamp: 2,
-                WebkitBoxOrient: 'vertical',
-                overflow: 'hidden',
+                fontFamily: palette.mono,
+                fontSize: 10.5,
+                color: palette.fg,
+                letterSpacing: '0.06em',
+                textTransform: 'uppercase',
               }}
             >
-              {r.summary}
+              7-DAY STREAK
             </Typography>
-            <Stack direction="row" sx={{ alignItems: 'center', gap: 1 }}>
-              <Box sx={{ flex: 1 }}>
-                <LinearProgress
-                  variant="determinate"
-                  value={r.completionPct}
-                  sx={theme => ({
-                    height: 5,
-                    borderRadius: 999,
-                    bgcolor:
-                      theme.palette.mode === 'dark'
-                        ? 'rgba(255,255,255,0.06)'
-                        : 'rgba(11,15,26,0.06)',
-                    '& .MuiLinearProgress-bar': {
-                      borderRadius: 999,
-                      bgcolor:
-                        r.completionPct >= 90
-                          ? '#22C55E'
-                          : r.completionPct >= 70
-                            ? '#F59E0B'
-                            : '#EF4444',
-                    },
-                  })}
-                />
-              </Box>
-              <Typography sx={{ fontSize: 11, fontWeight: 800, minWidth: 36, textAlign: 'right' }}>
-                {r.completionPct}%
+          </Stack>
+          <Stack direction="row" sx={{ mt: 1, alignItems: 'baseline', gap: 0.75 }}>
+            <Typography
+              sx={{
+                fontFamily: palette.mono,
+                fontSize: 28,
+                fontWeight: 600,
+                color: palette.fg,
+                letterSpacing: '-0.02em',
+              }}
+            >
+              6
+            </Typography>
+            <Typography
+              sx={{
+                fontFamily: palette.mono,
+                fontSize: 11,
+                color: palette.fgMuted,
+                letterSpacing: '0.06em',
+              }}
+            >
+              DAYS
+            </Typography>
+          </Stack>
+          <Typography
+            sx={{
+              mt: 0.5,
+              fontFamily: palette.mono,
+              fontSize: 10.5,
+              color: palette.green,
+              letterSpacing: '0.06em',
+              textTransform: 'uppercase',
+            }}
+          >
+            HIT DAILY TARGET 6 / 7
+          </Typography>
+        </Box>
+        <Box sx={{ textAlign: 'right' }}>
+          <Typography
+            sx={{
+              fontFamily: palette.mono,
+              fontSize: 9.5,
+              color: palette.fgMuted,
+              letterSpacing: '0.06em',
+              textTransform: 'uppercase',
+            }}
+          >
+            DAILY TARGET
+          </Typography>
+          <Typography
+            sx={{
+              fontFamily: palette.mono,
+              fontSize: 14,
+              fontWeight: 600,
+              color: palette.fg,
+              mt: 0.5,
+            }}
+          >
+            {target}
+          </Typography>
+          <Typography
+            sx={{
+              fontFamily: palette.mono,
+              fontSize: 10,
+              color: palette.fgMuted,
+              mt: 0.75,
+              letterSpacing: '0.06em',
+              textTransform: 'uppercase',
+            }}
+          >
+            TASKS / DAY
+          </Typography>
+        </Box>
+      </Stack>
+
+      <svg
+        viewBox={`0 0 ${W} ${H}`}
+        style={{ width: '100%', height: 84, marginTop: 12, display: 'block', overflow: 'visible' }}
+      >
+        <line
+          x1={padX}
+          x2={W - padX}
+          y1={H - 12 - (target / max) * (H - 20)}
+          y2={H - 12 - (target / max) * (H - 20)}
+          stroke={palette.fgMuted}
+          strokeOpacity={0.5}
+          strokeWidth="1"
+          strokeDasharray="3 3"
+        />
+        {counts.map((v, i) => {
+          const h = (v / max) * (H - 20);
+          const x = padX + i * stepX + (stepX - barW) / 2;
+          const isToday = i === counts.length - 1;
+          const hitTarget = v >= target;
+          return (
+            <g key={i}>
+              <rect
+                x={x}
+                y={H - 12 - h}
+                width={barW}
+                height={h}
+                rx="3"
+                fill={isToday ? palette.fg : hitTarget ? palette.green : palette.tileSoft}
+              />
+              <text
+                x={x + barW / 2}
+                y={H - 1}
+                fontFamily={palette.mono}
+                fontSize="9.5"
+                fill={isToday ? palette.fg : palette.fgMuted}
+                textAnchor="middle"
+              >
+                {days[i]}
+              </text>
+            </g>
+          );
+        })}
+      </svg>
+    </Box>
+  );
+}
+
+/* ──────────────  Recently completed  ────────────── */
+function CompletedRow({
+  item,
+  palette,
+}: {
+  item: (typeof completedHistory)[number];
+  palette: ShopPalette;
+}) {
+  const color = taskCategoryColor[item.category];
+  const text = taskCategoryText[item.category];
+  return (
+    <Box
+      sx={{
+        display: 'grid',
+        gridTemplateColumns: '28px 1fr auto',
+        gap: 1.5,
+        alignItems: 'flex-start',
+        px: 1.75,
+        py: 1.5,
+        background: palette.card2,
+        borderRadius: '12px',
+        border: `1px solid ${palette.hairline}`,
+      }}
+    >
+      <Box
+        sx={{
+          width: 26,
+          height: 26,
+          borderRadius: 999,
+          background: 'rgba(79,203,124,0.16)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexShrink: 0,
+        }}
+      >
+        <CheckRoundedIcon sx={{ fontSize: 14, color: palette.green }} />
+      </Box>
+      <Box sx={{ minWidth: 0 }}>
+        <Typography
+          sx={{
+            fontSize: 13.5,
+            fontWeight: 500,
+            color: palette.fg,
+            textDecoration: 'line-through',
+            textDecorationColor: 'rgba(127,127,127,0.45)',
+          }}
+        >
+          {item.title}
+        </Typography>
+        <Stack
+          direction="row"
+          sx={{
+            mt: 0.5,
+            alignItems: 'center',
+            gap: 1,
+            flexWrap: 'wrap',
+            fontFamily: palette.mono,
+            fontSize: 10.5,
+            color: palette.fgMuted,
+            letterSpacing: '0.04em',
+          }}
+        >
+          <Stack component="span" direction="row" sx={{ alignItems: 'center', gap: 0.5, color: text }}>
+            <Box sx={{ width: 5, height: 5, borderRadius: 999, background: color }} />
+            {item.category.toUpperCase()}
+          </Stack>
+          <Typography component="span" sx={{ fontFamily: palette.mono, fontSize: 10.5 }}>
+            · {item.when}
+          </Typography>
+          <Typography component="span" sx={{ fontFamily: palette.mono, fontSize: 10.5 }}>
+            · {item.by}
+          </Typography>
+        </Stack>
+        <Typography sx={{ mt: 0.75, fontSize: 11.5, color: palette.green }}>{item.impact}</Typography>
+      </Box>
+      <Stack
+        direction="row"
+        sx={{
+          alignItems: 'center',
+          gap: 0.5,
+          fontFamily: palette.mono,
+          fontSize: 10.5,
+          color: palette.fg,
+          opacity: 0.85,
+          letterSpacing: '0.04em',
+          flexShrink: 0,
+        }}
+      >
+        <AccessTimeRoundedIcon sx={{ fontSize: 12, color: palette.fgMuted }} />
+        {item.duration}
+      </Stack>
+    </Box>
+  );
+}
+
+function RecentlyCompletedCard({ palette }: { palette: ShopPalette }) {
+  const today = completedHistory.filter(h => h.when.startsWith('Today'));
+  const yesterday = completedHistory.filter(h => h.when.startsWith('Yesterday'));
+  const earlier = completedHistory.filter(
+    h => !h.when.startsWith('Today') && !h.when.startsWith('Yesterday'),
+  );
+  const groups: Array<[string, typeof completedHistory]> = [
+    ['TODAY', today],
+    ['YESTERDAY', yesterday],
+    ['EARLIER', earlier],
+  ];
+  return (
+    <Box
+      sx={{
+        background: palette.card,
+        border: `1px solid ${palette.hairline}`,
+        borderRadius: '28px',
+        p: 2.25,
+      }}
+    >
+      <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'flex-start' }}>
+        <Box>
+          <Stack direction="row" sx={{ alignItems: 'center', gap: 1 }}>
+            <EmojiEventsRoundedIcon sx={{ fontSize: 14, color: palette.green }} />
+            <Typography
+              sx={{
+                fontFamily: palette.mono,
+                fontSize: 10.5,
+                color: palette.fg,
+                letterSpacing: '0.06em',
+                textTransform: 'uppercase',
+              }}
+            >
+              RECENTLY COMPLETED
+            </Typography>
+          </Stack>
+          <Typography
+            sx={{
+              mt: 0.75,
+              fontFamily: palette.mono,
+              fontSize: 11,
+              color: palette.fgMuted,
+              letterSpacing: '0.04em',
+              textTransform: 'uppercase',
+            }}
+          >
+            {completedHistory.length} TASKS · LAST 5 DAYS
+          </Typography>
+        </Box>
+        <ButtonBase
+          sx={{
+            background: 'transparent',
+            border: `1px solid ${palette.hairline}`,
+            color: palette.fg,
+            borderRadius: 999,
+            px: 1.5,
+            py: 0.75,
+            fontFamily: palette.mono,
+            fontSize: 10.5,
+            letterSpacing: '0.08em',
+            fontWeight: 700,
+            textTransform: 'uppercase',
+          }}
+        >
+          See all
+        </ButtonBase>
+      </Stack>
+
+      <Stack spacing={1.75} sx={{ mt: 1.75 }}>
+        {groups.map(([label, rows]) =>
+          rows.length > 0 ? (
+            <Stack key={label} spacing={1}>
+              <Typography
+                sx={{
+                  fontFamily: palette.mono,
+                  fontSize: 9.5,
+                  color: palette.fgMuted,
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                }}
+              >
+                {label} · {rows.length}
               </Typography>
-              {r.comments.length > 0 && (
-                <Stack direction="row" sx={{ alignItems: 'center', gap: 0.25, color: 'text.secondary' }}>
-                  <MarkChatUnreadRoundedIcon sx={{ fontSize: 13 }} />
-                  <Typography sx={{ fontSize: 11, fontWeight: 700 }}>
-                    {r.comments.length}
-                  </Typography>
-                </Stack>
-              )}
+              <Stack spacing={1}>
+                {rows.map(r => (
+                  <CompletedRow key={r.id} item={r} palette={palette} />
+                ))}
+              </Stack>
             </Stack>
+          ) : null,
+        )}
+      </Stack>
+    </Box>
+  );
+}
+
+/* ──────────────  Patterns spotted  ────────────── */
+function PatternsCard({ palette }: { palette: ShopPalette }) {
+  const items = [
+    {
+      title: 'Hygiene tasks slipping after 4 PM',
+      body: '3 of last 5 days, Hygiene tasks pushed to next morning. Try slotting them before lunch.',
+      tone: palette.amber,
+    },
+    {
+      title: 'Cash reconciliation is faster on Tue/Thu',
+      body: 'Avg 6 min vs 11 min on other days. Worth investigating Rohit’s Tue/Thu routine.',
+      tone: palette.green,
+    },
+    {
+      title: 'Reporting is your most reliable zone',
+      body: '100% on-time for 14 days. Use this as the morale anchor at huddle.',
+      tone: palette.tileBlue,
+    },
+  ];
+  return (
+    <Box
+      sx={{
+        background: palette.card,
+        border: `1px solid ${palette.hairline}`,
+        borderRadius: '28px',
+        p: 2.25,
+      }}
+    >
+      <Stack direction="row" sx={{ alignItems: 'center', gap: 1 }}>
+        <AutoAwesomeRoundedIcon sx={{ fontSize: 14, color: '#9CA8FF' }} />
+        <Typography
+          sx={{
+            fontFamily: palette.mono,
+            fontSize: 10.5,
+            color: palette.fg,
+            letterSpacing: '0.06em',
+            textTransform: 'uppercase',
+          }}
+        >
+          AI · PATTERNS SPOTTED
+        </Typography>
+      </Stack>
+
+      <Stack spacing={1.5} sx={{ mt: 1.75 }}>
+        {items.map(p => (
+          <Box
+            key={p.title}
+            sx={{
+              background: palette.card2,
+              borderRadius: '12px',
+              p: 1.75,
+              borderLeft: `2px solid ${p.tone}`,
+            }}
+          >
+            <Typography sx={{ fontSize: 13, fontWeight: 600, color: palette.fg }}>
+              {p.title}
+            </Typography>
+            <Typography sx={{ mt: 0.5, fontSize: 12, color: palette.fgMuted, lineHeight: 1.5 }}>
+              {p.body}
+            </Typography>
           </Box>
         ))}
       </Stack>
-    </GlassCard>
+    </Box>
   );
 }
 
-export function InsightsTab({ onOpenReport }: { onOpenReport: (id: string) => void }) {
+/* ──────────────  Top performers  ────────────── */
+function TopPerformersCard({ palette }: { palette: ShopPalette }) {
+  const rows = [
+    { name: 'Rohit', role: 'Manager', done: 8, color: palette.green },
+    { name: 'Ashish', role: 'Sales', done: 6, color: palette.tilePurple },
+    { name: 'Suresh', role: 'Floor', done: 5, color: palette.tileBlue },
+    { name: 'Lakshmi', role: 'Housekeeping', done: 3, color: palette.amber },
+  ];
+  const max = Math.max(...rows.map(r => r.done));
   return (
-    <Stack spacing={1.5}>
-      <AiNudges onOpenReport={onOpenReport} />
-      <CompletionTrend />
-      <NeedsAttentionCard onOpenReport={onOpenReport} />
-      <RecentSubmissionsCard onOpenReport={onOpenReport} />
+    <Box
+      sx={{
+        background: palette.card,
+        border: `1px solid ${palette.hairline}`,
+        borderRadius: '28px',
+        p: 2.25,
+      }}
+    >
+      <Stack direction="row" sx={{ alignItems: 'center', gap: 1 }}>
+        <EmojiEventsRoundedIcon sx={{ fontSize: 14, color: palette.amber }} />
+        <Typography
+          sx={{
+            fontFamily: palette.mono,
+            fontSize: 10.5,
+            color: palette.fg,
+            letterSpacing: '0.06em',
+            textTransform: 'uppercase',
+          }}
+        >
+          TOP PERFORMERS · THIS WEEK
+        </Typography>
+      </Stack>
+
+      <Stack spacing={1.5} sx={{ mt: 1.75 }}>
+        {rows.map(r => (
+          <Box key={r.name}>
+            <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
+              <Stack direction="row" sx={{ alignItems: 'center', gap: 1.25 }}>
+                <Box
+                  sx={{
+                    width: 28,
+                    height: 28,
+                    borderRadius: '8px',
+                    background: palette.tileSoft,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontFamily: palette.mono,
+                    fontSize: 11,
+                    fontWeight: 700,
+                    color: palette.fg,
+                  }}
+                >
+                  {r.name[0]}
+                  {r.role[0]}
+                </Box>
+                <Box>
+                  <Typography sx={{ fontSize: 13.5, fontWeight: 500, color: palette.fg }}>
+                    {r.name}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontFamily: palette.mono,
+                      fontSize: 10.5,
+                      color: palette.fgMuted,
+                      letterSpacing: '0.04em',
+                      textTransform: 'uppercase',
+                    }}
+                  >
+                    {r.role}
+                  </Typography>
+                </Box>
+              </Stack>
+              <Typography
+                sx={{ fontFamily: palette.mono, fontSize: 14, fontWeight: 600, color: palette.fg }}
+              >
+                {r.done}
+                <Box component="span" sx={{ color: palette.fgMuted, fontWeight: 500 }}>
+                  {' '}
+                  done
+                </Box>
+              </Typography>
+            </Stack>
+            <Box
+              sx={{
+                mt: 0.75,
+                height: 4,
+                borderRadius: 999,
+                background: palette.tileSoft,
+                overflow: 'hidden',
+              }}
+            >
+              <Box
+                sx={{
+                  width: `${(r.done / max) * 100}%`,
+                  height: '100%',
+                  background: r.color,
+                  borderRadius: 999,
+                }}
+              />
+            </Box>
+          </Box>
+        ))}
+      </Stack>
+    </Box>
+  );
+}
+
+export function InsightsTab({ onOpenTask }: InsightsTabProps) {
+  const palette = useShopPalette();
+  const stats = useMemo(tasksTotalStats, []);
+
+  const formattedDate = new Date()
+    .toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' })
+    .toUpperCase();
+
+  return (
+    <Stack spacing={2}>
+      <Typography
+        sx={{
+          fontFamily: palette.mono,
+          fontSize: 11,
+          color: palette.fgMuted,
+          letterSpacing: '0.08em',
+          px: 0.5,
+        }}
+      >
+        UPDATED JUST NOW · {formattedDate}
+      </Typography>
+      <TodayPulseCard stats={stats} palette={palette} />
+      <AIImpactCard palette={palette} />
+      <DoTheseNextCard tasks={allTasks} onOpenTask={onOpenTask} palette={palette} />
+      <StreakCard palette={palette} />
+      <RecentlyCompletedCard palette={palette} />
+      <PatternsCard palette={palette} />
+      <TopPerformersCard palette={palette} />
     </Stack>
   );
 }

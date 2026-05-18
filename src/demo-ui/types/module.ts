@@ -10,10 +10,9 @@ export interface TileSpan {
 }
 
 export const TILE_SPANS: Record<TileSize, TileSpan> = {
-  // small is the same width as medium so any size combo lines up cleanly
-  // and the user never sees a too-narrow tile next to a medium.
-  // The "small" label still controls content density (compact launcher vs. rich KPI).
-  small: { xs: 6, sm: 6, md: 4, aspect: 1 },
+  // iPhone-style app-icon size: 4 small tiles per row (3/12 columns).
+  // Spans align cleanly with medium (6/12) and large (12/12) for any mix.
+  small: { xs: 3, sm: 3, md: 3, aspect: 1 },
   medium: { xs: 6, sm: 6, md: 6, aspect: 1 },
   large: { xs: 12, sm: 12, md: 12, aspect: 0.55 },
 };

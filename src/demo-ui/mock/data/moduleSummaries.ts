@@ -57,7 +57,6 @@ export const moduleSummaries: Record<string, ModuleSummary> = {
     needsAttention: false,
   },
   campaigns: {
-    badge: 3,
     liveCount: 3,
     primaryLabel: 'LIVE',
     performance: { value: '124', label: 'LEADS' },

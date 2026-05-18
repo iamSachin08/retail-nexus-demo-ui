@@ -32,6 +32,86 @@ export const tokens = {
   blur: {
     glass: 'blur(22px) saturate(180%)',
   },
+  /**
+   * ShopOS design palette — used by the demo Home + Tasks surfaces.
+   * Lifted directly from the reference design in /Downloads/ShopOS so the
+   * cards render identically to the static mockups. Dark values are the
+   * source of truth — call `shopPalette(theme)` for theme-aware values.
+   */
+  shop: {
+    bg: '#0A0A0B',
+    card: '#161618',
+    card2: '#1E1E21',
+    card3: '#26262A',
+    hairline: 'rgba(255,255,255,0.06)',
+    fg: '#FFFFFF',
+    fgMuted: '#8B8B92',
+    fgDim: '#5A5A62',
+    green: '#4FCB7C',
+    greenDim: '#2E7D4A',
+    red: '#F2533C',
+    redSoft: '#EC5F4A',
+    amber: '#F4A93E',
+    tilePink: '#EE5187',
+    tilePurple: '#A77BEB',
+    tileBlue: '#6A78E6',
+    tileAmber: '#F2A847',
+    tileGreen: '#2E7D4A',
+    tileOrangeIcon: '#E8743F',
+    tileBlueIcon: '#2F6FED',
+    tileTaskBlue: '#3A57E3',
+    mono: '"Geist Mono", "JetBrains Mono", ui-monospace, Menlo, monospace',
+  },
 } as const;
+
+/**
+ * Theme-aware ShopOS surface palette. The accent colors (green / amber /
+ * red / category tiles) stay the same in both themes — only the background
+ * stack, foreground text and hairline borders flip.
+ */
+export function shopPalette(mode: 'light' | 'dark') {
+  const isDark = mode === 'dark';
+  return {
+    bg: isDark ? '#0A0A0B' : '#F4F6FC',
+    card: isDark ? '#161618' : '#FFFFFF',
+    card2: isDark ? '#1E1E21' : '#F0F2F8',
+    card3: isDark ? '#26262A' : '#E6E8F0',
+    hairline: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(11,15,26,0.08)',
+    fg: isDark ? '#FFFFFF' : '#0B0F1A',
+    fgMuted: isDark ? '#8B8B92' : '#5A6075',
+    fgDim: isDark ? '#5A5A62' : '#A0A6B7',
+    // Soft tile chip backgrounds for the donut/zone/overdue list
+    tileSoft: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(11,15,26,0.05)',
+    softOverdueBg: isDark ? 'rgba(242,83,60,0.18)' : 'rgba(242,83,60,0.12)',
+    overdueText: isDark ? '#FF7A66' : '#C13E26',
+    chipNeutralBg: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(11,15,26,0.04)',
+    chipBorder: isDark ? '1px solid rgba(255,255,255,0.14)' : '1px solid rgba(11,15,26,0.12)',
+    chipActiveBg: isDark ? '#fff' : '#0B0F1A',
+    chipActiveFg: isDark ? '#000' : '#FFFFFF',
+    chipInactiveFg: isDark ? '#cfcfd2' : '#0B0F1A',
+    primaryInverse: isDark ? '#fff' : '#0B0F1A',
+    primaryInverseFg: isDark ? '#000' : '#FFFFFF',
+    addBg: isDark ? '#fff' : '#0B0F1A',
+    addFg: isDark ? '#000' : '#FFFFFF',
+    inputPlaceholder: isDark ? 'rgba(255,255,255,0.4)' : 'rgba(11,15,26,0.4)',
+    inputFg: isDark ? '#fff' : '#0B0F1A',
+    green: '#4FCB7C',
+    greenDim: '#2E7D4A',
+    red: '#F2533C',
+    redSoft: isDark ? '#EC5F4A' : '#C13E26',
+    amber: '#F4A93E',
+    tilePink: '#EE5187',
+    tilePurple: '#A77BEB',
+    tileBlue: '#6A78E6',
+    tileAmber: '#F2A847',
+    tileGreen: '#2E7D4A',
+    tileOrangeIcon: '#E8743F',
+    tileBlueIcon: '#2F6FED',
+    tileTaskBlue: '#3A57E3',
+    mono: tokens.shop.mono,
+  } as const;
+}
+
+export type ShopPalette = ReturnType<typeof shopPalette>;
 
 export type DemoTokens = typeof tokens;

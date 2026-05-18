@@ -75,9 +75,12 @@ interface BodyProps {
 
 /* ────────── LAUNCHER STYLE — solid color, centered icon + title, optional CTA ────────── */
 function LauncherBody({ config, data, size, editing, onClick, setTileSize }: BodyProps) {
-  // Larger icon at larger sizes.
-  const iconFontSize = size === 'small' ? 26 : size === 'large' ? 44 : 36;
-  const titleFontSize = size === 'small' ? 12.5 : size === 'large' ? 18 : 15;
+  const isSmall = size === 'small';
+  // iPhone-style app icon: tight square at small, scales up at larger sizes.
+  const iconFontSize = isSmall ? 22 : size === 'large' ? 44 : 36;
+  const titleFontSize = isSmall ? 10 : size === 'large' ? 18 : 15;
+  // Show abbreviated single-line title under the icon at app-icon scale.
+  const shortTitle = config.title.split(' ')[0];
 
   return (
     <Box
@@ -85,15 +88,15 @@ function LauncherBody({ config, data, size, editing, onClick, setTileSize }: Bod
       sx={{
         position: 'relative',
         height: '100%',
-        borderRadius: `${tokens.radius.lg}px`,
+        borderRadius: isSmall ? '18px' : `${tokens.radius.lg}px`,
         background: config.solidBg,
         color: '#fff',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        p: size === 'small' ? 1.25 : 1.75,
-        gap: 1,
+        p: isSmall ? 0.75 : 1.75,
+        gap: isSmall ? 0.25 : 1,
         cursor: editing ? 'inherit' : 'pointer',
         transition: 'transform .2s ease',
         '&:hover': editing
@@ -113,14 +116,21 @@ function LauncherBody({ config, data, size, editing, onClick, setTileSize }: Bod
         sx={{
           fontSize: titleFontSize,
           fontWeight: 700,
-          lineHeight: 1.2,
+          lineHeight: 1.15,
           textAlign: 'center',
-          whiteSpace: config.titleSmall && size !== 'large' ? 'pre-line' : 'normal',
+          whiteSpace: isSmall ? 'nowrap' : config.titleSmall && size !== 'large' ? 'pre-line' : 'normal',
+          overflow: isSmall ? 'hidden' : 'visible',
+          textOverflow: 'ellipsis',
+          maxWidth: '100%',
         }}
       >
-        {size !== 'large' && config.titleSmall ? config.titleSmall : config.title}
+        {isSmall
+          ? shortTitle
+          : size !== 'large' && config.titleSmall
+            ? config.titleSmall
+            : config.title}
       </Typography>
-      {data?.cta && <CtaButton cta={data.cta} />}
+      {!isSmall && data?.cta && <CtaButton cta={data.cta} />}
     </Box>
   );
 }
@@ -130,29 +140,28 @@ function KpiBody({ config, data, size, editing, onClick, setTileSize }: BodyProp
   const isLarge = size === 'large';
   const isSmall = size === 'small';
 
-  // Small KPI = compact card with one big number (used rarely)
+  // Small KPI = iPhone app-icon: solid color tile + 1-word label below.
   if (isSmall) {
+    const shortTitle = config.title.split(' ')[0];
     return (
       <Box
         onClick={onClick}
-        sx={theme => ({
+        sx={{
           position: 'relative',
           height: '100%',
-          borderRadius: `${tokens.radius.lg}px`,
-          background: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.06)' : '#FFFFFF',
-          border:
-            theme.palette.mode === 'dark'
-              ? '1px solid rgba(255,255,255,0.08)'
-              : '1px solid rgba(11,15,26,0.08)',
-          color: theme.palette.text.primary,
+          borderRadius: '18px',
+          background: config.solidBg,
+          color: '#fff',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          p: 1.25,
-          gap: 0.875,
+          p: 0.75,
+          gap: 0.25,
           cursor: editing ? 'inherit' : 'pointer',
-        })}
+          transition: 'transform .2s ease',
+          '&:hover': editing ? undefined : { transform: 'translateY(-2px)' },
+        }}
       >
         {editing && (
           <ResizePicker
@@ -161,23 +170,21 @@ function KpiBody({ config, data, size, editing, onClick, setTileSize }: BodyProp
             onPick={(s: TileSize) => setTileSize(config.id, s)}
           />
         )}
-        <Box
+        <Box sx={{ color: '#fff', '& svg': { fontSize: 22 } }}>{config.icon}</Box>
+        <Typography
           sx={{
-            width: 28,
-            height: 28,
-            borderRadius: 0.75,
-            background: config.solidBg,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            fontSize: 10,
+            fontWeight: 700,
+            lineHeight: 1.15,
+            textAlign: 'center',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            maxWidth: '100%',
             color: '#fff',
-            '& svg': { fontSize: 16 },
           }}
         >
-          {config.icon}
-        </Box>
-        <Typography sx={{ fontSize: 12.5, fontWeight: 700, textAlign: 'center' }}>
-          {config.titleSmall ?? config.title}
+          {shortTitle}
         </Typography>
       </Box>
     );

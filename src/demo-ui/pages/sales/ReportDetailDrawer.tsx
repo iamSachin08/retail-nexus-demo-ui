@@ -113,14 +113,14 @@ export function ReportDetailDrawer({ report, onClose }: Props) {
             backgroundColor: 'background.default',
             backgroundImage: 'none',
             overflow: 'hidden',
-            height: '100vh',
-            maxHeight: '100vh',
+            height: '100dvh',
+            maxHeight: '100dvh',
           },
         },
       }}
     >
       {report && (
-        <Box sx={{ p: { xs: 3, sm: 4 }, overflowY: 'auto', height: '100vh', maxHeight: '100vh' }}>
+        <Box sx={{ p: { xs: 3, sm: 4 }, overflowY: 'auto', height: '100dvh', maxHeight: '100dvh' }}>
           {/* Header */}
           <Stack direction="row" sx={{ alignItems: 'flex-start', mb: 3 }}>
             <Box sx={{ flex: 1 }}>

@@ -57,8 +57,8 @@ export function InventoryAIBot() {
             sx: {
               borderRadius: 0,
               backgroundColor: 'background.default',
-              maxHeight: '100vh',
-              height: '100vh',
+              maxHeight: '100dvh',
+              height: '100dvh',
             },
           },
         }}
