@@ -27,7 +27,7 @@ const tileWidth = (span: number): string =>
 
 // Small ≈ iPhone home-screen app icon — square at the rendered width.
 const tileMinHeight = (size: TileSize): number =>
-  size === 'small' ? 96 : size === 'large' ? 220 : 180;
+  size === 'large' ? 220 : 180;
 
 const GridRoot = styled('div')({
   display: 'flex',
@@ -43,10 +43,11 @@ const TileSlot = styled('div', {
 })<{ tileSize: TileSize; isEditing: boolean; isDragging: boolean }>(
   ({ theme, tileSize, isEditing, isDragging }) => {
     const span = TILE_SPANS[tileSize];
+    const isSmall = tileSize === 'small';
     return {
       flexShrink: 0,
-      minHeight: tileMinHeight(tileSize),
       width: tileWidth(span.xs),
+      ...(isSmall ? { aspectRatio: '1 / 1' } : { minHeight: tileMinHeight(tileSize) }),
       touchAction: isEditing ? 'none' : 'auto',
       cursor: isEditing ? 'grab' : 'default',
       zIndex: isDragging ? 10 : 'auto',

@@ -10,7 +10,6 @@ import {
   Typography,
 } from '@mui/material';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import RemoveCircleOutlineRoundedIcon from '@mui/icons-material/RemoveCircleOutlineRounded';
 import { useState } from 'react';
 import type { Lead, LeadProductLine, LeadSource, LeadStatus } from '../../mock/data/leadManagement';
@@ -250,14 +249,29 @@ export function AddLeadDrawer({ open, onClose }: Props) {
         <Stack direction="row" sx={{ alignItems: 'center', mb: 0.75 }}>
           <SectionLabel>Products of interest</SectionLabel>
           <Box sx={{ ml: 'auto' }}>
-            <Button
-              size="small"
-              startIcon={<AddRoundedIcon />}
+            {/* Design-system secondary button: white bg, black border, pill. */}
+            <Stack
+              direction="row"
               onClick={addLine}
-              sx={{ fontSize: 11, fontWeight: 700, color: '#7C5CFF' }}
+              sx={theme => ({
+                alignItems: 'center',
+                gap: 0.5,
+                px: 1.25,
+                py: 0.5,
+                borderRadius: 999,
+                cursor: 'pointer',
+                background: '#FFFFFF',
+                border: `1px solid ${theme.palette.mode === 'dark' ? '#FFFFFF' : '#0B0F1A'}`,
+                color: '#0B0F1A',
+                fontWeight: 600,
+                transition: 'filter .15s ease',
+                '&:hover': { filter: 'brightness(0.96)' },
+                flexShrink: 0,
+              })}
             >
-              Add product
-            </Button>
+              <Typography sx={{ fontSize: 13, fontWeight: 700, lineHeight: 1, mt: '-1px', color: 'inherit' }}>+</Typography>
+              <Typography sx={{ fontSize: 11, fontWeight: 700, color: 'inherit' }}>Add Product</Typography>
+            </Stack>
           </Box>
         </Stack>
         <Stack spacing={1} sx={{ mb: 2 }}>

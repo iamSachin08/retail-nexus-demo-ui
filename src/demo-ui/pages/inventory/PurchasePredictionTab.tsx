@@ -64,26 +64,28 @@ function SuggestionItem({ item }: { item: PurchaseSuggestion }) {
           )}
         </Stack>
       </Box>
-      {/* Design-system secondary button: white bg, black border + text. */}
-      <Button
-        size="small"
-        sx={{
+      {/* Design-system secondary button: white bg, black border, pill. */}
+      <Stack
+        direction="row"
+        sx={theme => ({
           alignSelf: 'center',
+          alignItems: 'center',
+          gap: 0.5,
+          px: 1.25,
+          py: 0.5,
+          borderRadius: 999,
+          cursor: 'pointer',
           background: '#FFFFFF',
+          border: `1px solid ${theme.palette.mode === 'dark' ? '#FFFFFF' : '#0B0F1A'}`,
           color: '#0B0F1A',
-          border: '1px solid #0B0F1A',
-          fontSize: 12,
-          fontWeight: 700,
-          textTransform: 'none',
-          px: 1.5,
-          minWidth: 84,
-          height: 32,
-          boxShadow: 'none',
-          '&:hover': { background: '#FFFFFF', filter: 'brightness(0.96)', boxShadow: 'none' },
-        }}
+          fontWeight: 600,
+          transition: 'filter .15s ease',
+          '&:hover': { filter: 'brightness(0.96)' },
+          flexShrink: 0,
+        })}
       >
-        Procure
-      </Button>
+        <Typography sx={{ fontSize: 11, fontWeight: 700, color: 'inherit' }}>Procure</Typography>
+      </Stack>
     </Stack>
   );
 }

@@ -298,7 +298,7 @@ export function ModuleTile({ config, size }: ModuleTileProps) {
   const Body = isLauncher ? LauncherBody : KpiBody;
 
   return (
-    <Box sx={{ position: 'relative', height: '100%', minHeight: size === 'small' ? 110 : 150 }}>
+    <Box sx={{ position: 'relative', height: '100%', ...(size === 'small' ? {} : { minHeight: 150 }) }}>
       {showAttention && <AttentionDot />}
       {hasBadge && !editing && <CountBadge value={data!.badge!} />}
       <Box
