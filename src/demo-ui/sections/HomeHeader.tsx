@@ -3,6 +3,7 @@ import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import TuneRoundedIcon from '@mui/icons-material/TuneRounded';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
@@ -205,7 +206,10 @@ function ProfilePill() {
   );
 }
 
-export function HomeHeader({ ownerName }: { ownerName?: string } = {}) {
+export function HomeHeader({
+  ownerName,
+  onAddWidget,
+}: { ownerName?: string; onAddWidget?: () => void } = {}) {
   const { mode, toggle } = useDemoTheme();
   const { editing, toggleEditing } = useEditMode();
   const { user } = useAuth();
@@ -227,10 +231,15 @@ export function HomeHeader({ ownerName }: { ownerName?: string } = {}) {
           <HeaderIconButton onClick={toggleEditing} active={editing} label={editing ? 'Done' : 'Edit tile sizes'}>
             {editing ? <CheckRoundedIcon fontSize="small" /> : <TuneRoundedIcon fontSize="small" />}
           </HeaderIconButton>
+          {editing && onAddWidget && (
+            <HeaderIconButton onClick={onAddWidget} label="Add Widget">
+              <AddRoundedIcon fontSize="small" />
+            </HeaderIconButton>
+          )}
           <HeaderIconButton onClick={toggle} label="Toggle theme">
             {mode === 'dark' ? <LightModeOutlinedIcon fontSize="small" /> : <DarkModeOutlinedIcon fontSize="small" />}
           </HeaderIconButton>
-          <ProfilePill />
+          {!editing && <ProfilePill />}
         </Stack>
       </Stack>
 

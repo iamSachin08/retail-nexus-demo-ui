@@ -1,37 +1,30 @@
 import { styled } from '@mui/material/styles';
-import {
-  DndContext,
-  PointerSensor,
-  TouchSensor,
-  closestCenter,
-  useSensor,
-  useSensors,
-  type DragEndEvent,
-} from '@dnd-kit/core';
-import {
-  SortableContext,
-  arrayMove,
-  rectSortingStrategy,
-  useSortable,
-} from '@dnd-kit/sortable';
+import { SortableContext, rectSortingStrategy, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { TILE_SPANS, type TileSize } from '../types/module';
+import { type TileSize } from '../types/module';
 import { moduleRegistry } from '../modules/registry';
 import { ModuleTile } from './ModuleTile';
 import { useEditMode } from '../context/EditModeContext';
 
 const GAP_PX = 10;
 
-const tileWidth = (span: number): string =>
-  `calc(${(span / 12) * 100}% - ${GAP_PX * (1 - span / 12)}px)`;
-
-// Small ≈ iPhone home-screen app icon — square at the rendered width.
-const tileMinHeight = (size: TileSize): number =>
-  size === 'large' ? 220 : 180;
+/**
+ * iPhone-style home-screen grid: 4 columns of small app-icons.
+ * Medium widget = 2 cols × 2 rows (a 2×2 block, so 4 small icons fit beside it).
+ * Large widget  = 4 cols × 2 rows (full width).
+ * `grid-auto-flow: dense` lets remaining smalls flow into open cells.
+ */
+const COL_COUNT = 4;
+const tileSpan: Record<TileSize, { col: number; row: number }> = {
+  small: { col: 1, row: 1 },
+  medium: { col: 2, row: 2 },
+  large: { col: COL_COUNT, row: 2 },
+};
 
 const GridRoot = styled('div')({
-  display: 'flex',
-  flexWrap: 'wrap',
+  display: 'grid',
+  gridTemplateColumns: `repeat(${COL_COUNT}, 1fr)`,
+  gridAutoFlow: 'row dense',
   gap: `${GAP_PX}px`,
   listStyle: 'none',
   padding: 0,
@@ -41,20 +34,19 @@ const GridRoot = styled('div')({
 const TileSlot = styled('div', {
   shouldForwardProp: prop => prop !== 'tileSize' && prop !== 'isEditing' && prop !== 'isDragging',
 })<{ tileSize: TileSize; isEditing: boolean; isDragging: boolean }>(
-  ({ theme, tileSize, isEditing, isDragging }) => {
-    const span = TILE_SPANS[tileSize];
+  ({ tileSize, isEditing, isDragging }) => {
+    const span = tileSpan[tileSize];
     const isSmall = tileSize === 'small';
     return {
-      flexShrink: 0,
-      width: tileWidth(span.xs),
-      ...(isSmall ? { aspectRatio: '1 / 1' } : { minHeight: tileMinHeight(tileSize) }),
+      gridColumn: `span ${span.col}`,
+      gridRow: `span ${span.row}`,
+      // Smalls stay square; the medium's 2 rows are then ≈ 2 × (small-side) tall.
+      ...(isSmall ? { aspectRatio: '1 / 1' } : null),
       touchAction: isEditing ? 'none' : 'auto',
       cursor: isEditing ? 'grab' : 'default',
       zIndex: isDragging ? 10 : 'auto',
       opacity: isDragging ? 0.92 : 1,
       '&:active': isEditing ? { cursor: 'grabbing' } : undefined,
-      [theme.breakpoints.up('sm')]: { width: tileWidth(span.sm) },
-      [theme.breakpoints.up('md')]: { width: tileWidth(span.md) },
     };
   },
 );
@@ -95,38 +87,27 @@ function SortableTile({
 }
 
 export function TileGrid() {
-  const { layout, editing, reorderLayout } = useEditMode();
-  const ids = layout.map(l => l.moduleId);
-
-  const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
-    useSensor(TouchSensor, { activationConstraint: { delay: 180, tolerance: 6 } }),
-  );
-
-  const handleDragEnd = ({ active, over }: DragEndEvent) => {
-    if (!over || active.id === over.id) return;
-    const oldIndex = ids.indexOf(String(active.id));
-    const newIndex = ids.indexOf(String(over.id));
-    if (oldIndex === -1 || newIndex === -1) return;
-    reorderLayout(arrayMove(ids, oldIndex, newIndex));
-  };
+  const { layout, editing, removeWidget } = useEditMode();
+  const ids = layout.map(l => l.instanceId);
 
   return (
-    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-      <SortableContext items={ids} strategy={rectSortingStrategy}>
-        <GridRoot>
-          {ids.map(id => {
-            const item = layout.find(l => l.moduleId === id);
-            const config = moduleRegistry[id];
-            if (!item || !config) return null;
-            return (
-              <SortableTile key={id} id={id} size={item.size} isEditing={editing}>
-                <ModuleTile config={config} size={item.size} />
-              </SortableTile>
-            );
-          })}
-        </GridRoot>
-      </SortableContext>
-    </DndContext>
+    <SortableContext items={ids} strategy={rectSortingStrategy}>
+      <GridRoot>
+        {layout.map(item => {
+          const config = moduleRegistry[item.moduleId];
+          if (!config) return null;
+          return (
+            <SortableTile key={item.instanceId} id={item.instanceId} size={item.size} isEditing={editing}>
+              <ModuleTile
+                config={config}
+                size={item.size}
+                pinned={item.pinned}
+                onRemove={item.pinned ? undefined : () => removeWidget(item.instanceId)}
+              />
+            </SortableTile>
+          );
+        })}
+      </GridRoot>
+    </SortableContext>
   );
 }

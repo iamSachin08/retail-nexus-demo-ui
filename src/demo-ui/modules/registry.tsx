@@ -53,6 +53,7 @@ export const moduleRegistry: Record<string, ModuleConfig> = {
     id: 'know-product',
     title: 'Know your Product',
     titleSmall: 'Know your\nProduct',
+    iconLabel: 'Product',
     icon: <LocalMallOutlinedIcon />,
     gradient: 'linear-gradient(135deg, #B47CFF 0%, #7C5CFF 100%)',
     solidBg: '#A78BFA',
@@ -66,6 +67,7 @@ export const moduleRegistry: Record<string, ModuleConfig> = {
     id: 'know-customer',
     title: 'Know your Customer',
     titleSmall: 'Know your\nCustomer',
+    iconLabel: 'Customer',
     icon: <PeopleAltOutlinedIcon />,
     gradient: 'linear-gradient(135deg, #FF8AB1 0%, #E5345C 100%)',
     solidBg: '#F472B6',
@@ -79,6 +81,7 @@ export const moduleRegistry: Record<string, ModuleConfig> = {
     id: 'ask-owner',
     title: 'Ask your Owner',
     titleSmall: 'Ask your\nOwner',
+    iconLabel: 'Owner',
     icon: <AutoAwesomeIcon />,
     gradient: tokens.gradient.aiAurora,
     solidBg: '#818CF8',
@@ -93,7 +96,7 @@ export const moduleRegistry: Record<string, ModuleConfig> = {
     icon: <LocalShippingOutlinedIcon />,
     gradient: tokens.gradient.sop,
     solidBg: '#FBBF24',
-    route: '/procurement',
+    route: '/demo/procurement',
     supportedSizes: ['small', 'medium', 'large'],
     defaultSize: 'medium',
     style: 'launcher',
@@ -133,16 +136,21 @@ export const moduleRegistry: Record<string, ModuleConfig> = {
  *   Know-Product + Know-Customer + Ask-Owner (small × 3)
  *   Procurement (small) + Task-Management (medium)
  */
+/**
+ * Default home layout — iPhone-style app icons that are always present.
+ * Pinned items are locked to 'small' and cannot be removed; users add widgets
+ * (medium/large) via the Add Widget gallery and those appear after the icons.
+ */
 export const defaultHomeLayout: TileLayoutItem[] = [
-  { moduleId: 'sales-orders', size: 'medium' },
-  { moduleId: 'lead', size: 'medium' },
-  { moduleId: 'inventory', size: 'large' },
-  { moduleId: 'task-management', size: 'medium' },
-  { moduleId: 'campaigns', size: 'medium' },
-  { moduleId: 'know-product', size: 'medium' },
-  { moduleId: 'know-customer', size: 'medium' },
-  { moduleId: 'ask-owner', size: 'medium' },
-  { moduleId: 'procurement', size: 'medium' },
+  { instanceId: 'sales-orders', moduleId: 'sales-orders', size: 'small', pinned: true },
+  { instanceId: 'lead', moduleId: 'lead', size: 'small', pinned: true },
+  { instanceId: 'inventory', moduleId: 'inventory', size: 'small', pinned: true },
+  { instanceId: 'task-management', moduleId: 'task-management', size: 'small', pinned: true },
+  { instanceId: 'campaigns', moduleId: 'campaigns', size: 'small', pinned: true },
+  { instanceId: 'know-product', moduleId: 'know-product', size: 'small', pinned: true },
+  { instanceId: 'know-customer', moduleId: 'know-customer', size: 'small', pinned: true },
+  { instanceId: 'ask-owner', moduleId: 'ask-owner', size: 'small', pinned: true },
+  { instanceId: 'procurement', moduleId: 'procurement', size: 'small', pinned: true },
 ];
 
 export const listModules = (): ModuleConfig[] => Object.values(moduleRegistry);

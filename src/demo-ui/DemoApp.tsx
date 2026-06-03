@@ -22,6 +22,7 @@ import { CampaignDetailPage } from './campaigns/CampaignDetailPage';
 import { InventoryPage } from './pages/InventoryPage';
 import { LeadPage } from './pages/LeadPage';
 import { SalesPage } from './pages/SalesPage';
+import { ProcurementPage } from './pages/ProcurementPage';
 import { TasksPage } from './tasks/TasksPage';
 
 function ShopAssistantGate() {
@@ -158,6 +159,14 @@ export default function DemoApp() {
                 element={
                   <DemoLayout>
                     <TasksPage />
+                  </DemoLayout>
+                }
+              />
+              <Route
+                path="/procurement"
+                element={
+                  <DemoLayout>
+                    <ProcurementPage />
                   </DemoLayout>
                 }
               />

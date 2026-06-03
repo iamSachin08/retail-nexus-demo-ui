@@ -73,6 +73,8 @@ export interface ModuleConfig {
   title: string;
   /** Optional override for small tiles — supports "\n" for explicit line breaks. */
   titleSmall?: string;
+  /** Optional 1-word label shown on the iPhone-style small app-icon. Defaults to the first word of `title`. */
+  iconLabel?: string;
   /**
    * Rendering style:
    *  - 'kpi'      → dark surface with rich KPI data (Sales, Lead, Inventory, Tasks)
@@ -98,13 +100,21 @@ export interface ModuleConfig {
 }
 
 export interface TileLayoutItem {
+  /** Stable id for sorting/keying — matches moduleId for pinned icons; widget instances get `w-<moduleId>`. */
+  instanceId: string;
   moduleId: string;
   size: TileSize;
+  /** Pinned icons are part of the always-visible app-icon row — not removable, locked to 'small'. */
+  pinned: boolean;
 }
 
 export interface ModuleTileProps {
   config: ModuleConfig;
   size: TileSize;
+  pinned: boolean;
+  onRemove?: () => void;
+  /** Render as a static preview (no badges, attention dot, or click navigation) — used in the widget gallery. */
+  preview?: boolean;
 }
 
 /** Tone → color helper used by the per-module renderers. */

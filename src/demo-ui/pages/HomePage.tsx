@@ -1,17 +1,20 @@
+import { useState } from 'react';
 import { Box, Fade, Stack, Typography } from '@mui/material';
 import RestartAltRoundedIcon from '@mui/icons-material/RestartAltRounded';
 import { HomeHeader } from '../sections/HomeHeader';
 import { TileGrid } from '../tiles/TileGrid';
+import { WidgetGalleryDrawer } from '../tiles/WidgetGalleryDrawer';
 import { useEditMode } from '../context/EditModeContext';
 
 export function HomePage() {
   const { editing, resetLayout } = useEditMode();
+  const [galleryOpen, setGalleryOpen] = useState(false);
 
   return (
     <Box>
-      <HomeHeader />
+      <HomeHeader onAddWidget={() => setGalleryOpen(true)} />
 
-      <Fade in={editing} unmountOnExit>
+        <Fade in={editing} unmountOnExit>
         <Stack
           direction="row"
           spacing={1}
@@ -27,7 +30,7 @@ export function HomePage() {
           }}
         >
           <Typography variant="caption" color="text.secondary">
-            <strong>Drag</strong> to reorder · pick <strong>S / M / L</strong> to resize.
+            <strong>Drag</strong> to reorder · tap <strong>−</strong> to remove a widget.
           </Typography>
           <Stack
             direction="row"
@@ -51,6 +54,8 @@ export function HomePage() {
       </Fade>
 
       <TileGrid />
+
+      <WidgetGalleryDrawer open={galleryOpen} onClose={() => setGalleryOpen(false)} />
     </Box>
   );
 }

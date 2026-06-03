@@ -2,10 +2,43 @@ import { Box, Stack, Typography } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { AttentionDot } from '../components/AttentionDot';
-import { ResizePicker } from './ResizePicker';
 import { useEditMode } from '../context/EditModeContext';
 import { tokens } from '../theme/tokens';
 import type { ModuleConfig, ModuleSummary, ModuleTileProps, TileSize, CTAButton } from '../types/module';
+
+/** iPhone-style minus badge in top-left while editing — only on removable widgets. */
+function RemoveBadge({ onClick }: { onClick: () => void }) {
+  return (
+    <Box
+      onClick={e => {
+        e.stopPropagation();
+        onClick();
+      }}
+      sx={{
+        position: 'absolute',
+        top: -6,
+        left: -6,
+        zIndex: 6,
+        width: 22,
+        height: 22,
+        borderRadius: '50%',
+        background: '#FFFFFF',
+        boxShadow: '0 1px 3px rgba(0,0,0,0.25)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        cursor: 'pointer',
+        color: '#0B0F1A',
+        fontWeight: 900,
+        fontSize: 18,
+        lineHeight: 1,
+        userSelect: 'none',
+      }}
+    >
+      <Box component="span" sx={{ mt: '-2px' }}>−</Box>
+    </Box>
+  );
+}
 
 /* iPhone-style red notification badge, top-right corner of tile. */
 function CountBadge({ value }: { value: string | number }) {
@@ -70,17 +103,16 @@ interface BodyProps {
   size: TileSize;
   editing: boolean;
   onClick: () => void;
-  setTileSize: (id: string, s: TileSize) => void;
 }
 
 /* ────────── LAUNCHER STYLE — solid color, centered icon + title, optional CTA ────────── */
-function LauncherBody({ config, data, size, editing, onClick, setTileSize }: BodyProps) {
+function LauncherBody({ config, data, size, editing, onClick }: BodyProps) {
   const isSmall = size === 'small';
   // iPhone-style app icon: tight square at small, scales up at larger sizes.
   const iconFontSize = isSmall ? 22 : size === 'large' ? 44 : 36;
   const titleFontSize = isSmall ? 10 : size === 'large' ? 18 : 15;
   // Show abbreviated single-line title under the icon at app-icon scale.
-  const shortTitle = config.title.split(' ')[0];
+  const shortTitle = config.iconLabel ?? config.title.split(' ')[0];
 
   return (
     <Box
@@ -104,13 +136,6 @@ function LauncherBody({ config, data, size, editing, onClick, setTileSize }: Bod
           : { transform: 'translateY(-2px)' },
       }}
     >
-      {editing && (
-        <ResizePicker
-          current={size}
-          supported={config.supportedSizes}
-          onPick={(s: TileSize) => setTileSize(config.id, s)}
-        />
-      )}
       <Box sx={{ color: '#fff', '& svg': { fontSize: iconFontSize } }}>{config.icon}</Box>
       <Typography
         sx={{
@@ -136,13 +161,13 @@ function LauncherBody({ config, data, size, editing, onClick, setTileSize }: Bod
 }
 
 /* ────────── KPI STYLE — dark surface with rich data ────────── */
-function KpiBody({ config, data, size, editing, onClick, setTileSize }: BodyProps) {
+function KpiBody({ config, data, size, editing, onClick }: BodyProps) {
   const isLarge = size === 'large';
   const isSmall = size === 'small';
 
   // Small KPI = iPhone app-icon: solid color tile + 1-word label below.
   if (isSmall) {
-    const shortTitle = config.title.split(' ')[0];
+    const shortTitle = config.iconLabel ?? config.title.split(' ')[0];
     return (
       <Box
         onClick={onClick}
@@ -163,13 +188,6 @@ function KpiBody({ config, data, size, editing, onClick, setTileSize }: BodyProp
           '&:hover': editing ? undefined : { transform: 'translateY(-2px)' },
         }}
       >
-        {editing && (
-          <ResizePicker
-            current={size}
-            supported={config.supportedSizes}
-            onPick={(s: TileSize) => setTileSize(config.id, s)}
-          />
-        )}
         <Box sx={{ color: '#fff', '& svg': { fontSize: 22 } }}>{config.icon}</Box>
         <Typography
           sx={{
@@ -215,14 +233,6 @@ function KpiBody({ config, data, size, editing, onClick, setTileSize }: BodyProp
             },
       })}
     >
-      {editing && (
-        <ResizePicker
-          current={size}
-          supported={config.supportedSizes}
-          onPick={(s: TileSize) => setTileSize(config.id, s)}
-        />
-      )}
-
       {/* Header */}
       <Stack
         direction="row"
@@ -280,27 +290,33 @@ function KpiBody({ config, data, size, editing, onClick, setTileSize }: BodyProp
   );
 }
 
-export function ModuleTile({ config, size }: ModuleTileProps) {
+export function ModuleTile({ config, size, pinned, onRemove, preview = false }: ModuleTileProps) {
   const navigate = useNavigate();
-  const { editing, setTileSize } = useEditMode();
+  const { editing: editingFromCtx } = useEditMode();
   const { data } = config.useSummary();
+  // In preview (widget gallery), the tile is static — no edit-mode chrome, no navigation,
+  // but badges/CTA still render so the gallery matches what lands on the home screen.
+  const editing = preview ? false : editingFromCtx;
 
   const hasCta = !!data?.cta;
   const hasBadge = data?.badge !== undefined && data?.badge !== null && !hasCta;
+  // Hide the red attention dot only when the minus-badge or count-badge would visually clash.
   const showAttention = !!data?.needsAttention && !editing && !hasBadge && !hasCta;
   const isLauncher = config.style === 'launcher';
 
   const handleClick = () => {
-    if (editing) return;
+    if (preview || editing) return;
     if (config.route) navigate(config.route);
   };
 
   const Body = isLauncher ? LauncherBody : KpiBody;
+  const canRemove = editing && !pinned && !!onRemove;
 
   return (
     <Box sx={{ position: 'relative', height: '100%', ...(size === 'small' ? {} : { minHeight: 150 }) }}>
       {showAttention && <AttentionDot />}
       {hasBadge && !editing && <CountBadge value={data!.badge!} />}
+      {canRemove && <RemoveBadge onClick={onRemove!} />}
       <Box
         component={motion.div}
         animate={editing ? wiggle : { rotate: 0 }}
@@ -312,7 +328,6 @@ export function ModuleTile({ config, size }: ModuleTileProps) {
           size={size}
           editing={editing}
           onClick={handleClick}
-          setTileSize={setTileSize}
         />
       </Box>
     </Box>
