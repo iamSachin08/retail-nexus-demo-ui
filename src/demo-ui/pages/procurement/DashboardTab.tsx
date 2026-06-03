@@ -51,7 +51,7 @@ function DeliveryDonut({ palette }: { palette: ShopPalette }) {
       </svg>
       <Box sx={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
         <Typography sx={{ fontSize: 34, fontWeight: 600, letterSpacing: '-0.02em', color: palette.fg }}>{total}</Typography>
-        <Typography sx={{ fontFamily: palette.mono, fontSize: 11, color: palette.fgMuted, mt: 0.25, letterSpacing: '0.08em' }}>OPEN POs</Typography>
+        <Typography sx={{ fontSize: 11, color: palette.fgMuted, mt: 0.25, letterSpacing: '0.08em' }}>OPEN POs</Typography>
       </Box>
     </Box>
   );
@@ -75,7 +75,7 @@ function HeroCard({ palette }: { palette: ShopPalette }) {
         ] as [string, number, string][]).map(([k, v, c]) => (
           <Box key={k} sx={{ textAlign: 'center', py: 1 }}>
             <Box sx={{ width: 8, height: 8, borderRadius: 999, background: c, mx: 'auto', mb: 1 }} />
-            <Typography sx={{ fontFamily: palette.mono, fontSize: 18, fontWeight: 600, color: palette.fg }}>{v}</Typography>
+            <Typography sx={{ fontSize: 18, fontWeight: 600, color: palette.fg }}>{v}</Typography>
             <Label palette={palette} size={10} sx={{ mt: 0.5 }}>{k}</Label>
           </Box>
         ))}
@@ -106,10 +106,10 @@ function KpiSmall({
         <Label palette={palette} fg size={10.5} sx={{ maxWidth: '74%', lineHeight: 1.25 }}>{label}</Label>
         {icon}
       </Stack>
-      <Typography sx={{ fontFamily: palette.mono, fontSize: 30, fontWeight: 600, color: valueColor, mt: 2, letterSpacing: '-0.01em' }}>
+      <Typography sx={{ fontSize: 30, fontWeight: 600, color: valueColor, mt: 2, letterSpacing: '-0.01em' }}>
         {value}
       </Typography>
-      <Typography sx={{ mt: 1, fontFamily: palette.mono, fontSize: 12, color: palette.fgMuted, letterSpacing: '0.04em' }}>{sub}</Typography>
+      <Typography sx={{ mt: 1, fontSize: 12, color: palette.fgMuted, letterSpacing: '0.04em' }}>{sub}</Typography>
     </Card>
   );
 }
@@ -125,7 +125,7 @@ function SpendOverTime({ palette }: { palette: ShopPalette }) {
           <Label palette={palette} size={11} sx={{ mt: 0.75 }}>LAST 8 WEEKS</Label>
         </Box>
         <Box sx={{ textAlign: 'right' }}>
-          <Typography sx={{ fontFamily: palette.mono, fontSize: 24, fontWeight: 600, color: palette.fg }}>₹18.4L</Typography>
+          <Typography sx={{ fontSize: 24, fontWeight: 600, color: palette.fg }}>₹18.4L</Typography>
           <Box sx={{ mt: 0.5, display: 'inline-flex' }}>
             <DeltaText palette={palette} value="11% vs last 8w" toneDir="up" />
           </Box>
@@ -142,7 +142,7 @@ function SpendOverTime({ palette }: { palette: ShopPalette }) {
               transition={{ duration: 0.6, delay: 0.1 + i * 0.06, ease: 'easeOut' }}
               sx={{ width: '100%', background: v >= 88 ? palette.amber : palette.fgDim, borderRadius: '6px' }}
             />
-            <Typography sx={{ fontFamily: palette.mono, fontSize: 10, color: palette.fgMuted, letterSpacing: '0.04em' }}>{k}</Typography>
+            <Typography sx={{ fontSize: 10, color: palette.fgMuted, letterSpacing: '0.04em' }}>{k}</Typography>
           </Stack>
         ))}
       </Stack>
@@ -168,7 +168,7 @@ function PaymentsCard({ palette }: { palette: ShopPalette }) {
         <Typography sx={{ fontSize: 17, fontWeight: 600, letterSpacing: '-0.01em', color: palette.fg }}>Payments outstanding</Typography>
         <DeltaText palette={palette} value={payments.deltaPct} toneDir="down" size={12} />
       </Stack>
-      <Typography sx={{ fontFamily: palette.mono, fontSize: 32, fontWeight: 600, color: palette.fg, mt: 2, letterSpacing: '-0.02em' }}>
+      <Typography sx={{ fontSize: 32, fontWeight: 600, color: palette.fg, mt: 2, letterSpacing: '-0.02em' }}>
         {payments.total}
       </Typography>
       <Hr palette={palette} />
@@ -176,7 +176,7 @@ function PaymentsCard({ palette }: { palette: ShopPalette }) {
         {payments.buckets.map(([k, v, c]) => (
           <Box key={k}>
             <Label palette={palette} size={9.5}>{k}</Label>
-            <Typography sx={{ fontFamily: palette.mono, fontSize: 15, fontWeight: 600, mt: 0.75, color: tone(palette, c) }}>{v}</Typography>
+            <Typography sx={{ fontSize: 15, fontWeight: 600, mt: 0.75, color: tone(palette, c) }}>{v}</Typography>
           </Box>
         ))}
       </Box>
@@ -225,8 +225,8 @@ function BarList({
                 <Typography sx={{ fontSize: 13, color: palette.fg }}>{row.label}</Typography>
               </Stack>
               <Stack direction="row" sx={{ alignItems: 'baseline', gap: 1 }}>
-                <Typography sx={{ fontFamily: palette.mono, fontSize: 12, color: palette.fgMuted }}>{row.value}</Typography>
-                <Typography sx={{ fontFamily: palette.mono, fontSize: 13, fontWeight: 600, color: palette.fg, width: 38, textAlign: 'right' }}>{row.pct}%</Typography>
+                <Typography sx={{ fontSize: 12, color: palette.fgMuted }}>{row.value}</Typography>
+                <Typography sx={{ fontSize: 13, fontWeight: 600, color: palette.fg, width: 38, textAlign: 'right' }}>{row.pct}%</Typography>
               </Stack>
             </Stack>
             <Box sx={{ mt: 1, height: 8, borderRadius: 999, background: palette.tileSoft, overflow: 'hidden' }}>
@@ -267,7 +267,7 @@ function VendorTrustCard({ palette }: { palette: ShopPalette }) {
                 sx={{ height: '100%', background: tone(palette, c), borderRadius: '4px' }}
               />
             </Box>
-            <Typography sx={{ fontFamily: palette.mono, fontSize: 13, fontWeight: 600, color: palette.fg, width: 24, textAlign: 'right' }}>{v}</Typography>
+            <Typography sx={{ fontSize: 13, fontWeight: 600, color: palette.fg, width: 24, textAlign: 'right' }}>{v}</Typography>
           </Stack>
         ))}
       </Stack>
@@ -318,7 +318,7 @@ export function DashboardTab() {
         title="Quality of stock received"
         meta="LAST 30 DAYS"
         headValue={
-          <Typography sx={{ fontFamily: palette.mono, fontSize: 32, fontWeight: 600, color: palette.fg, letterSpacing: '-0.02em' }}>
+          <Typography sx={{ fontSize: 32, fontWeight: 600, color: palette.fg, letterSpacing: '-0.02em' }}>
             88<Box component="span" sx={{ fontSize: 22, color: palette.fgMuted }}>%</Box>
           </Typography>
         }

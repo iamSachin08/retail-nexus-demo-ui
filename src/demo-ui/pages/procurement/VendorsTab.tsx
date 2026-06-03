@@ -37,14 +37,14 @@ function VendorListRow({ v, palette, onOpen }: { v: VendorRow; palette: ShopPale
           <TrustPill tier={v.tier} score={v.score} palette={palette} />
           <Label palette={palette} size={11} sx={{ letterSpacing: '0.04em' }}>{v.cat} · {v.orders} POs</Label>
         </Stack>
-        <Stack direction="row" sx={{ mt: 0.75, alignItems: 'center', gap: 1.75, fontFamily: palette.mono, fontSize: 11, color: palette.fgMuted }}>
+        <Stack direction="row" sx={{ mt: 0.75, alignItems: 'center', gap: 1.75, fontSize: 11, color: palette.fgMuted }}>
           <Box component="span"><Box component="span" sx={{ color: palette.fg }}>{v.onTime}</Box> on-time</Box>
           <Box component="span"><Box component="span" sx={{ color: palette.fg }}>{v.returns}</Box> returns</Box>
         </Stack>
       </Box>
       <Stack direction="row" sx={{ alignItems: 'center', gap: 0.75, flexShrink: 0 }}>
         <Box sx={{ textAlign: 'right' }}>
-          <Typography sx={{ fontFamily: palette.mono, fontSize: 14, fontWeight: 600, color: palette.fg }}>{v.spend}</Typography>
+          <Typography sx={{ fontSize: 14, fontWeight: 600, color: palette.fg }}>{v.spend}</Typography>
           <Label palette={palette} size={9} sx={{ mt: 0.375 }}>LIFETIME</Label>
         </Box>
         <ChevR palette={palette} />
@@ -65,7 +65,7 @@ export function VendorsTab({ onOpenVendor }: { onOpenVendor: () => void }) {
         <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'flex-start' }}>
           <Box>
             <Label palette={palette} fg size={11}>YOUR VENDOR NETWORK</Label>
-            <Typography sx={{ fontFamily: palette.mono, fontSize: 32, fontWeight: 600, color: palette.fg, mt: 1.5, letterSpacing: '-0.02em' }}>43</Typography>
+            <Typography sx={{ fontSize: 32, fontWeight: 600, color: palette.fg, mt: 1.5, letterSpacing: '-0.02em' }}>43</Typography>
             <Label palette={palette} size={11} sx={{ mt: 0.75, letterSpacing: '0.04em' }}>ACTIVE · 12 CATEGORIES</Label>
           </Box>
           <AmberButton palette={palette} sx={{ px: 1.75, py: 1.25 }}>
@@ -81,7 +81,7 @@ export function VendorsTab({ onOpenVendor }: { onOpenVendor: () => void }) {
           ] as [string, string, string][]).map(([k, val, c]) => (
             <Box key={k}>
               <Label palette={palette} size={9.5}>{k}</Label>
-              <Typography sx={{ fontFamily: palette.mono, fontSize: 18, fontWeight: 600, mt: 0.75, color: tone(palette, c) }}>{val}</Typography>
+              <Typography sx={{ fontSize: 18, fontWeight: 600, mt: 0.75, color: tone(palette, c) }}>{val}</Typography>
             </Box>
           ))}
         </Box>
@@ -146,21 +146,21 @@ export function VendorProfileSheet({ open, onClose }: { open: boolean; onClose: 
             {p.stats.map(([k, v, c]) => (
               <Box key={k}>
                 <Label palette={palette} size={9.5}>{k}</Label>
-                <Typography sx={{ fontFamily: palette.mono, fontSize: 18, fontWeight: 600, mt: 0.75, color: tone(palette, c) }}>{v}</Typography>
+                <Typography sx={{ fontSize: 18, fontWeight: 600, mt: 0.75, color: tone(palette, c) }}>{v}</Typography>
               </Box>
             ))}
           </Box>
           <Stack direction="row" sx={{ mt: 1.75, justifyContent: 'space-between' }}>
             <Label palette={palette} size={9.5}>LIFETIME SPEND</Label>
-            <Typography sx={{ fontFamily: palette.mono, fontSize: 15, fontWeight: 600, color: palette.fg }}>{p.lifetimeSpend}</Typography>
+            <Typography sx={{ fontSize: 15, fontWeight: 600, color: palette.fg }}>{p.lifetimeSpend}</Typography>
           </Stack>
           <Stack direction="row" sx={{ mt: 1, justifyContent: 'space-between' }}>
             <Label palette={palette} size={9.5}>AVG PAYMENT TERMS</Label>
-            <Typography sx={{ fontFamily: palette.mono, fontSize: 12, color: palette.fg }}>{p.paymentTerms}</Typography>
+            <Typography sx={{ fontSize: 12, color: palette.fg }}>{p.paymentTerms}</Typography>
           </Stack>
           <Stack direction="row" sx={{ mt: 1, justifyContent: 'space-between' }}>
             <Label palette={palette} size={9.5}>FIRST PO</Label>
-            <Typography sx={{ fontFamily: palette.mono, fontSize: 12, color: palette.fg }}>{p.firstPo}</Typography>
+            <Typography sx={{ fontSize: 12, color: palette.fg }}>{p.firstPo}</Typography>
           </Stack>
         </Card>
 
@@ -195,14 +195,14 @@ export function VendorProfileSheet({ open, onClose }: { open: boolean; onClose: 
               <Stack key={r.po} direction="row" sx={{ alignItems: 'center', gap: 1.5, py: 1.5, borderBottom: `1px solid ${palette.hairline}` }}>
                 <Box sx={{ flex: 1, minWidth: 0 }}>
                   <Stack direction="row" sx={{ alignItems: 'center', gap: 1 }}>
-                    <Typography sx={{ fontFamily: palette.mono, fontSize: 11, color: palette.fgMuted, letterSpacing: '0.06em', fontWeight: 600 }}>{r.po}</Typography>
+                    <Typography sx={{ fontSize: 11, color: palette.fgMuted, letterSpacing: '0.06em', fontWeight: 600 }}>{r.po}</Typography>
                     <POStatusBadge status={r.status} palette={palette} />
                   </Stack>
-                  <Typography sx={{ mt: 0.625, fontFamily: palette.mono, fontSize: 11.5, color: palette.fgMuted }}>
+                  <Typography sx={{ mt: 0.625, fontSize: 11.5, color: palette.fgMuted }}>
                     {r.date} · {r.items} items · QC <Box component="span" sx={{ color: r.quality === '—' ? palette.fgMuted : palette.green }}>{r.quality}</Box>
                   </Typography>
                 </Box>
-                <Typography sx={{ fontFamily: palette.mono, fontSize: 14, fontWeight: 600, color: palette.fg }}>{r.amount}</Typography>
+                <Typography sx={{ fontSize: 14, fontWeight: 600, color: palette.fg }}>{r.amount}</Typography>
               </Stack>
             ))}
           </Box>
@@ -221,8 +221,8 @@ export function VendorProfileSheet({ open, onClose }: { open: boolean; onClose: 
                     <Typography sx={{ fontSize: 13, color: palette.fg }}>{label}</Typography>
                   </Stack>
                   <Stack direction="row" sx={{ gap: 1, alignItems: 'baseline' }}>
-                    <Typography sx={{ fontFamily: palette.mono, fontSize: 11, color: palette.fgMuted }}>{sub}</Typography>
-                    <Typography sx={{ fontFamily: palette.mono, fontSize: 13, fontWeight: 600, color: palette.fg, width: 32, textAlign: 'right' }}>{pct}%</Typography>
+                    <Typography sx={{ fontSize: 11, color: palette.fgMuted }}>{sub}</Typography>
+                    <Typography sx={{ fontSize: 13, fontWeight: 600, color: palette.fg, width: 32, textAlign: 'right' }}>{pct}%</Typography>
                   </Stack>
                 </Stack>
                 <Box sx={{ mt: 1, height: 8, borderRadius: 999, background: palette.tileSoft, overflow: 'hidden' }}>

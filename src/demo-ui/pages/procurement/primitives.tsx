@@ -90,7 +90,7 @@ export function Label({
   return (
     <Typography
       sx={{
-        fontFamily: palette.mono,
+        
         fontSize: size,
         color: fg ? palette.fg : palette.fgMuted,
         letterSpacing: '0.08em',
@@ -123,7 +123,7 @@ export function DeltaText({
       sx={{
         alignItems: 'center',
         gap: 0.4,
-        fontFamily: palette.mono,
+        
         fontSize: size,
         fontWeight: 500,
         color: up ? palette.green : palette.redSoft,
@@ -152,7 +152,7 @@ export function VendorMono({ mono, size = 40 }: { mono: Mono; size?: number }) {
         alignItems: 'center',
         justifyContent: 'center',
         flexShrink: 0,
-        fontFamily: '"Geist Mono", ui-monospace, monospace',
+        
         fontSize: size * 0.3,
         fontWeight: 700,
         color: 'rgba(255,255,255,0.95)',
@@ -208,7 +208,7 @@ export function TrustPill({
         display: 'inline-flex',
         alignItems: 'center',
         gap: 0.75,
-        fontFamily: palette.mono,
+        
         fontSize: 10,
         letterSpacing: '0.1em',
         fontWeight: 700,
@@ -239,7 +239,7 @@ export function POStatusBadge({ status, palette }: { status: POStatus; palette: 
     <Box
       component="span"
       sx={{
-        fontFamily: palette.mono,
+        
         fontSize: 9.5,
         letterSpacing: '0.1em',
         fontWeight: 700,
@@ -265,7 +265,7 @@ export function PayBadge({ status, palette }: { status: PayStatus; palette: Shop
   return (
     <Box
       component="span"
-      sx={{ fontFamily: palette.mono, fontSize: 9.5, letterSpacing: '0.1em', fontWeight: 700, color: map[status] }}
+      sx={{ fontSize: 9.5, letterSpacing: '0.1em', fontWeight: 700, color: map[status] }}
     >
       ● {status}
     </Box>
@@ -293,13 +293,13 @@ export function ProductRow({
           {item.name}
         </Typography>
         <Typography
-          sx={{ mt: 0.5, fontFamily: palette.mono, fontSize: 11.5, color: palette.fgMuted, letterSpacing: '0.02em' }}
+          sx={{ mt: 0.5, fontSize: 11.5, color: palette.fgMuted, letterSpacing: '0.02em' }}
         >
           {item.sub}
         </Typography>
       </Box>
       <Box sx={{ textAlign: 'right', flexShrink: 0 }}>
-        <Typography sx={{ fontFamily: palette.mono, fontSize: 14.5, fontWeight: 600, color: palette.fg }}>
+        <Typography sx={{ fontSize: 14.5, fontWeight: 600, color: palette.fg }}>
           {item.metric}
         </Typography>
         {item.unit && (
@@ -366,7 +366,7 @@ export function FilterChips({
               px: 1.5,
               py: 0.875,
               gap: 0.75,
-              fontFamily: palette.mono,
+              
               fontSize: 11,
               letterSpacing: '0.06em',
               fontWeight: 700,
@@ -520,7 +520,7 @@ export function GhostButton({
         border: `1px solid ${palette.hairline}`,
         borderRadius: 999,
         py: 1.75,
-        fontFamily: palette.mono,
+        
         fontSize: 11.5,
         letterSpacing: '0.1em',
         fontWeight: 700,
@@ -552,7 +552,7 @@ export function AmberButton({
         borderRadius: 999,
         py: 1.75,
         gap: 0.75,
-        fontFamily: palette.mono,
+        
         fontSize: 11.5,
         letterSpacing: '0.1em',
         fontWeight: 700,

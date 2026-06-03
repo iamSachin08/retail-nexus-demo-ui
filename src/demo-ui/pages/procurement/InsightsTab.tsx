@@ -44,13 +44,13 @@ function AIPlanCard({ palette, onCreate }: { palette: ShopPalette; onCreate: () 
 
       <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2, mt: 2 }}>
         <Box>
-          <Typography sx={{ fontFamily: palette.mono, fontSize: 32, fontWeight: 600, color: palette.fg, letterSpacing: '-0.02em' }}>
+          <Typography sx={{ fontSize: 32, fontWeight: 600, color: palette.fg, letterSpacing: '-0.02em' }}>
             {aiPlan.posRecommended}
           </Typography>
           <Label palette={palette} size={10} sx={{ mt: 1 }}>POs RECOMMENDED</Label>
         </Box>
         <Box sx={{ textAlign: 'right' }}>
-          <Typography sx={{ fontFamily: palette.mono, fontSize: 32, fontWeight: 600, color: palette.fg, letterSpacing: '-0.02em' }}>
+          <Typography sx={{ fontSize: 32, fontWeight: 600, color: palette.fg, letterSpacing: '-0.02em' }}>
             {aiPlan.projectedSpend}
           </Typography>
           <Label palette={palette} size={10} sx={{ mt: 1 }}>PROJECTED SPEND</Label>
@@ -70,7 +70,7 @@ function AIPlanCard({ palette, onCreate }: { palette: ShopPalette; onCreate: () 
         <ButtonBase
           sx={{
             background: 'transparent', border: `1px solid ${palette.hairline}`, color: palette.fg,
-            borderRadius: 999, py: 1.5, fontFamily: palette.mono, fontSize: 11.5, letterSpacing: '0.1em', fontWeight: 600,
+            borderRadius: 999, py: 1.5, fontSize: 11.5, letterSpacing: '0.1em', fontWeight: 600,
           }}
         >
           REVIEW
@@ -79,7 +79,7 @@ function AIPlanCard({ palette, onCreate }: { palette: ShopPalette; onCreate: () 
           onClick={onCreate}
           sx={{
             background: palette.addBg, color: palette.addFg,
-            borderRadius: 999, py: 1.5, fontFamily: palette.mono, fontSize: 11.5, letterSpacing: '0.1em', fontWeight: 600,
+            borderRadius: 999, py: 1.5, fontSize: 11.5, letterSpacing: '0.1em', fontWeight: 600,
           }}
         >
           CREATE POs
@@ -124,7 +124,7 @@ function InsightCard({
             {title}
           </Typography>
         </Stack>
-        <ButtonBase sx={{ gap: 0.5, color: palette.fgMuted, fontFamily: palette.mono, fontSize: 11, letterSpacing: '0.06em', fontWeight: 600, flexShrink: 0 }}>
+        <ButtonBase sx={{ gap: 0.5, color: palette.fgMuted, fontSize: 11, letterSpacing: '0.06em', fontWeight: 600, flexShrink: 0 }}>
           ALL <ChevR palette={palette} size={12} />
         </ButtonBase>
       </Stack>
@@ -147,13 +147,13 @@ function VendorInsightRow({ v, palette }: { v: VendorInsight; palette: ShopPalet
         </Typography>
         <Stack direction="row" sx={{ mt: 0.5, alignItems: 'center', gap: 1 }}>
           <TrustDots score={v.score} palette={palette} />
-          <Typography sx={{ fontFamily: palette.mono, fontSize: 11.5, color: palette.fgMuted, letterSpacing: '0.02em' }}>
+          <Typography sx={{ fontSize: 11.5, color: palette.fgMuted, letterSpacing: '0.02em' }}>
             {v.sub}
           </Typography>
         </Stack>
       </Box>
       <Box sx={{ textAlign: 'right', flexShrink: 0 }}>
-        <Typography sx={{ fontFamily: palette.mono, fontSize: 14.5, fontWeight: 600, color: palette.fg }}>{v.metric}</Typography>
+        <Typography sx={{ fontSize: 14.5, fontWeight: 600, color: palette.fg }}>{v.metric}</Typography>
         <Label palette={palette} size={9.5} sx={{ mt: 0.25 }}>{v.unit}</Label>
         <Box sx={{ mt: 0.25, display: 'inline-flex' }}>
           <DeltaText palette={palette} value={v.delta} toneDir={v.deltaTone} />

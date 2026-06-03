@@ -45,19 +45,19 @@ function POListRow({ po, palette, onOpen }: { po: PORow; palette: ShopPalette; o
       <VendorMono mono={po.vendorMono} />
       <Box sx={{ flex: 1, minWidth: 0 }}>
         <Stack direction="row" sx={{ alignItems: 'center', gap: 1 }}>
-          <Typography sx={{ fontFamily: palette.mono, fontSize: 11, color: palette.fgMuted, letterSpacing: '0.06em', fontWeight: 600 }}>{po.po}</Typography>
+          <Typography sx={{ fontSize: 11, color: palette.fgMuted, letterSpacing: '0.06em', fontWeight: 600 }}>{po.po}</Typography>
           <POStatusBadge status={po.status} palette={palette} />
         </Stack>
         <Typography sx={{ mt: 0.5, fontSize: 14, fontWeight: 500, color: palette.fg, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
           {po.vendor}
         </Typography>
-        <Stack direction="row" sx={{ mt: 0.375, alignItems: 'center', gap: 1.25, fontFamily: palette.mono, fontSize: 11.5, color: palette.fgMuted }}>
+        <Stack direction="row" sx={{ mt: 0.375, alignItems: 'center', gap: 1.25, fontSize: 11.5, color: palette.fgMuted }}>
           <Box component="span">{po.items} items</Box>
           <PayBadge status={po.pay} palette={palette} />
         </Stack>
       </Box>
       <Stack direction="row" sx={{ alignItems: 'center', gap: 0.75, flexShrink: 0 }}>
-        <Typography sx={{ fontFamily: palette.mono, fontSize: 14.5, fontWeight: 600, color: palette.fg }}>{po.amount}</Typography>
+        <Typography sx={{ fontSize: 14.5, fontWeight: 600, color: palette.fg }}>{po.amount}</Typography>
         <ChevR palette={palette} />
       </Stack>
     </ButtonBase>
@@ -85,7 +85,7 @@ export function ListTab({ onCreate, onOpenDetail }: { onCreate: () => void; onOp
           </Box>
           <Box>
             <Typography sx={{ fontSize: 14, fontWeight: 600 }}>New procurement</Typography>
-            <Typography sx={{ fontSize: 11.5, fontFamily: palette.mono, letterSpacing: '0.04em', opacity: 0.78 }}>
+            <Typography sx={{ fontSize: 11.5, letterSpacing: '0.04em', opacity: 0.78 }}>
               AI will suggest qty, vendors &amp; PO
             </Typography>
           </Box>
@@ -152,9 +152,9 @@ function Step1Item({
               <VendorMono mono={it.thumb} />
               <Box sx={{ flex: 1, minWidth: 0 }}>
                 <Typography sx={{ fontSize: 14, fontWeight: 500, color: palette.fg, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{it.name}</Typography>
-                <Typography sx={{ mt: 0.5, fontFamily: palette.mono, fontSize: 11.5, color: palette.fgMuted }}>{it.sub} · {it.stock}</Typography>
+                <Typography sx={{ mt: 0.5, fontSize: 11.5, color: palette.fgMuted }}>{it.sub} · {it.stock}</Typography>
               </Box>
-              <Box sx={{ fontFamily: palette.mono, fontSize: 11, color: palette.amber, fontWeight: 700, background: 'rgba(242,168,71,0.14)', px: 1, py: 0.5, borderRadius: 999, whiteSpace: 'nowrap' }}>
+              <Box sx={{ fontSize: 11, color: palette.amber, fontWeight: 700, background: 'rgba(242,168,71,0.14)', px: 1, py: 0.5, borderRadius: 999, whiteSpace: 'nowrap' }}>
                 AI {it.aiQty}
               </Box>
             </ButtonBase>
@@ -172,7 +172,7 @@ function Step1Item({
             <RemoveRoundedIcon sx={{ fontSize: 18 }} />
           </ButtonBase>
           <Box sx={{ textAlign: 'center', flex: 1 }}>
-            <Typography sx={{ fontFamily: palette.mono, fontSize: 44, fontWeight: 600, color: palette.fg, letterSpacing: '-0.02em' }}>{qty}</Typography>
+            <Typography sx={{ fontSize: 44, fontWeight: 600, color: palette.fg, letterSpacing: '-0.02em' }}>{qty}</Typography>
             <Label palette={palette} size={10} sx={{ mt: 0.75 }}>UNITS</Label>
           </Box>
           <ButtonBase
@@ -193,7 +193,7 @@ function Step1Item({
           </Typography>
         </Card2>
 
-        <Stack direction="row" sx={{ mt: 1.75, justifyContent: 'space-between', fontFamily: palette.mono, fontSize: 12, color: palette.fgMuted, letterSpacing: '0.04em' }}>
+        <Stack direction="row" sx={{ mt: 1.75, justifyContent: 'space-between', fontSize: 12, color: palette.fgMuted, letterSpacing: '0.04em' }}>
           <Box component="span">EST. UNIT COST</Box>
           <Box component="span" sx={{ color: palette.fg }}>{item.unit}</Box>
         </Stack>
@@ -252,7 +252,7 @@ function Step2Vendor({
               }}
             >
               {v.aiPick && (
-                <Box sx={{ position: 'absolute', top: 12, right: 12, display: 'inline-flex', alignItems: 'center', gap: 0.5, fontFamily: palette.mono, fontSize: 9.5, letterSpacing: '0.1em', fontWeight: 700, color: '#1A1A1B', background: palette.tileAmber, px: 1, py: 0.5, borderRadius: 999 }}>
+                <Box sx={{ position: 'absolute', top: 12, right: 12, display: 'inline-flex', alignItems: 'center', gap: 0.5, fontSize: 9.5, letterSpacing: '0.1em', fontWeight: 700, color: '#1A1A1B', background: palette.tileAmber, px: 1, py: 0.5, borderRadius: 999 }}>
                   <Sparkle size={10} color="#1A1A1B" /> AI PICK
                 </Box>
               )}
@@ -283,8 +283,8 @@ function VendorMetric({ palette, label, value, note, noteColor }: { palette: Sho
   return (
     <Box>
       <Label palette={palette} size={9.5}>{label}</Label>
-      <Typography sx={{ fontFamily: palette.mono, fontSize: 15, fontWeight: 600, color: palette.fg, mt: 0.5 }}>{value}</Typography>
-      <Typography sx={{ mt: 0.25, fontFamily: palette.mono, fontSize: 10.5, color: noteColor ?? palette.fgMuted }}>{note}</Typography>
+      <Typography sx={{ fontSize: 15, fontWeight: 600, color: palette.fg, mt: 0.5 }}>{value}</Typography>
+      <Typography sx={{ mt: 0.25, fontSize: 10.5, color: noteColor ?? palette.fgMuted }}>{note}</Typography>
     </Box>
   );
 }
@@ -296,7 +296,7 @@ function Step3Review({ palette, item, qty, vendor }: { palette: ShopPalette; ite
   const row = (label: string, value: string) => (
     <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
       <Label palette={palette} size={10}>{label}</Label>
-      <Typography sx={{ fontFamily: palette.mono, fontSize: 14, fontWeight: 600, color: palette.fg }}>{value}</Typography>
+      <Typography sx={{ fontSize: 14, fontWeight: 600, color: palette.fg }}>{value}</Typography>
     </Stack>
   );
 
@@ -319,7 +319,7 @@ function Step3Review({ palette, item, qty, vendor }: { palette: ShopPalette; ite
             <Typography sx={{ fontSize: 14, fontWeight: 500, color: palette.fg }}>{item.name}</Typography>
             <Label palette={palette} size={11} sx={{ mt: 0.375 }}>{item.sub}</Label>
           </Box>
-          <Typography sx={{ fontFamily: palette.mono, fontSize: 16, fontWeight: 600, color: palette.fg }}>×{qty}</Typography>
+          <Typography sx={{ fontSize: 16, fontWeight: 600, color: palette.fg }}>×{qty}</Typography>
         </Stack>
       </Card>
 
@@ -332,7 +332,7 @@ function Step3Review({ palette, item, qty, vendor }: { palette: ShopPalette; ite
         <Hr palette={palette} />
         <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'baseline' }}>
           <Typography sx={{ fontSize: 14, fontWeight: 500, color: palette.fg }}>Total payable</Typography>
-          <Typography sx={{ fontFamily: palette.mono, fontSize: 26, fontWeight: 600, color: palette.fg, letterSpacing: '-0.02em' }}>{totalStr}</Typography>
+          <Typography sx={{ fontSize: 26, fontWeight: 600, color: palette.fg, letterSpacing: '-0.02em' }}>{totalStr}</Typography>
         </Stack>
       </Card>
 
@@ -442,7 +442,7 @@ export function ProcurementDetailSheet({ open, onClose }: { open: boolean; onClo
       footer={
         <Stack direction="row" sx={{ gap: 1.25 }}>
           <GhostButton palette={palette} sx={{ flex: 1 }}>MESSAGE VENDOR</GhostButton>
-          <ButtonBase sx={{ flex: 1, background: palette.addBg, color: palette.addFg, borderRadius: 999, py: 1.75, fontFamily: palette.mono, fontSize: 11.5, letterSpacing: '0.1em', fontWeight: 700 }}>
+          <ButtonBase sx={{ flex: 1, background: palette.addBg, color: palette.addFg, borderRadius: 999, py: 1.75, fontSize: 11.5, letterSpacing: '0.1em', fontWeight: 700 }}>
             PAY ₹34K
           </ButtonBase>
         </Stack>
@@ -457,7 +457,7 @@ export function ProcurementDetailSheet({ open, onClose }: { open: boolean; onClo
               <Label palette={palette} size={11.5} sx={{ mt: 0.5, letterSpacing: '0.04em' }}>EST. MAY 19 · 4:00–6:00 PM</Label>
             </Box>
             <Box sx={{ textAlign: 'right' }}>
-              <Typography sx={{ fontFamily: palette.mono, fontSize: 26, fontWeight: 600, color: palette.fg, letterSpacing: '-0.02em' }}>₹68K</Typography>
+              <Typography sx={{ fontSize: 26, fontWeight: 600, color: palette.fg, letterSpacing: '-0.02em' }}>₹68K</Typography>
               <PayBadge status="PARTIAL" palette={palette} />
             </Box>
           </Stack>
